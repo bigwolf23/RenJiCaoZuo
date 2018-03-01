@@ -1,0 +1,13 @@
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\bin\Debug\RenJiCaoZuo.exe.config
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\bin\Debug\RenJiCaoZuo.exe
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\bin\Debug\RenJiCaoZuo.pdb
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo.csprojResolveAssemblyReference.cache
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\MainWindow.baml
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\MainWindow.g.cs
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\App.g.cs
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo_MarkupCompile.cache
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo.g.resources
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo.Properties.Resources.resources
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo.csproj.GenerateResource.Cache
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo.exe
+D:\GitClone\DongHuashi\RenJiCaoZuo\RenJiCaoZuo\obj\Debug\RenJiCaoZuo.pdb
