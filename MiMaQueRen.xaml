@@ -1,0 +1,21 @@
+﻿<Window x:Class="RenJiCaoZuo.MiMaQueRen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MiMaQueRen" Height="1024" Width="1280" WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize" OpacityMask="Black" >
+    <Window.Background>
+        <VisualBrush Viewport="0,0,1,1">
+            <VisualBrush.Visual>
+                <Image Source="SheDingBeiJing.jpg"></Image>
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Window.Background>
+    <Grid>
+        <Label Content="密码确认" HorizontalAlignment="Left" Height="96" Margin="400,166,0,0" VerticalAlignment="Top" Width="480" FontSize="48" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button x:Name="MiMaBaoCun_Button" Content="密码保存" HorizontalAlignment="Left" Height="80" Margin="400,612,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Click="MiMaBaoCun_Button_Click"/>
+        <Button x:Name="FanHui_Button" Content="返回" HorizontalAlignment="Left" Height="80" Margin="400,726,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Click="FanHui_Button_Click"/>
+        <TextBox x:Name="JiuMiMa_Edit" HorizontalAlignment="Left" Height="80" Margin="400,318,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="480" VerticalContentAlignment="Center" FontSize="36"/>
+        <TextBox x:Name="XinMiMa_Edit" HorizontalAlignment="Left" Height="80" Margin="400,411,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="480" VerticalContentAlignment="Center" FontSize="36"/>
+        <TextBox x:Name="QueRenMima_Edit" HorizontalAlignment="Left" Height="80" Margin="400,503,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="480" VerticalContentAlignment="Center" FontSize="36"/>
+
+    </Grid>
+</Window>
