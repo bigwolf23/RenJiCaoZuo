@@ -14,4 +14,13 @@ namespace RenJiCaoZuo
     public partial class App : Application
     {
     }
+
+//     private void Application_Startup(object sender, StartupEventArgs e)       
+//     {           
+// 
+//             Application currApp = Application.Current;
+// 
+//             currApp.StartupUri = new Uri("MainWindow.xaml", UriKind.RelativeOrAbsolute);
+// 
+//     }
 }

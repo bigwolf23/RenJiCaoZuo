@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RenJiCaoZuo
 {
@@ -27,78 +28,34 @@ namespace RenJiCaoZuo
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
-//             ImageBrush b = new ImageBrush();
-//             //b.ImageSource = new BitmapImage(@("Frozen.jpg"));
-//             b.Stretch = Stretch.Fill;
-//             this.Background = b;
         }
 
-//         BitMatrix bitMatrix;
-// 
-//         private void Button_Click_1(object sender, RoutedEventArgs e)
-//         {
-//             string content = @"12345679890";
-// 
-// 
-//             Dictionary<EncodeHintType, object> hints = new Dictionary<EncodeHintType, object>();
-//             hints.Add(EncodeHintType.CHARACTER_SET, "UTF-8");
-// 
-//             bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, 200, 200);
-//             this.img.Stretch = Stretch.Fill;
-//             this.img.Source = toImage(bitMatrix);
-//         }
+        private void DownPage_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Introduction IntroductionWin = new Introduction();
+            IntroductionWin.ShowDialog();
+            IntroductionWin.Topmost = true;
+        }
 
-//         private BitmapImage toImage(BitMatrix matrix)
-//         {
-//             try
-//             {
-//                 int width = matrix.Width;
-//                 int height = matrix.Height;
-// 
-//                 Bitmap bmp = new Bitmap(width, height);
-// 
-//                 // byte[] pixel = new byte[width * height];
-// 
-//                 for (int x = 0; x < height; x++)
-//                 {
-//                     for (int y = 0; y < width; y++)
-//                     {
-//                         if (bitMatrix[x, y])
-//                         {
-//                             bmp.SetPixel(x, y, System.Drawing.Color.Black);
-//                         }
-//                         else
-//                         {
-//                             bmp.SetPixel(x, y, System.Drawing.Color.White);
-//                         }
-//                     }
-//                 }
-// 
-//                 return ConvertBitmapToBitmapImage(bmp);
-//             }
-//             catch (Exception ex)
-//             {
-//                 throw ex;
-//             }
-// 
-//         }
-//         private static BitmapImage ConvertBitmapToBitmapImage(Bitmap wbm)
-//         {
-//             BitmapImage bimg = new BitmapImage();
-// 
-//             using (MemoryStream stream = new MemoryStream())
-//             {
-//                 wbm.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-// 
-//                 bimg.BeginInit();
-//                 stream.Seek(0, SeekOrigin.Begin);
-//                 bimg.StreamSource = stream;
-//                 bimg.CacheOption = BitmapCacheOption.OnLoad;
-//                 bimg.EndInit();
-//             }
-//             return bimg;
-// 
-//         }
+        int nCount = 0;
+        private void SettingBorder_DoubleClick_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            nCount += 1;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
+            timer.Tick += (s, e1) => { timer.IsEnabled = false; nCount = 0; };
+            timer.IsEnabled = true;
+
+            if (nCount % 2 == 0)
+            {
+                timer.IsEnabled = false;
+                nCount = 0;
+                LoginPassord LoginPasswordWin = new LoginPassord();
+                LoginPasswordWin.Show();
+                this.Close();
+            }
+        }
+
 
     }
 }

@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Introduction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -61,39 +67,51 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\PasswordBoxWaterMark.cs" />
+    <Compile Include="Introduction.xaml.cs">
+      <DependentUpon>Introduction.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MiMaQueRen.xaml">
+    <Page Include="ModifyPassword.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ZiDongGuanJi.xaml">
+    <Page Include="ShutDownSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MiMaDengLu.xaml">
+    <Page Include="LoginPassord.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SheZhiHuaMian.xaml">
+    <Page Include="SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\PasswordBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MiMaQueRen.xaml.cs">
-      <DependentUpon>MiMaQueRen.xaml</DependentUpon>
+    <Compile Include="ModifyPassword.xaml.cs">
+      <DependentUpon>ModifyPassword.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ZiDongGuanJi.xaml.cs">
-      <DependentUpon>ZiDongGuanJi.xaml</DependentUpon>
+    <Compile Include="ShutDownSetting.xaml.cs">
+      <DependentUpon>ShutDownSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MiMaDengLu.xaml.cs">
-      <DependentUpon>MiMaDengLu.xaml</DependentUpon>
+    <Compile Include="LoginPassord.xaml.cs">
+      <DependentUpon>LoginPassord.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SheZhiHuaMian.xaml.cs">
-      <DependentUpon>SheZhiHuaMian.xaml</DependentUpon>
+    <Compile Include="SettingWindow.xaml.cs">
+      <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -122,10 +140,38 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Frozen.jpg" />
+    <Resource Include="Res\bg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SheDingBeiJing.jpg" />
+    <Resource Include="Res\confirm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\bg02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\bg03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\btn01.png" />
+    <Resource Include="Res\btn02.png" />
+    <Resource Include="Res\btn03.png" />
+    <Resource Include="Res\btn04.png" />
+    <Resource Include="Res\img02_bg.png" />
+    <Resource Include="Res\img02_bg01.png" />
+    <Resource Include="Res\name.png" />
+    <Resource Include="Res\news.png" />
+    <Resource Include="Res\title01.png" />
+    <Resource Include="Res\title02.png" />
+    <Resource Include="Res\title03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\code_img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\btn_bg.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
