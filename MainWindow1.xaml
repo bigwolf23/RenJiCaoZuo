@@ -1,0 +1,60 @@
+﻿<Window x:Class="RenJiCaoZuo.MainWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow1" Height="1024" Width="1280" WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize" OpacityMask="Black" WindowStartupLocation="CenterScreen" >
+    <Grid>
+        <Image Source="Res\bg.png" Stretch="Fill"/>
+
+
+        <Image Margin="50,123,50,640" Source="Res/bg02.png" Stretch="Fill"/>
+        <Image Margin="50,384,50,379" Source="Res/bg02.png" Stretch="Fill"/>
+        <Image Margin="623,645,50,10" Source="Res/bg03.png" Stretch="Fill"/>
+        <Image Margin="50,645,662,10" Source="Res/bg03.png" Stretch="Fill"/>
+        <Image Margin="901,689,50,236" Source="Res/name.png" Stretch="Fill"/>
+        <Image Margin="74,143,946,798" Source="Res/title01.png" Stretch="Fill"/>
+        <Image Margin="74,407,946,536" Source="Res/title02.png" Stretch="Fill"/>
+        <Image Margin="74,667,946,276" Source="Res/title03.png" Stretch="Fill"/>
+        <Image Margin="956,823,150,154" Source="Res/title.png" Stretch="Fill" RenderTransformOrigin="0.389,0.467"/>
+        <Image Margin="672,711,399,105" Source="Res/code_img.png" Stretch="Fill"/>
+        <Label Content="微信、支付宝扫一扫" HorizontalAlignment="Center" Height="40" Margin="924,875,114,0" VerticalAlignment="Top" Width="242" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+        <Image Margin="516,0,50,901" Source="Res/news.png" Stretch="Fill"/>
+        <Label Content="" HorizontalAlignment="Left" Height="98" Margin="106,226,0,0" VerticalAlignment="Top" Width="1060"/>
+        <Button x:Name="UpPage_Button" Content="" HorizontalAlignment="Left" Height="50" Margin="857,423,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08">
+            <Button.Background>
+                <ImageBrush ImageSource="Res/btn01.png" Stretch="Fill"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="DownPage_Button" Content="" HorizontalAlignment="Left" Height="50" Margin="1024,423,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08" Click="DownPage_Button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="Res/btn04.png" Stretch="Fill"/>
+            </Button.Background>
+        </Button>
+        <ListBox HorizontalAlignment="Left" Height="196" Margin="102,749,0,0" VerticalAlignment="Top" Width="464" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <Grid Height="50" Width="464" Background="{Binding BGColor}">
+                        <ContentPresenter Content="{Binding Name}" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Border x:Name="SettingBorder_DoubleClick" BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="86" Margin="10,10,0,0" VerticalAlignment="Top" Width="158" MouseDown="SettingBorder_DoubleClick_MouseDown">
+            <!--<Border.Background>
+                <ImageBrush ImageSource="Res/btn04.png" Stretch="Fill"/>
+            </Border.Background>-->
+        </Border>
+        <Label Content="" HorizontalAlignment="Left" Height="98" Margin="106,488,0,0" VerticalAlignment="Top" Width="1060"/>
+        <Label Content="" HorizontalAlignment="Left" Height="35" Margin="590,41,0,0" VerticalAlignment="Top" Width="576"/>
+        <!--<ListBox Name="listBox" ScrollViewer.VerticalScrollBarVisibility="Hidden" >
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <Grid Height="50" Width="500" Background="{Binding BGColor}">
+                        <ContentPresenter Content="{Binding Name}" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>-->
+
+
+    </Grid>
+</Window>
