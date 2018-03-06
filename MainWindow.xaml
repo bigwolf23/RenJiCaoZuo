@@ -29,7 +29,7 @@
                 <ImageBrush ImageSource="Res/btn04.png" Stretch="Fill"/>
             </Button.Background>
         </Button>
-        <ListBox HorizontalAlignment="Left" Height="196" Margin="102,749,0,0" VerticalAlignment="Top" Width="464" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <ListBox x:Name="DonateInfo_List" HorizontalAlignment="Left" Height="196" Margin="102,749,0,0" VerticalAlignment="Top" Width="464" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0" >
             <ListBox.ItemTemplate >
                 <DataTemplate>
                     <Grid Height="50" Width="464" Background="{Binding BGColor}">

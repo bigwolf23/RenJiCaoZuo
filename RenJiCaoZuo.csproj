@@ -75,7 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CallMainPageProcess.cs" />
+    <Compile Include="Common\CommonFuntion.cs" />
     <Compile Include="Common\PasswordBoxWaterMark.cs" />
     <Compile Include="Introduction.xaml.cs">
       <DependentUpon>Introduction.xaml</DependentUpon>

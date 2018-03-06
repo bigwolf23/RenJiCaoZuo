@@ -5,7 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Configuration; 
+using System.Configuration;
+using System.Text.RegularExpressions;
+using RenJiCaoZuo.Common;
 
 namespace RenJiCaoZuo
 {
@@ -18,6 +20,8 @@ namespace RenJiCaoZuo
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Application.Current.StartupUri = new Uri(getFirstPageName(), UriKind.Relative);
+            CommonFuntion pCommon = new CommonFuntion();
+            pCommon.setWindowsShutDown();
         }
 
         private string getFirstPageName()
@@ -42,6 +46,7 @@ namespace RenJiCaoZuo
                 return "MainWindow.xaml";
             }
         }
+
 
     }
 

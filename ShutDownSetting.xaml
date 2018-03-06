@@ -22,7 +22,7 @@
                  BorderThickness="3" 
                  HorizontalContentAlignment="Center" 
                  MaxLength="5" 
-                 MaxLines="1">
+                 MaxLines="1" TextChanged="ShuDownTime_Edit_TextChanged">
         </TextBox>
     </Grid>
 </Window>
