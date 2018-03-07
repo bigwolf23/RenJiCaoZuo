@@ -29,13 +29,6 @@ namespace RenJiCaoZuo
             this.Left = 0;
             this.Top = 0;
 
-            DateTime dt;
-            DateTime today = DateTime.Now.Date;
-            string sDate = today.Year + "/" + today.Month + "/" + today.Day;
-            sDate = sDate + " " + @"23:30" + @":00";
-            dt = Convert.ToDateTime(sDate);
-            TimeSpan span = (TimeSpan)(dt - DateTime.Now);
-            double diff = span.TotalSeconds;
         }
 
         private void DownPage_Button_Click(object sender, RoutedEventArgs e)

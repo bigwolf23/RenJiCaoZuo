@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -59,15 +63,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Introduction.xaml">
+    <Compile Include="View\mainThread.xaml.cs">
+      <DependentUpon>mainThread.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WebData\GetWebData.cs" />
+    <Page Include="View\Introduction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow1.xaml">
+    <Page Include="View\mainThread.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindow1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -77,52 +89,52 @@
     </Compile>
     <Compile Include="Common\CommonFuntion.cs" />
     <Compile Include="Common\PasswordBoxWaterMark.cs" />
-    <Compile Include="Introduction.xaml.cs">
+    <Compile Include="View\Introduction.xaml.cs">
       <DependentUpon>Introduction.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow1.xaml.cs">
+    <Compile Include="View\MainWindow1.xaml.cs">
       <DependentUpon>MainWindow1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ModifyPassword.xaml">
+    <Page Include="View\ModifyPassword.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ShutDownSetting.xaml">
+    <Page Include="View\ShutDownSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LoginPassord.xaml">
+    <Page Include="View\LoginPassord.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SettingWindow.xaml">
+    <Page Include="View\SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ButtonStyle.xaml">
+    <Page Include="View\Styles\ButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\PasswordBoxStyle.xaml">
+    <Page Include="View\Styles\PasswordBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModifyPassword.xaml.cs">
+    <Compile Include="View\ModifyPassword.xaml.cs">
       <DependentUpon>ModifyPassword.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShutDownSetting.xaml.cs">
+    <Compile Include="View\ShutDownSetting.xaml.cs">
       <DependentUpon>ShutDownSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginPassord.xaml.cs">
+    <Compile Include="View\LoginPassord.xaml.cs">
       <DependentUpon>LoginPassord.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingWindow.xaml.cs">
+    <Compile Include="View\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -152,38 +164,41 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\bg.png" />
+    <Resource Include="View\Res\bg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\confirm.png" />
+    <Resource Include="View\Res\confirm.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\bg02.png" />
+    <Resource Include="View\Res\bg02.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\bg03.png" />
+    <Resource Include="View\Res\bg03.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\btn01.png" />
-    <Resource Include="Res\btn02.png" />
-    <Resource Include="Res\btn03.png" />
-    <Resource Include="Res\btn04.png" />
-    <Resource Include="Res\img02_bg.png" />
-    <Resource Include="Res\img02_bg01.png" />
-    <Resource Include="Res\name.png" />
-    <Resource Include="Res\news.png" />
-    <Resource Include="Res\title01.png" />
-    <Resource Include="Res\title02.png" />
-    <Resource Include="Res\title03.png" />
+    <Resource Include="View\Res\btn01.png" />
+    <Resource Include="View\Res\btn02.png" />
+    <Resource Include="View\Res\btn03.png" />
+    <Resource Include="View\Res\btn04.png" />
+    <Resource Include="View\Res\img02_bg.png" />
+    <Resource Include="View\Res\img02_bg01.png" />
+    <Resource Include="View\Res\name.png" />
+    <Resource Include="View\Res\news.png" />
+    <Resource Include="View\Res\title01.png" />
+    <Resource Include="View\Res\title02.png" />
+    <Resource Include="View\Res\title03.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\title.png" />
+    <Resource Include="View\Res\title.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\code_img.png" />
+    <Resource Include="View\Res\code_img.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\btn_bg.jpg" />
+    <Resource Include="View\Res\btn_bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Control\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

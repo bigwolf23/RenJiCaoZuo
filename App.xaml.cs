@@ -19,35 +19,8 @@ namespace RenJiCaoZuo
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Application.Current.StartupUri = new Uri(getFirstPageName(), UriKind.Relative);
-            CommonFuntion pCommon = new CommonFuntion();
-            pCommon.setWindowsShutDown();
+            Application.Current.StartupUri = new Uri(@"View\mainThread.xaml", UriKind.Relative);
         }
-
-        private string getFirstPageName()
-        {
-            
-            string strPageType = ConfigurationManager.AppSettings["FirstPageName"]; 
-
-            if(strPageType == "1")
-            {
-                return "MainWindow.xaml";
-            }
-            else if(strPageType == "2")
-            {
-                return "MainWindow1.xaml";
-            }
-            else if (strPageType == "3")
-            {
-                return "MainWindow2.xaml";
-            }
-            else
-            {
-                return "MainWindow.xaml";
-            }
-        }
-
-
     }
 
 }
