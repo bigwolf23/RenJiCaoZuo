@@ -28,6 +28,7 @@ namespace RenJiCaoZuo
             InitializeComponent();
             setWindowsShutDown();
             GetWebData();
+            callMainPage();
         }
 
         private void setWindowsShutDown()
@@ -42,27 +43,27 @@ namespace RenJiCaoZuo
             pCommon.setWindowsShutDown();
         }
 
-        private string getFirstPageName()
+        public void callMainPage()
         {
-
             string strPageType = ConfigurationManager.AppSettings["FirstPageName"];
 
             if (strPageType == "1")
             {
-                return @"View\MainWindow.xaml";
+                MainWindow MainWindowWin = new MainWindow();
+                MainWindowWin.Show();
             }
             else if (strPageType == "2")
             {
-                return @"View\MainWindow1.xaml";
+                //                 MainWindow MainWindowWin1 = new MainWindow1();
+                //                 MainWindowWin1.Show();
             }
             else if (strPageType == "3")
             {
-                return @"View\MainWindow2.xaml";
+                //                 MainWindow MainWindowWin2 = new MainWindow2();
+                //                 MainWindowWin2.Show();
             }
-            else
-            {
-                return @"View\MainWindow.xaml";
-            }
+
+//             WindowName.Close();
         }
     }
 }

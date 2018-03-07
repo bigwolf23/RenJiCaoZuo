@@ -16,32 +16,27 @@ namespace RenJiCaoZuo.WebData
 {
     public class GetWebData
     {
-        public static string setBaseWebLinkPath()
+        public GetWebData()
         {
-            string strDomino = ConfigurationManager.AppSettings["domino"];
-            string strPort = ConfigurationManager.AppSettings["port"];
-            string strurl = ConfigurationManager.AppSettings["url"];
-            string strInterfacelink = @"http://" + strDomino + @":" + strPort + strurl + @"/";
-            return strInterfacelink;
-        }
-        public static string getWebInterFaceLinkPath(string Inferface_Field, string Param_Field, string Id_Field)
-        {
-            string strInterfaceName = ConfigurationManager.AppSettings[Inferface_Field];
-            string strParamName = ConfigurationManager.AppSettings[Param_Field];
-            string strIdName = ConfigurationManager.AppSettings[Id_Field];
-            string strInterfacelink = strInterfaceName + @"?" + strParamName + @"=" + strIdName;
-            return strInterfacelink;
+            GetTempleInfobyWebService();
         }
 
-        public static string getInfoFromInterFace(string Inferface_Field, string Param_Field, string Id_Field)
+        public class DispData
         {
-            string strFullInterface;
-            string strBaseWebLink = setBaseWebLinkPath();
-            string strInterfaceLink = getWebInterFaceLinkPath(Inferface_Field, Param_Field, Id_Field);
-            strFullInterface = strBaseWebLink + strInterfaceLink;
-            //寺庙信息
-            return HttpGet(strFullInterface);
+            List<TemplePayHistory> lstTemplePay;
+            List<HousePayHistory> lstHostPay;
         }
+
+        public class TemplePayHistory
+        {
+
+        }
+
+        public class HousePayHistory
+        {
+
+        }
+
         public class TempleInfoData
         {
             public int success;
@@ -57,7 +52,35 @@ namespace RenJiCaoZuo.WebData
         {
 
         }
-        private static void GetTempleInfobyWebService()
+
+        public string setBaseWebLinkPath()
+        {
+            string strDomino = ConfigurationManager.AppSettings["domino"];
+            string strPort = ConfigurationManager.AppSettings["port"];
+            string strurl = ConfigurationManager.AppSettings["url"];
+            string strInterfacelink = @"http://" + strDomino + @":" + strPort + strurl + @"/";
+            return strInterfacelink;
+        }
+        public string getWebInterFaceLinkPath(string Inferface_Field, string Param_Field, string Id_Field)
+        {
+            string strInterfaceName = ConfigurationManager.AppSettings[Inferface_Field];
+            string strParamName = ConfigurationManager.AppSettings[Param_Field];
+            string strIdName = ConfigurationManager.AppSettings[Id_Field];
+            string strInterfacelink = strInterfaceName + @"?" + strParamName + @"=" + strIdName;
+            return strInterfacelink;
+        }
+
+        public string getInfoFromInterFace(string Inferface_Field, string Param_Field, string Id_Field)
+        {
+            string strFullInterface;
+            string strBaseWebLink = setBaseWebLinkPath();
+            string strInterfaceLink = getWebInterFaceLinkPath(Inferface_Field, Param_Field, Id_Field);
+            strFullInterface = strBaseWebLink + strInterfaceLink;
+            //寺庙信息
+            return HttpGet(strFullInterface);
+        }
+
+        private void GetTempleInfobyWebService()
         {
             //寺庙信息
             string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "TempleInfo_Param", "TempleInfo_id");
