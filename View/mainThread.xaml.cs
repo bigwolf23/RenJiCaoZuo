@@ -50,6 +50,7 @@ namespace RenJiCaoZuo
             if (strPageType == "1")
             {
                 MainWindow MainWindowWin = new MainWindow();
+                MainWindowWin.Owner = this;
                 MainWindowWin.Show();
             }
             else if (strPageType == "2")
