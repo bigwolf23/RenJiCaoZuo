@@ -67,6 +67,7 @@
       <DependentUpon>mainThread.xaml</DependentUpon>
     </Compile>
     <Compile Include="WebData\GetWebData.cs" />
+    <Compile Include="WebData\TemplInfo.cs" />
     <Page Include="View\Introduction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
