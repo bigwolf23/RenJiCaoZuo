@@ -6,26 +6,21 @@ using System.Threading.Tasks;
 
 namespace RenJiCaoZuo.WebData
 {
-    public class DispData
-    {
-        List<TemplePayHistory> lstTemplePay;
-        List<HousePayHistory> lstHostPay;
-    }
-
-    public class TempleInfoData
+    public class MonkInfoData
     {
         public int success;
         public int errorCode;
         public string msg;
-        public TempleInfobody body;
+        public MonkInfobody body;
+
     }
 
-    public class TempleInfobody
+    public class MonkInfobody
     {
-        public TempleInfoDatabody data;
+        public List<MonkInfoDatabody> data;
     }
 
-    public class TempleInfoDatabody
+    public class MonkInfoDatabody
     {
         public string id;
         public bool isNewRecord;
@@ -33,22 +28,9 @@ namespace RenJiCaoZuo.WebData
         public string createDate;
         public string updateDate;
         InfoOwnerbody owner;
+        public string name;
         public string info;
         public string url;
-        public string detail;
+        public int paixu;
     }
-
-    
-
-    public class TemplePayHistory
-    {
-
-    }
-
-    public class HousePayHistory
-    {
-
-    }
-
-
 }

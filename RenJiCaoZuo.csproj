@@ -66,7 +66,14 @@
     <Compile Include="View\mainThread.xaml.cs">
       <DependentUpon>mainThread.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WebData\HousePayHistory.cs" />
+    <Compile Include="WebData\TemplePayHistory.cs" />
+    <Compile Include="WebData\qRCodeInfoInfo.cs" />
+    <Compile Include="WebData\GetActivityInfo.cs" />
+    <Compile Include="WebData\CommonStruct.cs" />
     <Compile Include="WebData\GetWebData.cs" />
+    <Compile Include="WebData\ActivityInfo.cs" />
+    <Compile Include="WebData\MonkInfo.cs" />
     <Compile Include="WebData\TemplInfo.cs" />
     <Page Include="View\Introduction.xaml">
       <SubType>Designer</SubType>
