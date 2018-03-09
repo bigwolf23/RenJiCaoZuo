@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace RenJiCaoZuo.WebData
 {
-    public class HousePayHistoryData
+    public class HousePayHistory
     {
-        public int success;
-        public int errorCode;
-        public string msg;
-        public HousePayHistorybody body;
+        public bool success { get; set; }
+        public int errorCode { get; set; }
+        public string msg { get; set; }
+        public HousePayHistorybody body { get; set; }
 
     }
 
     public class HousePayHistorybody
     {
-        public List<HousePayHistoryDatabody> data;
+        public List<HousePayHistoryDatabody> data { get; set; }
     }
 
     public class HousePayHistoryDatabody

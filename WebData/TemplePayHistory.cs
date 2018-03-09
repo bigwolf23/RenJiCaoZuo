@@ -6,25 +6,23 @@ using System.Threading.Tasks;
 
 namespace RenJiCaoZuo.WebData
 {
-    public class TemplePayHistoryData
+    public class TemplePayHistory
     {
-        public int success;
-        public int errorCode;
-        public string msg;
-        public TemplePayHistorybody body;
+        public bool success { get; set; }
+        public int errorCode { get; set; }
+        public string msg { get; set; }
+        public TemplePayHistorybody body { get; set; }
 
     }
 
     public class TemplePayHistorybody
     {
-        public List<TemplePayHistoryDatabody> data;
+        public List<TemplePayHistoryDatabody> data { get; set; }
     }
 
     public class TemplePayHistoryDatabody
     {
         public string id;
-        public bool isNewRecord;
-        public string remarks;
         public string createDate;
         public string updateDate;
         InfoOwnerbody temple;
@@ -34,6 +32,6 @@ namespace RenJiCaoZuo.WebData
         public string payType;
         public string payTypeName;
         public int amount;
-        public string content;
+        public string tradeDtorderId;
     }
 }

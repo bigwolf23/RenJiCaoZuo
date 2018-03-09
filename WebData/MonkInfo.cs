@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RenJiCaoZuo.WebData
 {
-    public class MonkInfoData
+    public class MonkInfo
     {
-        public int success;
+        public bool success;
         public int errorCode;
         public string msg;
         public MonkInfobody body;
@@ -22,15 +22,17 @@ namespace RenJiCaoZuo.WebData
 
     public class MonkInfoDatabody
     {
-        public string id;
-        public bool isNewRecord;
-        public string remarks;
-        public string createDate;
-        public string updateDate;
-        InfoOwnerbody owner;
-        public string name;
-        public string info;
-        public string url;
-        public int paixu;
+        public string id { get; set; }
+        public Createby createby { get; set; }
+        public string createDate { get; set; }
+        public UpdateBy updateBy { get; set; }
+        public string updateDate { get; set; }
+
+        public Owner owner { get; set; }
+
+        public string info { get; set; }
+        public string url { get; set; }
+        public string detail { get; set; }
+        public string paixu { get; set; }
     }
 }

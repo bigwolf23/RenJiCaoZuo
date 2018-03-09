@@ -6,49 +6,40 @@ using System.Threading.Tasks;
 
 namespace RenJiCaoZuo.WebData
 {
-    public class DispData
-    {
-        List<TemplePayHistory> lstTemplePay;
-        List<HousePayHistory> lstHostPay;
-    }
+//     public class DispData
+//     {
+//         List<TemplePayHistory> lstTemplePay;
+//         List<HousePayHistory> lstHostPay;
+//     }
 
-    public class TempleInfoData
+    public class TempleInfo
     {
-        public int success;
-        public int errorCode;
-        public string msg;
-        public TempleInfobody body;
+        public bool success { get; set; }
+        public string errorCode { get; set; }
+        public string msg { get; set; }
+        public TempleInfobody body { get; set; }
     }
 
     public class TempleInfobody
     {
-        public TempleInfoDatabody data;
+        public TempleInfoData data { get; set; }
     }
 
-    public class TempleInfoDatabody
+    public class TempleInfoData
     {
-        public string id;
-        public bool isNewRecord;
-        public string remarks;
-        public string createDate;
-        public string updateDate;
-        InfoOwnerbody owner;
-        public string info;
-        public string url;
-        public string detail;
+        public string id { get; set; }
+        public Createby createby { get; set; }
+        public string createDate { get; set; }
+        public UpdateBy updateBy { get; set; }
+        public string updateDate { get; set; }
+
+        public Owner owner { get; set; }
+        
+        public string info { get; set; }
+        public string url { get; set; }
+        public string detail { get; set; }
     }
 
-    
-
-    public class TemplePayHistory
-    {
-
-    }
-
-    public class HousePayHistory
-    {
-
-    }
-
+ 
 
 }

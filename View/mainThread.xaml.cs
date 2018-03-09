@@ -23,6 +23,8 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class mainThread : Window
     {
+        public GetWebData getWebData = new GetWebData();
+
         public mainThread()
         {
             InitializeComponent();
@@ -36,11 +38,11 @@ namespace RenJiCaoZuo
             CommonFuntion pCommon = new CommonFuntion();
             pCommon.setWindowsShutDown();
         }
-
+        
+        
         private void GetWebData()
         {
-            CommonFuntion pCommon = new CommonFuntion();
-            pCommon.setWindowsShutDown();
+            GetWebData getWebData= new GetWebData();
         }
 
         public void callMainPage()

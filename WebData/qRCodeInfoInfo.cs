@@ -6,28 +6,36 @@ using System.Threading.Tasks;
 
 namespace RenJiCaoZuo.WebData
 {
-    public class qRCodeInfoInfoData
+    public class qRCodeInfo
     {
-        public int success;
-        public int errorCode;
-        public string msg;
-        public qRCodeInfoInfobody body;
+        public bool success { get; set; }
+        public int errorCode { get; set; }
+        public string msg { get; set; }
+        public qRCodeInfobody body { get; set; }
 
     }
 
-    public class qRCodeInfoInfobody
+    public class qRCodeInfobody
     {
-        public qRCodeInfoInfoDatabody data;
+        public qRCodeInfoDatabody data { get; set; }
     }
 
-    public class qRCodeInfoInfoDatabody
+    public class qRCodeInfoDatabody
     {
-        public string id;
-        public bool isNewRecord;
-        public string remarks;
-        public string createDate;
-        public string updateDate;
-        InfoOwnerbody owner;
-        public string url;
+        public string id { get; set; }
+        public Createby createby { get; set; }
+        public string createDate { get; set; }
+        public UpdateBy updateBy { get; set; }
+        public string updateDate { get; set; }
+
+        public Owner owner { get; set; }
+        public Owner parent { get; set; }
+
+        public string url { get; set; }
+        public string merchantid { get; set; }
+        public string posid { get; set; }
+        public string bankid { get; set; }
+        public string isDynamic { get; set; }
+        public string pkey { get; set; }
     }
 }
