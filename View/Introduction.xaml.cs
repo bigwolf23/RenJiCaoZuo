@@ -26,9 +26,31 @@ namespace RenJiCaoZuo
     {
         private DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private int m_TimeCount ;
-        public Introduction()
+        public Introduction(string AllTempInfo)
         {
             InitializeComponent();
+            setButtonAndTimer();
+            setAllTempleInfoText(AllTempInfo);            
+        }
+
+        /// <summary>
+        /// 定时器回调函数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void setAllTempleInfoText(string AllTempInfo)
+        {
+            All_TemplInfo_TextBlock.Text = AllTempInfo;
+        }
+
+
+        /// <summary>
+        /// 定时器回调函数
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void setButtonAndTimer()
+        {
             m_TimeCount = 60;
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -36,11 +58,6 @@ namespace RenJiCaoZuo
             string sButtonText = @"收起(" + m_TimeCount.ToString() + @")s";
             Return_Button.Content = sButtonText;
         }
-        /// <summary>
-        /// 定时器回调函数
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             m_TimeCount--;

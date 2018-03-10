@@ -19,6 +19,7 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class SettingWindow : Window
     {
+        public Window m_pMainWindow;
         public SettingWindow()
         {
             InitializeComponent();
@@ -31,20 +32,22 @@ namespace RenJiCaoZuo
         {
             ShutDownSetting ShutDownSettingWin = new ShutDownSetting();
             ShutDownSettingWin.Show();
-            this.Close();
+            ShutDownSettingWin.m_pUpperWindow = this;
+            this.Hide();
         }
 
         private void ModiyPassword_Button_Click(object sender, RoutedEventArgs e)
         {
             ModifyPassword ModifyPasswordWin = new ModifyPassword();
             ModifyPasswordWin.Show();
-            this.Close();
+            ModifyPasswordWin.m_pUpperWindow = this;
+            this.Hide();
         }
 
         private void ReturnMain_Button_Click(object sender, RoutedEventArgs e)
         {
-            CommonFuntion a = new CommonFuntion();
-            a.callMaipage(this);
+            m_pMainWindow.Show();
+            this.Close();
         }
 
         private void ReturnDesktop_Button_Click(object sender, RoutedEventArgs e)

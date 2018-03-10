@@ -17,14 +17,12 @@ namespace RenJiCaoZuo.WebData
 
     public class HousePayHistorybody
     {
-        public List<HousePayHistoryDatabody> data { get; set; }
+        public HousePayHistoryDatabody data { get; set; }
     }
 
     public class HousePayHistoryDatabody
     {
         public string id;
-        public bool isNewRecord;
-        public string remarks;
         public string createDate;
         public string updateDate;
         InfoOwnerbody temple;
@@ -32,8 +30,8 @@ namespace RenJiCaoZuo.WebData
         public string name;
         public string tel;
         public string payType;
-        public string payTypeName;
-        public int amount;
-        public string content;
+        public double amount;
+        public string tradeDt;
+        public string orderId;
     }
 }

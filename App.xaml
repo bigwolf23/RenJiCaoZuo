@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/View/Styles/PasswordBoxStyle.xaml"/>
                 <ResourceDictionary Source="/View/Styles/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="/View/Styles/Font.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

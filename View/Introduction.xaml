@@ -6,7 +6,9 @@
         <Image Source="Res\img02_bg01.png" Stretch="Fill"/>
         <Image Source="Res\title01.png" Stretch="Fill" Margin="296,10,296,562"/>
 
-        <Label Content="" HorizontalAlignment="Left" Height="444" Margin="50,83,0,0" VerticalAlignment="Top" Width="700" BorderThickness="0,0,0,6" BorderBrush="#FFD62525"/>
+        <Label Content="" HorizontalAlignment="Left" Height="17" Margin="42,515,0,0" VerticalAlignment="Top" Width="700" BorderThickness="0,0,0,6" BorderBrush="#FFD62525"/>
+        <TextBlock x:Name="All_TemplInfo_TextBlock" HorizontalAlignment="Left" Height="449" Margin="42,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="710" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontWeight="Medium" TextOptions.TextHintingMode="Fixed" Style="{DynamicResource FZXKJW}" FontSize="18" Padding="0,0,0,3"/>
+
         <Button x:Name="Return_Button" Content="" HorizontalAlignment="Left" Height="48" Margin="340,552,0,0" VerticalAlignment="Top" Width="128" FontSize="20" Click="Return_Button_Click" Background="#FFA01E1E" Foreground="White" RenderTransformOrigin="0.787,0.625"/>
     </Grid>
 </Window>

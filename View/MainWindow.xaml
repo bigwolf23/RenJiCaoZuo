@@ -2,58 +2,78 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="1024" Width="1280" WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize" OpacityMask="Black" WindowStartupLocation="CenterScreen" >
+
     <Grid>
-        <Image Source="Res\bg.png" Stretch="Fill"/>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="511*"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="Res\bg.png" Stretch="Fill" Grid.ColumnSpan="2"/>
 
 
-        <Image Margin="50,123,50,640" Source="Res/bg02.png" Stretch="Fill"/>
-        <Image Margin="50,384,50,379" Source="Res/bg02.png" Stretch="Fill"/>
-        <Image Margin="623,645,50,10" Source="Res/bg03.png" Stretch="Fill"/>
-        <Image Margin="50,645,662,10" Source="Res/bg03.png" Stretch="Fill"/>
-        <Image Margin="901,689,50,236" Source="Res/name.png" Stretch="Fill"/>
-        <Image Margin="74,143,946,798" Source="Res/title01.png" Stretch="Fill"/>
-        <Image Margin="74,407,946,536" Source="Res/title02.png" Stretch="Fill"/>
-        <Image Margin="74,667,946,276" Source="Res/title03.png" Stretch="Fill"/>
-        <Image Margin="956,823,150,154" Source="Res/title.png" Stretch="Fill" RenderTransformOrigin="0.389,0.467"/>
-        <Image Margin="672,711,399,105" Source="Res/code_img.png" Stretch="Fill"/>
-        <Label Content="微信、支付宝扫一扫" HorizontalAlignment="Center" Height="40" Margin="924,875,114,0" VerticalAlignment="Top" Width="242" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-        <Image Margin="516,0,50,902" Source="Res/news.png" Stretch="Fill"/>
-        <Label Content="" HorizontalAlignment="Left" Height="98" Margin="106,226,0,0" VerticalAlignment="Top" Width="1060"/>
-        <Button x:Name="UpPage_Button" Content="" HorizontalAlignment="Left" Height="50" Margin="857,423,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08">
+        <Image Margin="50,123,50,640" Source="Res/bg02.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Image Margin="50,384,50,379" Source="Res/bg02.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Image Margin="364.791,645,50,10" Source="Res/bg03.png" Stretch="Fill" Grid.Column="1"/>
+        <Image Margin="50,645,662,10" Source="Res/bg03.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <!--<Image Margin="642.791,689,50,236" Name="TempInfo_Image" Source="Res/name.png" Stretch="Fill" Grid.Column="1"/>-->
+        <Image Margin="642.791,689,50,236" Name="TempInfo_Image" Stretch="Fill" Grid.Column="1"/>
+
+        <Image Margin="74,143,946,798" Source="Res/title01.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Image Margin="74,407,946,536" Source="Res/title02.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Image Margin="74,667,946,276" Source="Res/title03.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Image Margin="697.791,823,150,154" Source="Res/title.png" Stretch="Fill" RenderTransformOrigin="0.389,0.467" Grid.Column="1"/>
+        <Image Margin="413.791,711,399,105" Name="QRCode_Image" Stretch="Fill" Grid.Column="1"></Image>
+        <ListView Name="MonkInfo_ListView" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="100" VerticalAlignment="Bottom" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent" Grid.ColumnSpan="2" Margin="106,0,108,436" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel Orientation="Horizontal" Margin="0,0,5,0" DataContext="{Binding}" Background="Transparent">
+                        <Image Source="{Binding MonkInfoImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" StretchDirection="Both" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Stretch="Fill" Margin="0" ></Image>
+                        <TextBlock Text="{Binding MonkInfo}" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="425" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" ></TextBlock>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <Label Content="微信、支付宝扫一扫" HorizontalAlignment="Center" Height="40" Margin="665.791,875,114,0" VerticalAlignment="Top" Width="242" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Grid.Column="1" Style="{DynamicResource FZXKJW}"/>
+        <Image Margin="257.791,0,50,902" Source="Res/news.png" Stretch="Fill" Grid.Column="1"/>
+        <Button x:Name="UpPage_Button" Content="" HorizontalAlignment="Left" Height="50" Margin="598.791,423,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08" Grid.Column="1" Click="UpPage_Button_Click_1">
             <Button.Background>
                 <ImageBrush ImageSource="Res/btn01.png" Stretch="Fill"/>
             </Button.Background>
         </Button>
-        <Button x:Name="DownPage_Button" Content="" HorizontalAlignment="Left" Height="50" Margin="1024,423,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08" Click="DownPage_Button_Click">
+        <Button x:Name="DownPage_Button" Content="" HorizontalAlignment="Left" Height="50" Margin="765.791,423,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08" Click="DownPage_Button_Click" Grid.Column="1">
             <Button.Background>
                 <ImageBrush ImageSource="Res/btn04.png" Stretch="Fill"/>
             </Button.Background>
         </Button>
-        <ListBox x:Name="DonateInfo_List" HorizontalAlignment="Left" Height="196" Margin="102,749,0,0" VerticalAlignment="Top" Width="464" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" BorderThickness="0" >
-            <ListBox.ItemTemplate >
-                <DataTemplate>
-                    <Grid Height="50" Width="464" Background="{Binding BGColor}">
-                        <ContentPresenter Content="{Binding Name}" VerticalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Border x:Name="SettingBorder_DoubleClick" BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="86" Margin="10,10,0,0" VerticalAlignment="Top" Width="158" MouseDown="SettingBorder_DoubleClick_MouseDown">
+        <Border x:Name="SettingBorder_DoubleClick" BorderBrush="Black" BorderThickness="0" HorizontalAlignment="Left" Height="86" Margin="10,10,0,0" VerticalAlignment="Top" Width="158" MouseDown="SettingBorder_DoubleClick_MouseDown" Opacity="0">
             <Border.Background>
                 <ImageBrush ImageSource="Res/btn04.png" Stretch="Fill"/>
             </Border.Background>
         </Border>
-        <Label Content="" HorizontalAlignment="Left" Height="98" Margin="106,488,0,0" VerticalAlignment="Top" Width="1060"/>
-        <!--<ListBox Name="listBox" ScrollViewer.VerticalScrollBarVisibility="Hidden" >
-            <ListBox.ItemTemplate >
-                <DataTemplate>
-                    <Grid Height="50" Width="500" Background="{Binding BGColor}">
-                        <ContentPresenter Content="{Binding Name}" VerticalAlignment="Center" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>-->
-
+        <Button x:Name="Activity_Detail" Content="" HorizontalAlignment="Left" Height="50" Margin="765.791,159,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.473,0.08" Click="Activity_Detail_Click" Grid.Column="1">
+            <Button.Background>
+                <ImageBrush ImageSource="Res/btn.png" Stretch="Fill"/>
+            </Button.Background>
+        </Button>
+        <TextBlock x:Name="TemplInfo_TextBlock"  TextTrimming="CharacterEllipsis" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="98" Margin="106,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1060" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontWeight="Medium" TextOptions.TextHintingMode="Fixed" Style="{DynamicResource 'FZXKJW'}" FontSize="18"/>
+        <Label x:Name="ActivityInfo_Label" HorizontalAlignment="Left" Height="40" Margin="332,41,0,0" VerticalAlignment="Top" Width="582" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontWeight="Medium" TextOptions.TextHintingMode="Fixed" Style="{DynamicResource 'FZXKJW'}" FontSize="18" Grid.Column="1" Foreground="#FFF9F3F3" VerticalContentAlignment="Center"/>
+        <Label Content="注意：请在手机支付的【添加备注信息】内留下施主的姓名。" Grid.Column="1" HorizontalAlignment="Left" Height="41" Margin="414,919,0,0" VerticalAlignment="Top" Width="500" Style="{DynamicResource FZXKJW}" VerticalContentAlignment="Center" Foreground="Red" FontSize="18"/>
+        <ListView x:Name="DonateInfo_List" HorizontalAlignment="Left" Height="206" Margin="102,739,0,0" VerticalAlignment="Top" Width="464" Grid.ColumnSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent">
+            <ListView.View>
+                <GridView  ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                    <GridViewColumn Width="220" Header="Name" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+                    <GridViewColumn Width="120" Header="payTypeName" DisplayMemberBinding="{Binding Path=payTypeName}"></GridViewColumn>
+                    <GridViewColumn Width="100" Header="amount" DisplayMemberBinding="{Binding Path=amount}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>

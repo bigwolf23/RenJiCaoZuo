@@ -10,7 +10,8 @@ using System.Net;
 using System.IO;
 using System.Configuration;
 using Newtonsoft.Json;
-
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace RenJiCaoZuo.WebData
 {
@@ -36,17 +37,72 @@ namespace RenJiCaoZuo.WebData
             GetHousePayHistorybyWebService();
         }
 
+        public string NoHTML(string Htmlstring)  //替换HTML标记
+        {
+            //删除脚本
+            Htmlstring = Regex.Replace(Htmlstring, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase);
+            //删除HTML
+            Htmlstring = Regex.Replace(Htmlstring, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"([\r\n])[\s]+", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"-->", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"<!--.*", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(gt|#62);", ">", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(nbsp|#160);", " ", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(iexcl|#161);", "\xa1", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&#(\d+);", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&ldquo;", "\"", RegexOptions.IgnoreCase);//保留【 “ 】的标点符合
+            Htmlstring = Regex.Replace(Htmlstring, @"&rdquo;", "\"", RegexOptions.IgnoreCase);//保留【 ” 】的标点符合
+            Htmlstring.Replace("<", "");
+            Htmlstring.Replace(">", "");
+            Htmlstring.Replace("\r\n", "");
+            //Htmlstring = HttpContext.Current.Server.HtmlEncode(Htmlstring).Trim();
+            return Htmlstring;
+        }
+
+        //获取前半部分link的字符串长度
+        public string getLinkByPic()
+        {
+            string strDomino = ConfigurationManager.AppSettings["domino"];
+            string strPort = ConfigurationManager.AppSettings["port"];
+            string strInterfacelink = @"http://" + strDomino + @":" + strPort + @"/";
+            return strInterfacelink;
+        }
+
+        //获取全部link的字符串长度
+        public string getFullpathPicLink(string URLfromDatastruct)
+        {
+            string str3 = URLfromDatastruct.Substring(2, (URLfromDatastruct.Length - 2));
+            return getLinkByPic() + str3;
+        }
+
         //寺庙信息
         public void GetTempleInfobyWebService()
         {
             string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "TempleInfo_Param", "TempleInfo_id");
+
             m_pTempInfoData = JsonConvert.DeserializeObject<TempleInfo>(ssTempleInfo);
+
+            m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
+            m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
+
+            m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
         }
         //大师信息
         public void GetMonkInfobyWebService()
         {
             string ssMonkInfo = getInfoFromInterFace("MonkInfo_Interface", "MonkInfo_Param", "MonkInfo_id");
             m_pMonkInfoData = JsonConvert.DeserializeObject<MonkInfo>(ssMonkInfo);
+
+            foreach(MonkInfoDatabody temp in m_pMonkInfoData.body.data)
+            {
+                temp.url = getFullpathPicLink(temp.url);
+            }
         }
         //寺庙活动信息
         public void GetActivityInfobyWebService()
@@ -62,11 +118,14 @@ namespace RenJiCaoZuo.WebData
             //m_pActivityInfoData = JsonConvert.DeserializeObject<GetActivityInfoData>(ssString);
         }
 
+        
         //二维码
         public void GetqRCodeInfobyWebService()
         {
             string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "qRCodeInfo_Param", "qRCodeInfo_id");
             m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);
+            
+            m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
         }
 
         //寺庙布施记录
@@ -101,20 +160,25 @@ namespace RenJiCaoZuo.WebData
             string strInterfacelink = strInterfaceName + @"?" + strParamName + @"=" + strIdName;
             return strInterfacelink;
         }
+
         //获取所有Link
-        public string getInfoFromInterFace(string Inferface_Field, string Param_Field, string Id_Field)
+        public string getFullLink(string Inferface_Field, string Param_Field, string Id_Field)
         {
-            string strFullInterface;
             string strBaseWebLink = setBaseWebLinkPath();
             string strInterfaceLink = getWebInterFaceLinkPath(Inferface_Field, Param_Field, Id_Field);
-            strFullInterface = strBaseWebLink + strInterfaceLink;
-            return HttpGet(strFullInterface);
+            string strFullInterface = strBaseWebLink + strInterfaceLink;
+            return strFullInterface;
         }
 
-       
-
-
-
+        //获取所有Link的信息
+        public string getInfoFromInterFace(string Inferface_Field, string Param_Field, string Id_Field)
+        {
+            string strFullInterface = getFullLink(Inferface_Field, Param_Field, Id_Field);
+//             string strBaseWebLink = setBaseWebLinkPath();
+//             string strInterfaceLink = getWebInterFaceLinkPath(Inferface_Field, Param_Field, Id_Field);
+//             strFullInterface = strBaseWebLink + strInterfaceLink;
+            return HttpGet(strFullInterface);
+        }
 //         private void GetInfobyWebService()
 //         {
 // //             //寺庙信息
@@ -151,6 +215,7 @@ namespace RenJiCaoZuo.WebData
         {
             //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             Encoding encoding = Encoding.UTF8;
+            
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "GET";
             request.Accept = "text/html, application/xhtml+xml, */*";
@@ -159,7 +224,27 @@ namespace RenJiCaoZuo.WebData
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
             {
-                return reader.ReadToEnd();
+                string strUtf8 = reader.ReadToEnd();
+
+// 
+//                 Encoding utf8= Encoding.UTF8;
+//                 Encoding defaultCode= Encoding.Default;
+// 
+//                 // Convert the string into a byte[].
+//                 byte[] utf8Bytes = Encoding.Default.GetBytes(strUtf8);
+// 
+//                 // Perform the conversion from one encoding to the other.
+//                 byte[] defaultBytes = Encoding.Convert(utf8, defaultCode, utf8Bytes );
+//             
+//                 // Convert the new byte[] into a char[] and then into a string.
+//                 // This is a slightly different approach to converting to illustrate
+//                 // the use of GetCharCount/GetChars.
+//                 char[] defaultChars = new char[defaultCode.GetCharCount(defaultBytes , 0, defaultBytes .Length)];
+//                 defaultCode.GetChars(defaultBytes , 0, defaultBytes .Length, defaultChars , 0);
+//                 string defaultString = new string(defaultChars );
+
+
+                return strUtf8;
             }
         }
     }

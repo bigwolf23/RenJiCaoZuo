@@ -23,6 +23,7 @@ namespace RenJiCaoZuo
     public partial class ShutDownSetting : Window
     {
         bool bReset;
+        public Window m_pUpperWindow;
         public ShutDownSetting()
         {
             InitializeComponent();
@@ -58,8 +59,7 @@ namespace RenJiCaoZuo
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
-            SettingWindow SettingWindowWin = new SettingWindow();
-            SettingWindowWin.Show();
+            m_pUpperWindow.Show();
             this.Close();
         }
 

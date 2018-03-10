@@ -31,7 +31,7 @@ namespace RenJiCaoZuo.WebData
         public string tel;
         public string payType;
         public string payTypeName;
-        public int amount;
+        public double amount;
         public string tradeDtorderId;
     }
 }

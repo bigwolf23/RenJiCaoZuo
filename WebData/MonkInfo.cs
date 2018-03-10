@@ -30,9 +30,9 @@ namespace RenJiCaoZuo.WebData
 
         public Owner owner { get; set; }
 
+        public string name { get; set; }
         public string info { get; set; }
         public string url { get; set; }
-        public string detail { get; set; }
         public string paixu { get; set; }
     }
 }

@@ -20,6 +20,7 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class LoginPassord : Window
     {
+        public Window m_pMainWindow;
         public LoginPassord()
         {
             InitializeComponent();
@@ -35,6 +36,7 @@ namespace RenJiCaoZuo
             if (strPassword == Password_Edit.Password)
             {
                 SettingWindow SettingWindowWin = new SettingWindow();
+                SettingWindowWin.m_pMainWindow = m_pMainWindow;
                 SettingWindowWin.Show();
                 this.Close();
             }
@@ -46,8 +48,8 @@ namespace RenJiCaoZuo
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
-            CommonFuntion a = new CommonFuntion(); 
-            a.callMaipage(this);
+            m_pMainWindow.Show();
+            this.Close(); ;
         }
 
         private void Password_Edit_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)

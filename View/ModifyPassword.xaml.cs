@@ -20,6 +20,7 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class ModifyPassword : Window
     {
+        public Window m_pUpperWindow;
         public ModifyPassword()
         {
             InitializeComponent();
@@ -31,8 +32,7 @@ namespace RenJiCaoZuo
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
-            SettingWindow SettingWindowWin = new SettingWindow();
-            SettingWindowWin.Show();
+            m_pUpperWindow.Show();
             this.Close();
         }
 

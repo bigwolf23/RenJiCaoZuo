@@ -39,7 +39,7 @@ namespace RenJiCaoZuo
 
             if (strPageType == "1")
             {
-                MainWindow MainWindowWin = new MainWindow();
+                MainWindow MainWindowWin = new MainWindow(null);
                 MainWindowWin.Show();
             }
             else if (strPageType == "2")

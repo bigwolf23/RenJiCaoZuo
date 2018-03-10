@@ -23,13 +23,12 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class mainThread : Window
     {
-        public GetWebData getWebData = new GetWebData();
-
+        public static GetWebData getWebData = new GetWebData();
+        
         public mainThread()
         {
             InitializeComponent();
-            setWindowsShutDown();
-            GetWebData();
+            //setWindowsShutDown();
             callMainPage();
         }
 
@@ -39,20 +38,13 @@ namespace RenJiCaoZuo
             pCommon.setWindowsShutDown();
         }
         
-        
-        private void GetWebData()
-        {
-            GetWebData getWebData= new GetWebData();
-        }
-
         public void callMainPage()
         {
             string strPageType = ConfigurationManager.AppSettings["FirstPageName"];
 
             if (strPageType == "1")
             {
-                MainWindow MainWindowWin = new MainWindow();
-                MainWindowWin.Owner = this;
+                MainWindow MainWindowWin = new MainWindow(getWebData);
                 MainWindowWin.Show();
             }
             else if (strPageType == "2")

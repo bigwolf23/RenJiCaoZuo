@@ -33,9 +33,7 @@ namespace RenJiCaoZuo
 
         private void DownPage_Button_Click(object sender, RoutedEventArgs e)
         {
-            Introduction IntroductionWin = new Introduction();
-            IntroductionWin.ShowDialog();
-            IntroductionWin.Topmost = true;
+
         }
 
         int nCount = 0;
