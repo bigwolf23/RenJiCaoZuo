@@ -232,20 +232,20 @@ namespace RenJiCaoZuo
             public string ActivityMain { get; set; }
             public string ActivityMainDetail { get; set; }
         }
-        List<ActivityList> ActivityListInfo = new List<ActivityList>();
+        List<ActivityList> m_pActivityListInfo = new List<ActivityList>();
         private void getActiveInfoContent()
         {
-            this.ActivityInfo_ListView.ItemsSource = ActivityListInfo.ToList();
+            this.ActivityInfo_ListView.ItemsSource = m_pActivityListInfo.ToList();
             foreach (ActivityInfoDatabody ActivityInfTemp in pWebData.m_pActivityInfoData.body.data)
             {
                 ActivityList pTemp = new ActivityList();
                 pTemp.ActivityMain = ActivityInfTemp.activity;
                 pTemp.ActivityMainDetail = ActivityInfTemp.detail;
-                ActivityListInfo.Add(pTemp);
+                m_pActivityListInfo.Add(pTemp);
                 myActivityInfoQueue.Enqueue(ActivityInfTemp.activity);
             }
 
-            this.ActivityInfo_ListView.ItemsSource = ActivityListInfo.ToList();
+            this.ActivityInfo_ListView.ItemsSource = m_pActivityListInfo.ToList();
         }
 
         //显示寺庙活动
@@ -274,7 +274,7 @@ namespace RenJiCaoZuo
         {
             if (myActivityInfoQueue.Count > 0)
             {
-                this.ActivityInfo_ListView.ItemsSource = ActivityListInfo.ToList();
+                this.ActivityInfo_ListView.ItemsSource = m_pActivityListInfo.ToList();
             }
             
         }
@@ -330,7 +330,24 @@ namespace RenJiCaoZuo
             string strDetail = @"";
             if (pWebData != null)
             {
-                //ActivityInfo_ListView.SelectedItem();
+                ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
+                var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
+                var scroll = svap.Owner as ScrollViewer;
+                int nSelIndex = (int)scroll.ContentHorizontalOffset / 922;
+
+                int n = 0;
+                foreach (ActivityList temp in m_pActivityListInfo)
+                {
+                    if(nSelIndex == n)
+                    {
+                        strDetail = temp.ActivityMainDetail;
+                        break;
+                    }
+                    n ++;
+                }
+
+                /*ActivityInfo_ListView.SelectedItems(nSelIndex);*/
+
                 //strDetail = pWebData.m_pActivityInfoData.body.data.info.ToString();
             }
 
@@ -358,9 +375,6 @@ namespace RenJiCaoZuo
                 Image img2 = new Image();
                 img2.Source = new BitmapImage(new Uri("pack://SiteOfOrigin:,,,/Res/btn02.png"));
                 this.UpPage_Button.Content = img2;
-
-                
-
 
 //                 dispatcherSrcollBarTimer.Tick += delegate
 //                 {
