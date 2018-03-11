@@ -41,11 +41,11 @@ namespace RenJiCaoZuo
         public void callMainPage()
         {
             string strPageType = ConfigurationManager.AppSettings["FirstPageName"];
-
+            MainWindow MainWindowWin = new MainWindow(getWebData);
+            MainWindowWin.Show();
             if (strPageType == "1")
             {
-                MainWindow MainWindowWin = new MainWindow(getWebData);
-                MainWindowWin.Show();
+                
             }
             else if (strPageType == "2")
             {

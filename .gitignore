@@ -68,3 +68,11 @@ obj/Debug/View/ModifyPassword.g.cs
 obj/Debug/View/mainThread.g.cs
 obj/Debug/View/mainThread.g.i.cs
 obj/Debug/View/MainWindow.g.cs
+obj/Debug/View/MainWindow.g.i.cs
+obj/Debug/View/MainWindow1.g.cs
+obj/Debug/View/MainWindow1.g.i.cs
+obj/Debug/View/ModifyPassword.g.i.cs
+obj/Debug/View/SettingWindow.g.cs
+obj/Debug/View/SettingWindow.g.i.cs
+obj/Debug/View/ShutDownSetting.g.cs
+obj/Debug/View/ShutDownSetting.g.i.cs

@@ -31,6 +31,7 @@ namespace RenJiCaoZuo
     {
         private DispatcherTimer dispatcherTimerList = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(2) };
         private DispatcherTimer dispatcherTimerActivity = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
+        private DispatcherTimer dispatcherSrcollBarTimer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromMilliseconds (40) };
         public GetWebData pWebData;
         public Uri ImageFilePathUri;
 
@@ -47,37 +48,97 @@ namespace RenJiCaoZuo
         public MainWindow(GetWebData setWebData)
         {
             pWebData = setWebData;
-            
 
+            //pWebData = null;
             InitializeComponent();
 
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
 
-            //显示寺庙介绍
-            setTempInfoData();
-            //设定寺院名字的图片
-            setTemplInfoNamePic();
+            setDisplayByMode();
+            if (pWebData!=null)
+            {
+                //显示寺庙介绍
+                setTempInfoData();
+                //设定寺院名字的图片
+                setTemplInfoNamePic();
 
-            //设定二维码
-            setQRCodePic();
+                //设定二维码
+                setQRCodePic();
 
-            //获取捐赠listview的内容
-            getDonateListContent();
-            //显示捐赠listview内容
-            displayDonateList();
+                //获取捐赠listview的内容
+                getDonateListContent();
+                //显示捐赠listview内容
+                displayDonateList();
 
-            //显示法师ListView内容
-            displayMonkList();
+                //显示法师ListView内容
+                displayMonkList();
 
-            //获取寺庙活动的内容
-            getActiveInfoContent();
-            //显示寺庙活动
-            DisplayActiveInfoContent();
+                //获取寺庙活动的内容
+                getActiveInfoContent();
+                //显示寺庙活动
+                DisplayActiveInfoContent();
+                //显示寺庙活动在listview中
+                DisplayActiveInfoContentInList();
+            }
+            
             
             
         }
+
+        private void setDisplayByMode()
+        {
+            string strMode = ConfigurationManager.AppSettings["FirstPageName"];
+            setActivityAndMonk_Img(strMode);
+            setMonk_PageShow(strMode);
+        }
+
+        //设定法师或者活动的图片
+        private string Activity_MonkImage;
+        private void setActivityAndMonk_Img(string strMode)
+        {
+            if(strMode == "1"){
+                Activity_MonkImage = "pack://SiteOfOrigin:,,,/Res/title02.png";
+            }else{
+                Activity_MonkImage = "pack://SiteOfOrigin:,,,/Res/title04.png";
+            }
+            Uri ImageFilePathUri = new Uri(Activity_MonkImage);
+            this.ActivityAndMonk_Img.Source = new BitmapImage(ImageFilePathUri); 
+        }
+
+        private void setMonk_PageShow(string strMode)
+        {
+            if (strMode == "1")
+            {
+                this.UpPage_Button.Visibility = Visibility.Visible;
+                this.DownPage_Button.Visibility = Visibility.Visible;
+                this.NewsBackground_Img.Visibility = Visibility.Visible;
+                this.ActivityInfo_Label.Visibility = Visibility.Visible;
+                this.MonkInfo_ListView.Visibility = Visibility.Visible;
+
+                Activity_Detail.Visibility = Visibility.Hidden;
+                ActivityInfo_Next_Button.Visibility = Visibility.Hidden;
+                ActivityInfo_Prev_Button.Visibility = Visibility.Hidden;
+                ActivityInfo_ListView.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.UpPage_Button.Visibility = Visibility.Hidden;
+                this.DownPage_Button.Visibility = Visibility.Hidden;
+                this.NewsBackground_Img.Visibility = Visibility.Hidden;
+                this.ActivityInfo_Label.Visibility = Visibility.Hidden;
+                this.MonkInfo_ListView.Visibility = Visibility.Hidden;
+
+                Activity_Detail.Visibility = Visibility.Visible;
+                ActivityInfo_Next_Button.Visibility = Visibility.Visible;
+                ActivityInfo_Prev_Button.Visibility = Visibility.Visible;
+                ActivityInfo_ListView.Visibility = Visibility.Visible;
+            }
+            
+
+        }
+
 
         //获取捐赠ListView的内容
         private void getDonateListContent()
@@ -115,8 +176,6 @@ namespace RenJiCaoZuo
         List<monkinfoDisp> m_MonkList = new List<monkinfoDisp>();
         private void displayMonkList()
         {
-
-
             this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
             {
@@ -126,34 +185,67 @@ namespace RenJiCaoZuo
                 m_MonkList.Add(temp);
             }
 
-            foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+//             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+//             {
+//                 monkinfoDisp temp = new monkinfoDisp();
+//                 temp.MonkInfo = MonkTemp.name + "1" + "\n\r" + MonkTemp.info;
+//                 temp.MonkInfoImage = MonkTemp.url;
+//                 m_MonkList.Add(temp);
+//             }
+// 
+//             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+//             {
+//                 monkinfoDisp temp = new monkinfoDisp();
+//                 temp.MonkInfo = MonkTemp.name + "2" + "\n\r" + MonkTemp.info;
+//                 temp.MonkInfoImage = MonkTemp.url;
+//                 m_MonkList.Add(temp);
+//             }
+
+
+            Image img = new Image();
+            img.Source = new BitmapImage(new Uri(@"pack://SiteOfOrigin:,,,/Res/btn01.png"));
+            this.UpPage_Button.Content = img;
+
+            if (m_MonkList.Count <= 2)
             {
-                monkinfoDisp temp = new monkinfoDisp();
-                temp.MonkInfo = MonkTemp.name + "1" + "\n\r" + MonkTemp.info;
-                temp.MonkInfoImage = MonkTemp.url;
-                m_MonkList.Add(temp);
+                Image imgDown = new Image();
+                imgDown.Source = new BitmapImage(new Uri(@"pack://SiteOfOrigin:,,,/Res/btn03.png"));
+                this.DownPage_Button.Content = imgDown;
+            }
+            else
+            {
+                Image imgDown = new Image();
+                imgDown.Source = new BitmapImage(new Uri(@"pack://SiteOfOrigin:,,,/Res/btn04.png"));
+                this.DownPage_Button.Content = imgDown;
             }
 
-            foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
-            {
-                monkinfoDisp temp = new monkinfoDisp();
-                temp.MonkInfo = MonkTemp.name + "2" + "\n\r" + MonkTemp.info;
-                temp.MonkInfoImage = MonkTemp.url;
-                m_MonkList.Add(temp);
-            }
-
-
+            
             this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
         }
 
 
         //获取寺庙活动的内容
+        public class ActivityList
+        {
+//             public string ActivityMainImage { get; set; }
+
+            public string ActivityMain { get; set; }
+            public string ActivityMainDetail { get; set; }
+        }
+        List<ActivityList> ActivityListInfo = new List<ActivityList>();
         private void getActiveInfoContent()
         {
+            this.ActivityInfo_ListView.ItemsSource = ActivityListInfo.ToList();
             foreach (ActivityInfoDatabody ActivityInfTemp in pWebData.m_pActivityInfoData.body.data)
             {
+                ActivityList pTemp = new ActivityList();
+                pTemp.ActivityMain = ActivityInfTemp.activity;
+                pTemp.ActivityMainDetail = ActivityInfTemp.detail;
+                ActivityListInfo.Add(pTemp);
                 myActivityInfoQueue.Enqueue(ActivityInfTemp.activity);
             }
+
+            this.ActivityInfo_ListView.ItemsSource = ActivityListInfo.ToList();
         }
 
         //显示寺庙活动
@@ -176,6 +268,18 @@ namespace RenJiCaoZuo
             
         }
 
+         //显示寺庙活动
+       
+        private void DisplayActiveInfoContentInList()
+        {
+            if (myActivityInfoQueue.Count > 0)
+            {
+                this.ActivityInfo_ListView.ItemsSource = ActivityListInfo.ToList();
+            }
+            
+        }
+        
+
         //获取二维码
         private void setQRCodePic()
         {
@@ -194,7 +298,10 @@ namespace RenJiCaoZuo
         //获取寺庙的基本信息
         private void setTempInfoData()
         {
-            TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString();
+            if (pWebData.m_pTempInfoData!=null)
+            {
+                TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString();
+            }
         }
 
 
@@ -220,44 +327,131 @@ namespace RenJiCaoZuo
 
         private void Activity_Detail_Click(object sender, RoutedEventArgs e)
         {
-            Introduction IntroductionWin = new Introduction(pWebData.m_pTempInfoData.body.data.info.ToString());
+            string strDetail = @"";
+            if (pWebData != null)
+            {
+                //ActivityInfo_ListView.SelectedItem();
+                //strDetail = pWebData.m_pActivityInfoData.body.data.info.ToString();
+            }
+
+            Introduction IntroductionWin = new Introduction(strDetail);
             IntroductionWin.Owner = this;
             IntroductionWin.ShowDialog();
-        }
 
+        }
         private void DownPage_Button_Click(object sender, RoutedEventArgs e)
         {
             ListViewAutomationPeer lvap = new ListViewAutomationPeer(MonkInfo_ListView);
             var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
             var scroll = svap.Owner as ScrollViewer;
             //scroll. .LineRight();
-            if ((scroll.HorizontalOffset / 530) <= (m_MonkList.Count - 3))
+
+            if ((m_MonkList.Count > 2)&&(scroll.HorizontalOffset / 532) <= (m_MonkList.Count - 3))
             {
-                if((scroll.HorizontalOffset / 530) == (m_MonkList.Count - 3))
+                if((scroll.HorizontalOffset / 532) == (m_MonkList.Count - 3))
                 {
                     Image img = new Image();
-                    img.Source = new BitmapImage(new Uri("Res/btn03.png"));
+                    img.Source = new BitmapImage(new Uri("pack://SiteOfOrigin:,,,/Res/btn03.png"));
                     this.DownPage_Button.Content = img;
                 }
                 
                 Image img2 = new Image();
-                img2.Source = new BitmapImage(new Uri(@"D:\GitClone\DongHuashi\RenJiCaoZuo\View\Res\btn02.png"));
+                img2.Source = new BitmapImage(new Uri("pack://SiteOfOrigin:,,,/Res/btn02.png"));
                 this.UpPage_Button.Content = img2;
 
-                scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 530);
+                
+
+
+//                 dispatcherSrcollBarTimer.Tick += delegate
+//                 {
+//                     m_nScrollMove++;
+//                     scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 53 * m_nScrollMove);
+//                     if (m_nScrollMove == 10)
+//                     {
+//                         m_nScrollMove = 0;
+//                         dispatcherSrcollBarTimer.Stop();
+//                         return;
+//                     }
+//                 };
+//                 dispatcherSrcollBarTimer.Start();
+                scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 532);
+
+               
             }
-            
         }
 
-
+        int m_nScrollUpMove = 0;
         private void UpPage_Button_Click_1(object sender, RoutedEventArgs e)
         {
             ListViewAutomationPeer lvap = new ListViewAutomationPeer(MonkInfo_ListView);
             var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
             var scroll = svap.Owner as ScrollViewer;
             //scroll.LineLeft();
-            scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 530);
+            //m_nScrollMove = scroll.HorizontalOffset / 530;
+            m_nScrollUpMove = 0;
+            if ((m_MonkList.Count > 2) && (scroll.HorizontalOffset / 532) >= 0)
+            {
+                if ((scroll.HorizontalOffset / 532) == 1)
+                {
+                    Image img = new Image();
+                    img.Source = new BitmapImage(new Uri(@"pack://SiteOfOrigin:,,,/Res/btn01.png"));
+                    this.UpPage_Button.Content = img;
+                }
+
+                Image img2 = new Image();
+                img2.Source = new BitmapImage(new Uri(@"pack://SiteOfOrigin:,,,/Res/btn04.png"));
+                this.DownPage_Button.Content = img2;
+
+
+//                 dispatcherSrcollBarTimer.Tick += delegate
+//                 {
+//                     m_nScrollUpMove++;
+//                     scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 53 * m_nScrollUpMove);
+//                     if (m_nScrollUpMove == 10)
+//                     {
+//                         m_nScrollUpMove = 0;
+//                         dispatcherSrcollBarTimer.Stop();
+//                         return;
+//                     }
+//                 };
+//                 dispatcherSrcollBarTimer.Start();
+                scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 532);
+
+
+            }
+
+
         }
 
+        private void TemplInfo_Detail_Click(object sender, RoutedEventArgs e)
+        {
+            string strDetail = @"";
+            if (pWebData != null)
+            {
+                strDetail = pWebData.m_pTempInfoData.body.data.info.ToString();
+            }
+
+            Introduction IntroductionWin = new Introduction(strDetail);
+            IntroductionWin.Owner = this;
+            IntroductionWin.ShowDialog();
+        }
+
+        private void ActivityInfo_Prev_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
+            var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
+            var scroll = svap.Owner as ScrollViewer;
+            //scroll. .LineRight();
+            scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 922);
+        }
+
+        private void ActivityInfo_Next_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
+            var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
+            var scroll = svap.Owner as ScrollViewer;
+            //scroll. .LineRight();
+            scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 922);
+        }
     }
 }

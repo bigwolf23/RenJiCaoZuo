@@ -17,4 +17,27 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <!--<Style TargetType="Button" x:Key="BtnStyle2">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate  TargetType="Button">
+                    <Grid  Background="Transparent">
+                        <ContentPresenter x:Name="cp1" Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" RecognizesAccessKey="True"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="cp1" Property="Content">
+                                <Setter.Value>
+                                    <Image Source="IMG/connect.png"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
 </ResourceDictionary>
