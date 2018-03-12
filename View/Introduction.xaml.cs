@@ -66,15 +66,22 @@ namespace RenJiCaoZuo
             string ImgString = stra.Substring(IndexofA + 7, IndexofB - IndexofA - 7);
             
             All_TemplInfo_TextBlock.Text = Wenzi;
-            if (ImgString.Length > 0) 
-            {
-                BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
-                this.TempInfo_Img.Source = Pic_img;
-
-
-                this.TempInfo_Img.Height = Pic_img.PixelHeight;
-                this.TempInfo_Img.Width = Pic_img.PixelWidth;
-            }
+//             if (ImgString.Length > 0) 
+//             {
+//                 BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
+//                 this.TempInfo_Img.Source = Pic_img;
+// 
+// 
+//                 this.TempInfo_Img.Height = Pic_img.PixelHeight > 600 ? 600 : Pic_img.PixelHeight;
+//                 if (Pic_img.PixelWidth > 787)
+//                 {
+//                     this.TempInfo_Img.Width = 787;
+//                 }
+//                 else
+//                 {
+//                     this.TempInfo_Img.Width = Pic_img.PixelWidth;
+//                 }
+//             }
 
         }
 
