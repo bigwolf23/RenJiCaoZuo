@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Introduction" Height="640" Width="800" WindowStyle="None" AllowsTransparency="True" ResizeMode="NoResize" OpacityMask="Black" WindowStartupLocation="CenterOwner" >
     <Grid>
-        <Image Source="Res\img02_bg01.png" Stretch="Fill"/>
-        <Image Source="Res\title01.png" Stretch="Fill" Margin="296,10,296,562"/>
+        <Image Source="pack://SiteOfOrigin:,,,/Res/img02_bg01.png" Stretch="Fill"/>
+        <Image Source="pack://SiteOfOrigin:,,,/Res/title01.png" Stretch="Fill" Margin="296,10,296,562"/>
 
         <Label Content="" HorizontalAlignment="Left" Height="17" Margin="42,515,0,0" VerticalAlignment="Top" Width="700" BorderThickness="0,0,0,6" BorderBrush="#FFD62525"/>
         <TextBlock x:Name="All_TemplInfo_TextBlock" HorizontalAlignment="Left" Height="449" Margin="42,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="710" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontWeight="Medium" TextOptions.TextHintingMode="Fixed" Style="{DynamicResource FZXKJW}" FontSize="18" Padding="0,0,0,3"/>

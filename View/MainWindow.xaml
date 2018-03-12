@@ -9,7 +9,7 @@
             <ColumnDefinition Width="129*"/>
             <ColumnDefinition Width="511*"/>
         </Grid.ColumnDefinitions>
-        <Image Source="Res\bg.png" Stretch="Fill" Grid.ColumnSpan="2"/>
+        <Image Source="pack://SiteOfOrigin:,,,/Res/bg.png" Stretch="Fill" Grid.ColumnSpan="2"/>
 
 
         <Image Margin="50,123,50,640" Source="pack://SiteOfOrigin:,,,/Res/bg02.png" Stretch="Fill" Grid.ColumnSpan="2"/>
