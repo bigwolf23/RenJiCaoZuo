@@ -148,8 +148,8 @@ namespace RenJiCaoZuo
                 PayListHistory temp = new PayListHistory();
                 temp.amount = payHistTemp.amount;
                 temp.Name = payHistTemp.name;
-                //temp.payTypeName = payHistTemp.payTypeName;
-                temp.payTypeName = @"布施捐款";
+                temp.payTypeName = payHistTemp.payTypeName;
+                //temp.payTypeName = @"布施捐款";
                 myPayQueue.Enqueue(temp);
             }            
         }
@@ -325,37 +325,7 @@ namespace RenJiCaoZuo
             }
         }
 
-        private void Activity_Detail_Click(object sender, RoutedEventArgs e)
-        {
-            string strDetail = @"";
-            if (pWebData != null)
-            {
-                ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
-                var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
-                var scroll = svap.Owner as ScrollViewer;
-                int nSelIndex = (int)scroll.ContentHorizontalOffset / 922;
 
-                int n = 0;
-                foreach (ActivityList temp in m_pActivityListInfo)
-                {
-                    if(nSelIndex == n)
-                    {
-                        strDetail = temp.ActivityMainDetail;
-                        break;
-                    }
-                    n ++;
-                }
-
-                /*ActivityInfo_ListView.SelectedItems(nSelIndex);*/
-
-                //strDetail = pWebData.m_pActivityInfoData.body.data.info.ToString();
-            }
-
-            Introduction IntroductionWin = new Introduction(strDetail);
-            IntroductionWin.Owner = this;
-            IntroductionWin.ShowDialog();
-
-        }
         private void DownPage_Button_Click(object sender, RoutedEventArgs e)
         {
             ListViewAutomationPeer lvap = new ListViewAutomationPeer(MonkInfo_ListView);
@@ -434,6 +404,38 @@ namespace RenJiCaoZuo
 
             }
 
+
+        }
+
+        private void Activity_Detail_Click(object sender, RoutedEventArgs e)
+        {
+            string strDetail = @"";
+            if (pWebData != null)
+            {
+                ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
+                var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
+                var scroll = svap.Owner as ScrollViewer;
+                int nSelIndex = (int)scroll.ContentHorizontalOffset / 922;
+
+                int n = 0;
+                foreach (ActivityList temp in m_pActivityListInfo)
+                {
+                    if (nSelIndex == n)
+                    {
+                        strDetail = temp.ActivityMainDetail;
+                        break;
+                    }
+                    n++;
+                }
+
+                /*ActivityInfo_ListView.SelectedItems(nSelIndex);*/
+
+                //strDetail = pWebData.m_pActivityInfoData.body.data.info.ToString();
+            }
+
+            Introduction IntroductionWin = new Introduction(strDetail);
+            IntroductionWin.Owner = this;
+            IntroductionWin.ShowDialog();
 
         }
 

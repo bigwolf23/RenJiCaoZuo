@@ -12,6 +12,7 @@ using System.Configuration;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Windows;
 
 namespace RenJiCaoZuo.WebData
 {
@@ -109,6 +110,10 @@ namespace RenJiCaoZuo.WebData
         {
             string ssString = getInfoFromInterFace("ActivityInfo_Interface", "ActivityInfo_Param", "ActivityInfo_id");
             m_pActivityInfoData = JsonConvert.DeserializeObject<ActivityInfo>(ssString);
+            foreach (ActivityInfoDatabody temp in m_pActivityInfoData.body.data)
+            {
+                temp.detail = NoHTML(temp.detail);
+            }
         }
 
         //寺庙活动详细
@@ -177,7 +182,7 @@ namespace RenJiCaoZuo.WebData
 //             string strBaseWebLink = setBaseWebLinkPath();
 //             string strInterfaceLink = getWebInterFaceLinkPath(Inferface_Field, Param_Field, Id_Field);
 //             strFullInterface = strBaseWebLink + strInterfaceLink;
-            return HttpGet(strFullInterface);
+            return HttpGet(strFullInterface, Inferface_Field);
         }
 //         private void GetInfobyWebService()
 //         {
@@ -211,41 +216,34 @@ namespace RenJiCaoZuo.WebData
 // 
 //         }
 
-        public static string HttpGet(string url)
+        public static string HttpGet(string url, string Inferface_Field)
         {
             //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
-            Encoding encoding = Encoding.UTF8;
-            
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            request.Accept = "text/html, application/xhtml+xml, */*";
-            request.ContentType = "application/json";
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+            try
             {
-                string strUtf8 = reader.ReadToEnd();
+                Encoding encoding = Encoding.UTF8;
 
-// 
-//                 Encoding utf8= Encoding.UTF8;
-//                 Encoding defaultCode= Encoding.Default;
-// 
-//                 // Convert the string into a byte[].
-//                 byte[] utf8Bytes = Encoding.Default.GetBytes(strUtf8);
-// 
-//                 // Perform the conversion from one encoding to the other.
-//                 byte[] defaultBytes = Encoding.Convert(utf8, defaultCode, utf8Bytes );
-//             
-//                 // Convert the new byte[] into a char[] and then into a string.
-//                 // This is a slightly different approach to converting to illustrate
-//                 // the use of GetCharCount/GetChars.
-//                 char[] defaultChars = new char[defaultCode.GetCharCount(defaultBytes , 0, defaultBytes .Length)];
-//                 defaultCode.GetChars(defaultBytes , 0, defaultBytes .Length, defaultChars , 0);
-//                 string defaultString = new string(defaultChars );
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                request.Accept = "text/html, application/xhtml+xml, */*";
+                request.ContentType = "application/json";
+                using (WebResponse wr = request.GetResponse())
+                {
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                    {
+                        return reader.ReadToEnd();
+                    }
 
-
-                return strUtf8;
+                }
             }
+            catch (WebException ex)
+            {
+                //HttpWebResponse res = (HttpWebResponse)ex.Response;
+                MessageBox.Show(ex.Message);
+                //Inferface_Field
+            }
+            return "";
         }
     }
 }
