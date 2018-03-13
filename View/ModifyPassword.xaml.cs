@@ -53,8 +53,7 @@ namespace RenJiCaoZuo
                     cfa.Save(ConfigurationSaveMode.Modified);
                     ConfigurationManager.RefreshSection("appSettings");
 
-                    SettingWindow SettingWindowWin = new SettingWindow();
-                    SettingWindowWin.Show();
+                    m_pUpperWindow.Show();
                     this.Close();
                 }
                 else

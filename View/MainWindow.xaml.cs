@@ -444,7 +444,7 @@ namespace RenJiCaoZuo
             string strDetail = @"";
             if (pWebData != null)
             {
-                strDetail = pWebData.m_pTempInfoData.body.data.info.ToString();
+                strDetail = pWebData.m_pTempInfoData.body.data.detail;
             }
 
             Introduction IntroductionWin = new Introduction(strDetail);

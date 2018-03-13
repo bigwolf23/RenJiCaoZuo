@@ -42,13 +42,10 @@ namespace RenJiCaoZuo
         /// <param name="e"></param>
         private void setAllTempleInfoText(string AllTempInfo)
         {
-            int nlength = AllTempInfo.Length;
-            int nLine = nlength / 40;
-
-//             if (nLine*All_TemplInfo_TextBlock.FontSize > All_TemplInfo_TextBlock.Height )
-//             {
-//                 All_TemplInfo_TextBlock.Height = All_TemplInfo_TextBlock.FontSize * (nLine + 1);
-//             }
+            if (AllTempInfo.Length < 0)
+            {
+                return;
+            }
 
             string stra = AllTempInfo;
             string strtempa = "<p>";
@@ -57,31 +54,45 @@ namespace RenJiCaoZuo
             //求得strtempa 和 strtempb 出现的位置: 
             int IndexofA = stra.IndexOf(strtempa);
             int IndexofB = stra.IndexOf(strtempb);
-            string Wenzi = stra.Substring(IndexofA + 3, IndexofB - IndexofA - 3);
+            string Wenzi;
+            if (IndexofA != -1 && IndexofB != -1)
+            {
+                Wenzi = stra.Substring(IndexofA + 3, IndexofB - IndexofA - 3);
+                strtempa = "base64,";
+                strtempb = "\" ";
+                IndexofA = stra.IndexOf(strtempa);
+                IndexofB = stra.IndexOf(strtempb);
+                string ImgString = null;
+                if (IndexofA != -1 && IndexofB != -1)
+                {
+                    ImgString = stra.Substring(IndexofA + 7, IndexofB - IndexofA - 7);
+                }
+ 
+                if (ImgString.Length > 0)
+                {
+                    BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
+                    this.TempInfo_Img.Source = Pic_img;
 
-            strtempa = "base64,";
-            strtempb = "\" ";
-            IndexofA = stra.IndexOf(strtempa);
-            IndexofB = stra.IndexOf(strtempb);
-            string ImgString = stra.Substring(IndexofA + 7, IndexofB - IndexofA - 7);
-            
+
+                    this.TempInfo_Img.Height = Pic_img.PixelHeight > 600 ? 600 : Pic_img.PixelHeight;
+                    if (Pic_img.PixelWidth > 787)
+                    {
+                        this.TempInfo_Img.Width = 787;
+                    }
+                    else
+                    {
+                        this.TempInfo_Img.Width = Pic_img.PixelWidth;
+                    }
+                }
+
+            }
+            else
+            {
+                Wenzi = AllTempInfo;
+            }
+
             All_TemplInfo_TextBlock.Text = Wenzi;
-//             if (ImgString.Length > 0) 
-//             {
-//                 BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
-//                 this.TempInfo_Img.Source = Pic_img;
-// 
-// 
-//                 this.TempInfo_Img.Height = Pic_img.PixelHeight > 600 ? 600 : Pic_img.PixelHeight;
-//                 if (Pic_img.PixelWidth > 787)
-//                 {
-//                     this.TempInfo_Img.Width = 787;
-//                 }
-//                 else
-//                 {
-//                     this.TempInfo_Img.Width = Pic_img.PixelWidth;
-//                 }
-//             }
+            
 
         }
 

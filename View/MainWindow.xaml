@@ -100,10 +100,10 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Height="20" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" Style="{DynamicResource FZXKJW}" >
-                        <TextBox Text="{Binding Name}" IsReadOnly="True" Height="20" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="220" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
-                        <TextBox Text="{Binding payTypeName}" IsReadOnly="True" Height="20" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="120" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
-                        <TextBox Text="{Binding amount}" IsReadOnly="True" Height="20" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="100" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
+                    <StackPanel Orientation="Horizontal" Height="40" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" Style="{DynamicResource FZXKJW}" >
+                        <TextBox Text="{Binding Name}" IsReadOnly="True" Height="30" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="220" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
+                        <TextBox Text="{Binding payTypeName}" IsReadOnly="True" Height="30" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="120" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
+                        <TextBox Text="{Binding amount}" IsReadOnly="True" Height="30" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="100" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -227,9 +227,7 @@
   <ItemGroup>
     <Resource Include="View\Res\btn_bg.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Control\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="View\Res\btn.png" />
   </ItemGroup>
