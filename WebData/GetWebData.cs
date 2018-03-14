@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows;
-
+using log4net;
 namespace RenJiCaoZuo.WebData
 {
     public class GetWebData
@@ -86,34 +86,44 @@ namespace RenJiCaoZuo.WebData
         public void GetTempleInfobyWebService()
         {
             string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "TempleInfo_Param", "TempleInfo_id");
+            if (ssTempleInfo.Length > 0)
+            {
+                m_pTempInfoData = JsonConvert.DeserializeObject<TempleInfo>(ssTempleInfo);
 
-            m_pTempInfoData = JsonConvert.DeserializeObject<TempleInfo>(ssTempleInfo);
+                m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
+                m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
 
-            m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
-            m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
-
-            m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
+                m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
+            }
+            
         }
         //大师信息
         public void GetMonkInfobyWebService()
         {
             string ssMonkInfo = getInfoFromInterFace("MonkInfo_Interface", "MonkInfo_Param", "MonkInfo_id");
-            m_pMonkInfoData = JsonConvert.DeserializeObject<MonkInfo>(ssMonkInfo);
-
-            foreach(MonkInfoDatabody temp in m_pMonkInfoData.body.data)
+            if (ssMonkInfo.Length > 0)
             {
-                temp.url = getFullpathPicLink(temp.url);
+                m_pMonkInfoData = JsonConvert.DeserializeObject<MonkInfo>(ssMonkInfo);
+
+                foreach (MonkInfoDatabody temp in m_pMonkInfoData.body.data)
+                {
+                    temp.url = getFullpathPicLink(temp.url);
+                }
             }
         }
         //寺庙活动信息
         public void GetActivityInfobyWebService()
         {
             string ssString = getInfoFromInterFace("ActivityInfo_Interface", "ActivityInfo_Param", "ActivityInfo_id");
-            m_pActivityInfoData = JsonConvert.DeserializeObject<ActivityInfo>(ssString);
-            foreach (ActivityInfoDatabody temp in m_pActivityInfoData.body.data)
+            if (ssString.Length > 0)
             {
-                temp.detail = NoHTML(temp.detail);
+                m_pActivityInfoData = JsonConvert.DeserializeObject<ActivityInfo>(ssString);
+                foreach (ActivityInfoDatabody temp in m_pActivityInfoData.body.data)
+                {
+                    temp.detail = NoHTML(temp.detail);
+                }
             }
+
         }
 
         //寺庙活动详细
@@ -128,23 +138,32 @@ namespace RenJiCaoZuo.WebData
         public void GetqRCodeInfobyWebService()
         {
             string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "qRCodeInfo_Param", "qRCodeInfo_id");
-            m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);
-            
-            m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
+            if (ssString.Length > 0)
+            {
+                m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);
+
+                m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
+            }
         }
 
         //寺庙布施记录
         public void GetTemplePayHistorybyWebService()
         {
             string ssString = getInfoFromInterFace("TemplePayHistory_Interface", "TemplePayHistory_Param", "TemplePayHistory_id");
-            m_pTemplePayHistoryData = JsonConvert.DeserializeObject<TemplePayHistory>(ssString);
+            if (ssString.Length > 0)
+            {
+                m_pTemplePayHistoryData = JsonConvert.DeserializeObject<TemplePayHistory>(ssString);
+            }
         }
 
         //大殿布施记录
         public void GetHousePayHistorybyWebService()
         {
             string ssString = getInfoFromInterFace("housePayHistory_Interface", "housePayHistory_Param", "housePayHistory_id");
-            m_pHousePayHistoryData = JsonConvert.DeserializeObject<HousePayHistory>(ssString);
+            if (ssString.Length > 0)
+            { 
+                m_pHousePayHistoryData = JsonConvert.DeserializeObject<HousePayHistory>(ssString); 
+            }
         }
 
         //获取服务器Link
@@ -216,7 +235,7 @@ namespace RenJiCaoZuo.WebData
 // 
 //         }
 
-        public static string HttpGet(string url, string Inferface_Field)
+        public string HttpGet(string url, string Inferface_Field)
         {
             //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             try
@@ -224,23 +243,28 @@ namespace RenJiCaoZuo.WebData
                 Encoding encoding = Encoding.UTF8;
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                request.ContentType = "application/json";
-                using (WebResponse wr = request.GetResponse())
+                if (request.Connection != null)
                 {
+                    request.Method = "GET";
+                    request.Accept = "text/html, application/xhtml+xml, */*";
+                    request.ContentType = "application/json";
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                     {
                         return reader.ReadToEnd();
                     }
-
                 }
+                else
+                {
+                    LogHelper.Warn(typeof(GetWebData), url + "无法连接服务器");
+                }
+                
             }
             catch (WebException ex)
             {
                 //HttpWebResponse res = (HttpWebResponse)ex.Response;
                 MessageBox.Show(ex.Message);
+                LogHelper.Error(typeof(GetWebData), url+ "无法连接服务器");
                 //Inferface_Field
             }
             return "";

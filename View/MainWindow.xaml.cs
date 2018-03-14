@@ -59,32 +59,44 @@ namespace RenJiCaoZuo
             setDisplayByMode();
             if (pWebData!=null)
             {
-                //显示寺庙介绍
-                setTempInfoData();
-                //设定寺院名字的图片
-                setTemplInfoNamePic();
+                if (pWebData.m_pTempInfoData.success == true)
+                {
+                    //显示寺庙介绍
+                    setTempInfoData();
+                    //设定寺院名字的图片
+                    setTemplInfoNamePic();
+                }
 
-                //设定二维码
-                setQRCodePic();
+                if (pWebData.m_pqRCodeInfoData.success == true)
+                {
+                    //设定二维码
+                    setQRCodePic();
+                }
 
-                //获取捐赠listview的内容
-                getDonateListContent();
-                //显示捐赠listview内容
-                displayDonateList();
+                if (pWebData.m_pTemplePayHistoryData.success == true)
+                {
+                    //获取捐赠listview的内容
+                    getDonateListContent();
+                    //显示捐赠listview内容
+                    displayDonateList();
+                }
 
-                //显示法师ListView内容
-                displayMonkList();
+                if (pWebData.m_pMonkInfoData.success == true)
+                {
+                    //显示法师ListView内容
+                    displayMonkList();
+                }
 
-                //获取寺庙活动的内容
-                getActiveInfoContent();
-                //显示寺庙活动
-                DisplayActiveInfoContent();
-                //显示寺庙活动在listview中
-                DisplayActiveInfoContentInList();
+                if (pWebData.m_pActivityInfoData.success == true)
+                {
+                    //获取寺庙活动的内容
+                    getActiveInfoContent();
+                    //显示寺庙活动
+                    DisplayActiveInfoContent();
+                    //显示寺庙活动在listview中
+                    DisplayActiveInfoContentInList();
+                }
             }
-            
-            
-            
         }
 
         private void setDisplayByMode()
@@ -298,7 +310,7 @@ namespace RenJiCaoZuo
         //获取寺庙的基本信息
         private void setTempInfoData()
         {
-            if (pWebData.m_pTempInfoData!=null)
+            if (pWebData.m_pTempInfoData.success!=false)
             {
                 TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString();
             }
@@ -442,7 +454,7 @@ namespace RenJiCaoZuo
         private void TemplInfo_Detail_Click(object sender, RoutedEventArgs e)
         {
             string strDetail = @"";
-            if (pWebData != null)
+            if (pWebData.m_pTempInfoData.success == true)
             {
                 strDetail = pWebData.m_pTempInfoData.body.data.detail;
             }

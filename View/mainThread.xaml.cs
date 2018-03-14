@@ -23,7 +23,7 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class mainThread : Window
     {
-        public static GetWebData getWebData = new GetWebData();
+        public GetWebData getWebData = new GetWebData();
         
         public mainThread()
         {
