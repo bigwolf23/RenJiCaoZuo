@@ -243,7 +243,7 @@ namespace RenJiCaoZuo.WebData
                 Encoding encoding = Encoding.UTF8;
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                if (request.Connection != null)
+                if (request.Pipelined != false)
                 {
                     request.Method = "GET";
                     request.Accept = "text/html, application/xhtml+xml, */*";
@@ -263,7 +263,7 @@ namespace RenJiCaoZuo.WebData
             catch (WebException ex)
             {
                 //HttpWebResponse res = (HttpWebResponse)ex.Response;
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
                 LogHelper.Error(typeof(GetWebData), url+ "无法连接服务器");
                 //Inferface_Field
             }
