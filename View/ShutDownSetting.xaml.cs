@@ -30,7 +30,7 @@ namespace RenJiCaoZuo
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
-            System.Diagnostics.Process.Start("osk.exe");
+
             string strShutDownTime = ConfigurationManager.AppSettings["ShutDownTime"];
             ShuDownTime_Edit.Text = strShutDownTime;
             bReset = true;

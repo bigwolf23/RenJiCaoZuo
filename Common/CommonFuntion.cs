@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Configuration;
 using System.Text.RegularExpressions;
+using RenJiCaoZuo.WebData;
 
 namespace RenJiCaoZuo
 {
+    
     public class CommonFuntion
     {
         public void setWindowsShutDown()
@@ -31,29 +33,6 @@ namespace RenJiCaoZuo
             int diff = (int) span.TotalSeconds;
             string strShutdownParam = @"-s -t " + diff.ToString();
             System.Diagnostics.Process.Start(@"c:/windows/system32/shutdown.exe", strShutdownParam);
-        }
-
-        public void callMaipage(Window WindowName)
-        {
-            string strPageType = ConfigurationManager.AppSettings["FirstPageName"];
-
-            if (strPageType == "1")
-            {
-                MainWindow MainWindowWin = new MainWindow(null);
-                MainWindowWin.Show();
-            }
-            else if (strPageType == "2")
-            {
-                //                 MainWindow MainWindowWin1 = new MainWindow1();
-                //                 MainWindowWin1.Show();
-            }
-            else if (strPageType == "3")
-            {
-                //                 MainWindow MainWindowWin2 = new MainWindow2();
-                //                 MainWindowWin2.Show();
-            }
-
-            WindowName.Close();
         }
     }
 }

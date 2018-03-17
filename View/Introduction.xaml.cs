@@ -47,48 +47,47 @@ namespace RenJiCaoZuo
                 return;
             }
 
-            string stra = AllTempInfo;
-            string strtempa = "<p>";
-            string strtempb = "</p>";
-            //我们要求c---g之间的字符串，也就是：defghi 
-            //求得strtempa 和 strtempb 出现的位置: 
-            int IndexofA = stra.IndexOf(strtempa);
-            int IndexofB = stra.IndexOf(strtempb);
-            string Wenzi;
+            string Wenzi = AllTempInfo;
+
+            Wenzi = Wenzi.TrimStart((char[])"\n\r".ToCharArray());
+
+
+
+            string strtempa = "<img src=\"data:image/jpeg;base64,";
+            string strtempb = ">";
+            //string strtempb = "\" ";
+            int IndexofA = Wenzi.IndexOf(strtempa);
+            int IndexofB = Wenzi.IndexOf(strtempb);
+            string ImgString = null;
             if (IndexofA != -1 && IndexofB != -1)
             {
-                Wenzi = stra.Substring(IndexofA + 3, IndexofB - IndexofA - 3);
-                strtempa = "base64,";
-                strtempb = "\" ";
-                IndexofA = stra.IndexOf(strtempa);
-                IndexofB = stra.IndexOf(strtempb);
-                string ImgString = null;
-                if (IndexofA != -1 && IndexofB != -1)
-                {
-                    ImgString = stra.Substring(IndexofA + 7, IndexofB - IndexofA - 7);
-                }
- 
-                if (ImgString.Length > 0)
-                {
-                    BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
-                    this.TempInfo_Img.Source = Pic_img;
-
-
-                    this.TempInfo_Img.Height = Pic_img.PixelHeight > 600 ? 600 : Pic_img.PixelHeight;
-                    if (Pic_img.PixelWidth > 787)
-                    {
-                        this.TempInfo_Img.Width = 787;
-                    }
-                    else
-                    {
-                        this.TempInfo_Img.Width = Pic_img.PixelWidth;
-                    }
-                }
-
+                int nLength = strtempa.Length;
+                ImgString = Wenzi.Substring(IndexofA , IndexofB - IndexofA - nLength);
+                Wenzi = Wenzi.Substring(IndexofB + 1, Wenzi.Length - IndexofB - 1);
             }
-            else
+
+            if (ImgString != null && ImgString.Length > 0)
             {
-                Wenzi = AllTempInfo;
+                strtempa = "<img src=\"data:image/jpeg;base64,";
+                strtempb = "\" ";
+                //string strtempb = "\" ";
+                IndexofA = ImgString.IndexOf(strtempa);
+                IndexofB = ImgString.IndexOf(strtempb);
+                int nLength = strtempa.Length;
+                ImgString = ImgString.Substring(IndexofA + nLength, IndexofB - IndexofA - nLength);
+                BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
+                this.TempInfo_Img.Source = Pic_img;
+
+
+                this.TempInfo_Img.Height = Pic_img.PixelHeight > 600 ? 600 : Pic_img.PixelHeight;
+                if (Pic_img.PixelWidth > 787)
+                {
+                    this.TempInfo_Img.Width = 680;
+                }
+                else
+                {
+                    this.TempInfo_Img.Width = Pic_img.PixelWidth;
+                }
             }
 
             All_TemplInfo_TextBlock.Text = Wenzi;
@@ -127,35 +126,7 @@ namespace RenJiCaoZuo
             dispatcherTimer.Stop();
             this.Close();
         }
-
-//         public string NoHTML(string Htmlstring)  //替换HTML标记
-//         {
-//             //删除脚本
-//             Htmlstring = Regex.Replace(Htmlstring, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase);
-//             //删除HTML
-//             Htmlstring = Regex.Replace(Htmlstring, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"([\r\n])[\s]+", "", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"-->", "", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"<!--.*", "", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(quot|#34);", "\"", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(amp|#38);", "&", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(lt|#60);", "<", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(gt|#62);", ">", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(nbsp|#160);", " ", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(iexcl|#161);", "\xa1", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(cent|#162);", "\xa2", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&#(\d+);", "", RegexOptions.IgnoreCase);
-//             Htmlstring = Regex.Replace(Htmlstring, @"&ldquo;", "\"", RegexOptions.IgnoreCase);//保留【 “ 】的标点符合
-//             Htmlstring = Regex.Replace(Htmlstring, @"&rdquo;", "\"", RegexOptions.IgnoreCase);//保留【 ” 】的标点符合
-//             Htmlstring.Replace("<", "");
-//             Htmlstring.Replace(">", "");
-//             Htmlstring.Replace("\r\n", "");
-//             //Htmlstring = HttpContext.Current.Server.HtmlEncode(Htmlstring).Trim();
-//             return Htmlstring;
-//         }
-
+        
         private BitmapImage byteArrayToImage(byte[] byteArrayIn)
         {
             

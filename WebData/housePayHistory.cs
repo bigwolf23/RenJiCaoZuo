@@ -30,6 +30,7 @@ namespace RenJiCaoZuo.WebData
         public string name;
         public string tel;
         public string payType;
+        public string payTypeName;
         public double amount;
         public string tradeDt;
         public string orderId;

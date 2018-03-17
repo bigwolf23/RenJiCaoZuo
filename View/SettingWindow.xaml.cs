@@ -46,7 +46,10 @@ namespace RenJiCaoZuo
 
         private void ReturnMain_Button_Click(object sender, RoutedEventArgs e)
         {
-            m_pMainWindow.Show();
+            MainWindow pMainWindow = new MainWindow();
+            pMainWindow.Show();
+            //m_pMainWindow.Show();
+            
             this.Close();
         }
 

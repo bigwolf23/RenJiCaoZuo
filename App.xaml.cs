@@ -8,6 +8,7 @@ using System.Windows;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using RenJiCaoZuo.Common;
+using RenJiCaoZuo.WebData;
 
 namespace RenJiCaoZuo
 {
@@ -17,10 +18,15 @@ namespace RenJiCaoZuo
     /// 
     public partial class App : Application
     {
+        
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Application.Current.StartupUri = new Uri(@"View\mainThread.xaml", UriKind.Relative);
+            //m_AllWebData = new GetWebData();
+            Application.Current.StartupUri = new Uri(@"View\MainWindow.xaml", UriKind.Relative);
+            CommonFuntion pCommon = new CommonFuntion();
+            pCommon.setWindowsShutDown();
         }
+        
     }
 
 }

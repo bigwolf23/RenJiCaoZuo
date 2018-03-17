@@ -27,7 +27,7 @@ namespace RenJiCaoZuo
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
-            System.Diagnostics.Process.Start("osk.exe");
+            //System.Diagnostics.Process.Start("osk.exe");
         }
 
         private void Confirm_Button_Click(object sender, RoutedEventArgs e)
@@ -48,14 +48,21 @@ namespace RenJiCaoZuo
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
-            m_pMainWindow.Show();
-            this.Close(); ;
+            MainWindow pMainWindow = new MainWindow();
+            pMainWindow.Show();
+            //m_pMainWindow.Show();
+            this.Close(); 
         }
 
         private void Password_Edit_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            System.Diagnostics.Process.Start("osk.exe");
+
         }
+
+//         private void Password_Edit_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+//         {
+//             System.Diagnostics.Process.Start("osk.exe");
+//         }
 
     }
 }

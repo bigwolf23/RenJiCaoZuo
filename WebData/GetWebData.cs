@@ -41,6 +41,7 @@ namespace RenJiCaoZuo.WebData
         public string NoHTML(string Htmlstring)  //替换HTML标记
         {
             //删除脚本
+            Htmlstring = Regex.Replace(Htmlstring, @"<span[^>]*?>.*?</span>", "", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"<script[^>]*?>.*?</script>", "", RegexOptions.IgnoreCase);
             //删除HTML
             Htmlstring = Regex.Replace(Htmlstring, @"<(.[^>]*)>", "", RegexOptions.IgnoreCase);
@@ -57,8 +58,40 @@ namespace RenJiCaoZuo.WebData
             Htmlstring = Regex.Replace(Htmlstring, @"&(pound|#163);", "\xa3", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&(copy|#169);", "\xa9", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&#(\d+);", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(middot|#183);", "·", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(deg|#176);", "°", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, @"&(macr|#175);", "ˉ", RegexOptions.IgnoreCase);
             Htmlstring = Regex.Replace(Htmlstring, @"&ldquo;", "\"", RegexOptions.IgnoreCase);//保留【 “ 】的标点符合
             Htmlstring = Regex.Replace(Htmlstring, @"&rdquo;", "\"", RegexOptions.IgnoreCase);//保留【 ” 】的标点符合
+            Htmlstring = Regex.Replace(Htmlstring, "&#[^>]*;", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?marquee[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?object[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?param[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?embed[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?table[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?tr[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?th[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "<p[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</p[^>]*>", "\n\r", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?a[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?tbody[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?li[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?span[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?div[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?th[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?td[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?script[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "(javascript|jscript|vbscript|vbs):", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "on(mouse|exit|error|click|key)", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "<\\?xml[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "<\\/?[a-z]+:[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?font[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?b[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?u[^>]*>", "", RegexOptions.IgnoreCase);
+            //Htmlstring = Regex.Replace(Htmlstring, "</?i[^>]*>", "", RegexOptions.IgnoreCase);
+//            Htmlstring = Regex.Replace(Htmlstring, "</?i[^>]*>", "", RegexOptions.IgnoreCase);
+            Htmlstring = Regex.Replace(Htmlstring, "</?strong[^>]*>", "", RegexOptions.IgnoreCase);
+
             Htmlstring.Replace("<", "");
             Htmlstring.Replace(">", "");
             Htmlstring.Replace("\r\n", "");
@@ -85,22 +118,26 @@ namespace RenJiCaoZuo.WebData
         //寺庙信息
         public void GetTempleInfobyWebService()
         {
-            string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "TempleInfo_Param", "TempleInfo_id");
+            string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "Interface_Param", "Interface_id");
             if (ssTempleInfo.Length > 0)
             {
                 m_pTempInfoData = JsonConvert.DeserializeObject<TempleInfo>(ssTempleInfo);
 
-                m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
-                m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
+                if (m_pTempInfoData.body.data != null)
+                {
+                    m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
+                    m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
 
-                m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
+                    m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
+                }
+
             }
             
         }
         //大师信息
         public void GetMonkInfobyWebService()
         {
-            string ssMonkInfo = getInfoFromInterFace("MonkInfo_Interface", "MonkInfo_Param", "MonkInfo_id");
+            string ssMonkInfo = getInfoFromInterFace("MonkInfo_Interface", "Interface_Param", "Interface_id");
             if (ssMonkInfo.Length > 0)
             {
                 m_pMonkInfoData = JsonConvert.DeserializeObject<MonkInfo>(ssMonkInfo);
@@ -114,7 +151,15 @@ namespace RenJiCaoZuo.WebData
         //寺庙活动信息
         public void GetActivityInfobyWebService()
         {
-            string ssString = getInfoFromInterFace("ActivityInfo_Interface", "ActivityInfo_Param", "ActivityInfo_id");
+            if (m_pActivityInfoData.body!=null)
+            {
+                m_pActivityInfoData.success = false;
+                m_pActivityInfoData.msg = "";
+                m_pActivityInfoData.body.data.Clear();
+            }
+
+
+            string ssString = getInfoFromInterFace("ActivityInfo_Interface", "Interface_Param", "Interface_id");
             if (ssString.Length > 0)
             {
                 m_pActivityInfoData = JsonConvert.DeserializeObject<ActivityInfo>(ssString);
@@ -137,19 +182,31 @@ namespace RenJiCaoZuo.WebData
         //二维码
         public void GetqRCodeInfobyWebService()
         {
-            string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "qRCodeInfo_Param", "qRCodeInfo_id");
+            string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "Interface_Param", "Interface_id");
             if (ssString.Length > 0)
             {
                 m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);
-
-                m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
+                if (m_pqRCodeInfoData.body.data != null)
+                {
+                    m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
+                }
             }
         }
 
         //寺庙布施记录
         public void GetTemplePayHistorybyWebService()
         {
-            string ssString = getInfoFromInterFace("TemplePayHistory_Interface", "TemplePayHistory_Param", "TemplePayHistory_id");
+            if (m_pTemplePayHistoryData.body != null)
+            {
+                m_pTemplePayHistoryData.success = false;
+                m_pTemplePayHistoryData.msg = "";
+                m_pTemplePayHistoryData.errorCode = 0;
+                
+                m_pTemplePayHistoryData.body.data.Clear();
+                m_pTemplePayHistoryData.body = null;
+            }
+
+            string ssString = getInfoFromInterFace("TemplePayHistory_Interface", "Interface_Param", "Interface_id");
             if (ssString.Length > 0)
             {
                 m_pTemplePayHistoryData = JsonConvert.DeserializeObject<TemplePayHistory>(ssString);
@@ -159,6 +216,13 @@ namespace RenJiCaoZuo.WebData
         //大殿布施记录
         public void GetHousePayHistorybyWebService()
         {
+            if (m_pHousePayHistoryData.body != null)
+            {
+                m_pHousePayHistoryData.success = false;
+                m_pHousePayHistoryData.msg = "";
+                m_pHousePayHistoryData.body.data = null;
+            }
+
             string ssString = getInfoFromInterFace("housePayHistory_Interface", "housePayHistory_Param", "housePayHistory_id");
             if (ssString.Length > 0)
             { 
@@ -198,46 +262,11 @@ namespace RenJiCaoZuo.WebData
         public string getInfoFromInterFace(string Inferface_Field, string Param_Field, string Id_Field)
         {
             string strFullInterface = getFullLink(Inferface_Field, Param_Field, Id_Field);
-//             string strBaseWebLink = setBaseWebLinkPath();
-//             string strInterfaceLink = getWebInterFaceLinkPath(Inferface_Field, Param_Field, Id_Field);
-//             strFullInterface = strBaseWebLink + strInterfaceLink;
             return HttpGet(strFullInterface, Inferface_Field);
         }
-//         private void GetInfobyWebService()
-//         {
-// //             //寺庙信息
-// //             string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "TempleInfo_Param", "TempleInfo_id");
-// //             //string ssTempleInfo = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/templeInfo?templeId=61ccf194f2b24e1a8a17d5a70251d589");
-// //             //             TempleInfoData jp = (TempleInfoData)JsonConvert.DeserializeObject(ssTempleInfo);
-// // 
-// // 
-// //             //ssTempleInfo
-// //             //大师信息
-// //             string ssMonkInfo = getInfoFromInterFace("MonkInfo_Interface", "MonkInfo_Param", "MonkInfo_id");
-// //             //          string ssMonkInfo = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/monkInfo?id=6217fb65b54848679590b9478182f527");
-// // 
-// //             //寺庙活动信息
-// //             string ssActivityInfo = getInfoFromInterFace("ActivityInfo_Interface", "ActivityInfo_Param", "ActivityInfo_id");
-// // 
-// //             //          string ssActivityInfo = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/activityInfo?id=f618a2a094ca4b419e828fd7d2aeade5");
-// //             //寺庙活动详细
-// //             //string ssActivityInfo = getInfoFromInterFace("GetActivityInfo_Interface", "GetActivityInfo_Param", "GetActivityInfo_id");
-// //             //          string ssGetActivityById = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/getActivityById?id=12a9800b25e14ba190d6ba6e5a649c5d");
-// //             //二维码
-// //             string ssqRCodeInfo = getInfoFromInterFace("qRCodeInfo_Interface", "qRCodeInfo_Param", "qRCodeInfo_id");
-//             //          string ssqRCodeInfo = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/qRCodeInfo?id=20f757cbac914ec3abd9e5686038430d");
-//             //寺庙布施记录
-//             string ssTemplePayHistory = getInfoFromInterFace("TemplePayHistory_Interface", "TemplePayHistory_Param", "TemplePayHistory_id");
-//             //          string ssTemplePayHistory = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/templePayHistory?id=73ba7b2b78e74ba0ac1d31d10270994c");
-//             //大殿布施记录
-//             string sshousePayHistory = getInfoFromInterFace("housePayHistory_Interface", "housePayHistory_Param", "housePayHistory_id");
-//             //          string sshousePayHistory = HttpGet("http://39.108.244.227:8080/sim/a/pc/access/templePayHistory?id=73ba7b2b78e74ba0ac1d31d10270994c");
-// 
-//         }
 
         public string HttpGet(string url, string Inferface_Field)
         {
-            //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             try
             {
                 Encoding encoding = Encoding.UTF8;

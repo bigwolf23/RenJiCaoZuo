@@ -27,7 +27,7 @@ namespace RenJiCaoZuo
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
-            System.Diagnostics.Process.Start("osk.exe");
+            //System.Diagnostics.Process.Start("osk.exe");
         }
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)

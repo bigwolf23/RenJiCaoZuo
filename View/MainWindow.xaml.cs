@@ -29,13 +29,8 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DispatcherTimer dispatcherTimerList = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(2) };
-        private DispatcherTimer dispatcherTimerActivity = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(5) };
-        private DispatcherTimer dispatcherSrcollBarTimer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromMilliseconds (40) };
-        public GetWebData pWebData;
-        public Uri ImageFilePathUri;
+        public GetWebData m_AllWebData = new GetWebData();
 
-        Queue<PayListHistory> myPayQueue = new Queue<PayListHistory>();
         class PayListHistory
         {
             public string Name { get; set; }
@@ -43,19 +38,51 @@ namespace RenJiCaoZuo
             public double amount { get; set; }
         }
 
-        Queue<string> myActivityInfoQueue = new Queue<string>();
-        
-        public MainWindow(GetWebData setWebData)
+        public class monkinfoDisp
         {
-            pWebData = setWebData;
+            public string MonkInfoImage { get; set; }
+            public string MonkName { get; set; }
+            public string MonkInfo { get; set; }
+        }
 
-            //pWebData = null;
+        private DispatcherTimer dispatcherTimerList = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(2) };
+        private DispatcherTimer dispatcherTimerActivity = null;
+        private DispatcherTimer dispatcherSrcollBarTimer = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromMilliseconds (40) };
+        public GetWebData pWebData;
+        public Uri ImageFilePathUri;
+        private string Activity_MonkImage;
+        Queue<string> myActivityInfoQueue = new Queue<string>();
+        Queue<PayListHistory> myPayQueue = new Queue<PayListHistory>();
+        //显示法师ListView内容
+        List<monkinfoDisp> m_MonkList = new List<monkinfoDisp>();
+
+        private void setWindowsShutDown()
+        {
+            CommonFuntion pCommon = new CommonFuntion();
+            pCommon.setWindowsShutDown();
+
+        }
+        private void getPageRefreshTime()
+        {
+            string sRefreshTime = ConfigurationManager.AppSettings["PageRefreshTime"];
+            int nRefreshTime = Convert.ToInt16(sRefreshTime);
+
+            dispatcherTimerActivity = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(nRefreshTime) };
+
+        }
+        public MainWindow()
+        {
+            
+            //pWebData = Application.Current.getAllWebData();
+            getPageRefreshTime();
+            pWebData = m_AllWebData;
             InitializeComponent();
 
+            //setWindowsShutDown();
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
-
+            //this.Topmost = true;
             setDisplayByMode();
             if (pWebData!=null)
             {
@@ -73,12 +100,19 @@ namespace RenJiCaoZuo
                     setQRCodePic();
                 }
 
+                if (pWebData.m_pHousePayHistoryData.success == true)
+                {
+                    getDonateHouseContent();
+                }
                 if (pWebData.m_pTemplePayHistoryData.success == true)
                 {
-                    //获取捐赠listview的内容
+                    ////获取捐赠listview的内容
                     getDonateListContent();
                     //显示捐赠listview内容
                     displayDonateList();
+
+                    DisplayDonateListByTimer();
+                    
                 }
 
                 if (pWebData.m_pMonkInfoData.success == true)
@@ -98,7 +132,7 @@ namespace RenJiCaoZuo
                 }
             }
         }
-
+        
         private void setDisplayByMode()
         {
             string strMode = ConfigurationManager.AppSettings["FirstPageName"];
@@ -107,7 +141,7 @@ namespace RenJiCaoZuo
         }
 
         //设定法师或者活动的图片
-        private string Activity_MonkImage;
+
         private void setActivityAndMonk_Img(string strMode)
         {
             if(strMode == "1"){
@@ -150,11 +184,47 @@ namespace RenJiCaoZuo
             
 
         }
+        //
+        private void DisplayDonateListByTimer()
+        {
+            
+            //this.DonateInfo_List.ClearValue();
+            dispatcherTimerActivity.Tick += delegate
+            {
+                getDonateHouseContent();
+
+                pWebData.GetTemplePayHistorybyWebService();
+                if (pWebData.m_pTemplePayHistoryData.success == true)
+                {
+                    this.DonateInfo_List.ItemsSource = null;
+                    this.DonateInfo_List.Items.Clear();
+                    dispatcherTimerList.Stop();
+                    //获取捐赠listview的内容
+                    getDonateListContent();
+                    //显示捐赠listview内容
+                    displayDonateList();
+                }
+            };
+            dispatcherTimerActivity.Start();
+        }
+
+        //获取捐赠TextBox的内容
+        private void getDonateHouseContent()
+        {
+            pWebData.GetHousePayHistorybyWebService();
+            if (pWebData.m_pHousePayHistoryData.success == true)
+            {
+                HouseName.Text = pWebData.m_pHousePayHistoryData.body.data.name;
+                HousepayTypeName.Text = pWebData.m_pHousePayHistoryData.body.data.payTypeName;
+                Houseamount.Text = pWebData.m_pHousePayHistoryData.body.data.amount.ToString();
+            }
+        }
 
 
         //获取捐赠ListView的内容
         private void getDonateListContent()
         {
+            myPayQueue.Clear();
             foreach (TemplePayHistoryDatabody payHistTemp in pWebData.m_pTemplePayHistoryData.body.data)
             {
                 PayListHistory temp = new PayListHistory();
@@ -178,40 +248,36 @@ namespace RenJiCaoZuo
             dispatcherTimerList.Start();
         }
 
-        public class monkinfoDisp
-        {
-            public string MonkInfoImage { get; set; }
-            public string MonkInfo { get; set; }
-        }
 
-        //显示法师ListView内容
-        List<monkinfoDisp> m_MonkList = new List<monkinfoDisp>();
         private void displayMonkList()
         {
             this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
             {
                 monkinfoDisp temp = new monkinfoDisp();
-                temp.MonkInfo = MonkTemp.name + "\n\r" + MonkTemp.info;
+                temp.MonkInfo = MonkTemp.info;
                 temp.MonkInfoImage = MonkTemp.url;
+                temp.MonkName = MonkTemp.name;
                 m_MonkList.Add(temp);
             }
 
-//             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
-//             {
-//                 monkinfoDisp temp = new monkinfoDisp();
-//                 temp.MonkInfo = MonkTemp.name + "1" + "\n\r" + MonkTemp.info;
-//                 temp.MonkInfoImage = MonkTemp.url;
-//                 m_MonkList.Add(temp);
-//             }
-// 
-//             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
-//             {
-//                 monkinfoDisp temp = new monkinfoDisp();
-//                 temp.MonkInfo = MonkTemp.name + "2" + "\n\r" + MonkTemp.info;
-//                 temp.MonkInfoImage = MonkTemp.url;
-//                 m_MonkList.Add(temp);
-//             }
+            //foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+            //{
+            //    monkinfoDisp temp = new monkinfoDisp();
+            //    temp.MonkInfo = MonkTemp.info;
+            //    temp.MonkInfoImage = MonkTemp.url;
+            //    temp.MonkName = MonkTemp.name + "1";
+            //    m_MonkList.Add(temp);
+            //}
+
+            //foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+            //{
+            //    monkinfoDisp temp = new monkinfoDisp();
+            //    temp.MonkInfo = MonkTemp.info;
+            //    temp.MonkInfoImage = MonkTemp.url;
+            //    temp.MonkName = MonkTemp.name + "2";
+            //    m_MonkList.Add(temp);
+            //}
 
 
             Image img = new Image();
@@ -295,15 +361,23 @@ namespace RenJiCaoZuo
         //获取二维码
         private void setQRCodePic()
         {
-            Uri ImageFilePathUri = new Uri(pWebData.m_pqRCodeInfoData.body.data.url);
-            QRCode_Image.Source = new BitmapImage(ImageFilePathUri); 
+            if (pWebData.m_pqRCodeInfoData.body.data != null && pWebData.m_pTempInfoData.body.data.url.Length > 0)
+            {
+                Uri ImageFilePathUri = new Uri(pWebData.m_pqRCodeInfoData.body.data.url);
+                QRCode_Image.Source = new BitmapImage(ImageFilePathUri); 
+            }
+
         }
 
         //获取寺庙名字的图片
         private void setTemplInfoNamePic()
         {
-            Uri ImageFilePathUri = new Uri(pWebData.m_pTempInfoData.body.data.url);
-            TempInfo_Image.Source = new BitmapImage(ImageFilePathUri); 
+            if (pWebData.m_pTempInfoData.body.data != null && pWebData.m_pTempInfoData.body.data.url.Length > 0)
+            {
+                Uri ImageFilePathUri = new Uri(pWebData.m_pTempInfoData.body.data.url);
+                TempInfo_Image.Source = new BitmapImage(ImageFilePathUri); 
+            }
+
         }
         
 
@@ -333,7 +407,8 @@ namespace RenJiCaoZuo
                 LoginPassord LoginPasswordWin = new LoginPassord();
                 LoginPasswordWin.Show();
                 LoginPasswordWin.m_pMainWindow = this;
-                this.Hide();
+                //this.Hide();
+                this.Close();
             }
         }
 
@@ -371,8 +446,6 @@ namespace RenJiCaoZuo
 //                 };
 //                 dispatcherSrcollBarTimer.Start();
                 scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 532);
-
-               
             }
         }
 
@@ -412,11 +485,7 @@ namespace RenJiCaoZuo
 //                 };
 //                 dispatcherSrcollBarTimer.Start();
                 scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 532);
-
-
             }
-
-
         }
 
         private void Activity_Detail_Click(object sender, RoutedEventArgs e)
@@ -454,7 +523,7 @@ namespace RenJiCaoZuo
         private void TemplInfo_Detail_Click(object sender, RoutedEventArgs e)
         {
             string strDetail = @"";
-            if (pWebData.m_pTempInfoData.success == true)
+            if (pWebData.m_pTempInfoData != null && pWebData.m_pTempInfoData.success == true)
             {
                 strDetail = pWebData.m_pTempInfoData.body.data.detail;
             }

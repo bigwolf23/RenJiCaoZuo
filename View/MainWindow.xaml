@@ -24,8 +24,8 @@
         <Image Margin="74,667,946,276" Source="pack://SiteOfOrigin:,,,/Res/title03.png" Stretch="Fill" Grid.ColumnSpan="2"/>
         <Image Margin="697.791,823,150,154" Source="pack://SiteOfOrigin:,,,/Res/title.png" Stretch="Fill" RenderTransformOrigin="0.389,0.467" Grid.Column="1"/>
         <Image Margin="413.791,711,399,105" Name="QRCode_Image" Stretch="Fill" Grid.Column="1"></Image>
-        <ListView Name="MonkInfo_ListView" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="100" VerticalAlignment="Bottom" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent" Grid.ColumnSpan="2" Margin="106,0,108,436" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Cursor="None" IsEnabled="True" BorderBrush="Transparent" Visibility="Hidden">
-            
+        <ListView Name="MonkInfo_ListView" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="100" VerticalAlignment="Bottom" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent" Grid.ColumnSpan="2" Margin="106,0,108,436" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Cursor="None" IsEnabled="True" BorderBrush="Transparent" Visibility="Visible">
+
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -35,11 +35,14 @@
                 <DataTemplate >
                     <WrapPanel Orientation="Horizontal" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent">
                         <Image Source="{Binding MonkInfoImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" StretchDirection="Both" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Stretch="Fill" Margin="0" ></Image>
-                        <TextBlock Text="{Binding MonkInfo}" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="430" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" ></TextBlock>
+                        <StackPanel Orientation="Vertical" Margin="15,0,0,0">
+                            <TextBlock Text="{Binding MonkName}" Margin="0,2,0,10" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="415" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" Foreground="#FFA01E1E" ></TextBlock>
+                            <TextBlock Text="{Binding MonkInfo}" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="415" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="13" Background="Transparent" ></TextBlock>
+                        </StackPanel>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            
+
         </ListView>
 
         <ListView Name="ActivityInfo_ListView" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="100" VerticalAlignment="Bottom" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent" Grid.ColumnSpan="2" Margin="180,0,0,436" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" Cursor="None" IsEnabled="True" BorderBrush="Transparent" HorizontalAlignment="Left" Width="920">
@@ -51,7 +54,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel Orientation="Horizontal" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center">
-                         <!--<Image Source="{Binding ActivityMainImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" Height="0" StretchDirection="Both" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Stretch="Fill" Margin="0" ></Image>-->
+                        <!--<Image Source="{Binding ActivityMainImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="0" Height="0" StretchDirection="Both" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Stretch="Fill" Margin="0" ></Image>-->
                         <TextBox Text="{Binding ActivityMain}" IsReadOnly="True" Height="100" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="920" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
                         <TextBox Text="{Binding ActivityMainDetail}" IsReadOnly="True" Height="0" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="0" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
                     </WrapPanel>
@@ -85,29 +88,34 @@
         <TextBlock x:Name="TemplInfo_TextBlock"  TextTrimming="CharacterEllipsis" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="98" Margin="106,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1060" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontWeight="Medium" TextOptions.TextHintingMode="Fixed" Style="{DynamicResource 'FZXKJW'}" FontSize="18"/>
         <Label x:Name="ActivityInfo_Label" HorizontalAlignment="Left" Height="40" Margin="332,41,0,0" VerticalAlignment="Top" Width="582" ScrollViewer.VerticalScrollBarVisibility="Disabled" FontWeight="Medium" TextOptions.TextHintingMode="Fixed" Style="{DynamicResource 'FZXKJW'}" FontSize="18" Grid.Column="1" Foreground="#FFF9F3F3" VerticalContentAlignment="Center"/>
         <Label Content="注意：请在手机支付的【添加备注信息】内留下施主的姓名。" Grid.Column="1" HorizontalAlignment="Left" Height="41" Margin="414,919,0,0" VerticalAlignment="Top" Width="500" Style="{DynamicResource FZXKJW}" VerticalContentAlignment="Center" Foreground="Red" FontSize="18"/>
-        <ListView x:Name="DonateInfo_List" HorizontalAlignment="Left" Height="200" Margin="102,739,0,0" VerticalAlignment="Top" Width="464" Grid.ColumnSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent" IsEnabled="True">
-            <!--<ListView.View>
-                <GridView  ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
-                    <GridViewColumn Width="220" Header="Name" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
-                    <GridViewColumn Width="120" Header="payTypeName" DisplayMemberBinding="{Binding Path=payTypeName}"></GridViewColumn>
-                    <GridViewColumn Width="100" Header="amount" DisplayMemberBinding="{Binding Path=amount}"></GridViewColumn>
-                </GridView>
-            </ListView.View>-->
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Height="40" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" Style="{DynamicResource FZXKJW}" >
-                        <TextBox Text="{Binding Name}" IsReadOnly="True" Height="30" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="220" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
-                        <TextBox Text="{Binding payTypeName}" IsReadOnly="True" Height="30" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="120" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
-                        <TextBox Text="{Binding amount}" IsReadOnly="True" Height="30" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="100" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" ></TextBox>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackPanel Orientation="Vertical" Height="212" Margin="93,743,702,69" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" Style="{DynamicResource FZXKJW}" Grid.ColumnSpan="2" >
+            <StackPanel Orientation="Horizontal" Height="30" Margin="12,0,10,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" >
+                <TextBox x:Name="HouseName" Text="" IsReadOnly="True" Height="25" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="220" Style="{DynamicResource FZXKJW}" FontSize="20" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" Foreground="#FFA01E1E" />
+                <TextBox x:Name="HousepayTypeName" Text="" IsReadOnly="True" Height="25" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="120" Style="{DynamicResource FZXKJW}" FontSize="20" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" Foreground="#FFA01E1E" />
+                <TextBox x:Name="Houseamount" Text="" IsReadOnly="True" Height="25" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="100" Style="{DynamicResource FZXKJW}" FontSize="20" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" Margin="0,2" Foreground="#FFA01E1E" />
+            </StackPanel>
+            <Line xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+                        X1="10" Y1="1"  
+                        X2="440" Y2="1"  
+                        Stroke="#FFA01E1E" StrokeDashArray="2, 2"  
+                        StrokeThickness="2" />
+            <ListView x:Name="DonateInfo_List" HorizontalAlignment="Left" Height="180" Margin="10,0,0,0" VerticalAlignment="Top" Width="464" Grid.ColumnSpan="2" ScrollViewer.HorizontalScrollBarVisibility="Hidden" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Auto" Style="{DynamicResource FZXKJW}" FontSize="18" BorderThickness="0" Background="Transparent" IsEnabled="True">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="30" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" Style="{DynamicResource FZXKJW}" >
+                            <TextBox Text="{Binding Name}" IsReadOnly="True" Height="20" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="220" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" />
+                            <TextBox Text="{Binding payTypeName}" IsReadOnly="True" Height="20" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="120" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" />
+                            <TextBox Text="{Binding amount}" IsReadOnly="True" Height="20" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="100" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
         <Button x:Name="Activity_Detail" Content="" HorizontalAlignment="Left" Height="45" Margin="779,423,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.473,0.08" Click="Activity_Detail_Click" Grid.Column="1">
             <Button.Background>
                 <ImageBrush ImageSource="pack://SiteOfOrigin:,,,/Res/btn.png" Stretch="Fill"/>
