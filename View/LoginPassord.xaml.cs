@@ -20,7 +20,13 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class LoginPassord : Window
     {
-        public Window m_pMainWindow;
+        private mainThread _parentWin;
+        public mainThread ParentWindow
+        {
+            get { return _parentWin; }
+            set { _parentWin = value; }
+        }
+
         public LoginPassord()
         {
             InitializeComponent();
@@ -36,7 +42,7 @@ namespace RenJiCaoZuo
             if (strPassword == Password_Edit.Password)
             {
                 SettingWindow SettingWindowWin = new SettingWindow();
-                SettingWindowWin.m_pMainWindow = m_pMainWindow;
+                SettingWindowWin.ParentWindow = ParentWindow;
                 SettingWindowWin.Show();
                 this.Close();
             }
@@ -49,6 +55,7 @@ namespace RenJiCaoZuo
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow pMainWindow = new MainWindow();
+            pMainWindow.ParentWindow = ParentWindow;
             pMainWindow.Show();
             //m_pMainWindow.Show();
             this.Close(); 
@@ -58,11 +65,6 @@ namespace RenJiCaoZuo
         {
 
         }
-
-//         private void Password_Edit_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
-//         {
-//             System.Diagnostics.Process.Start("osk.exe");
-//         }
 
     }
 }

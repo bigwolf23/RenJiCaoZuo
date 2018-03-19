@@ -22,7 +22,7 @@ namespace RenJiCaoZuo
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //m_AllWebData = new GetWebData();
-            Application.Current.StartupUri = new Uri(@"View\MainWindow.xaml", UriKind.Relative);
+            Application.Current.StartupUri = new Uri(@"View\mainThread.xaml", UriKind.Relative);
             CommonFuntion pCommon = new CommonFuntion();
             pCommon.setWindowsShutDown();
         }

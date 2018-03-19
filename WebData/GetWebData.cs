@@ -182,7 +182,7 @@ namespace RenJiCaoZuo.WebData
         //二维码
         public void GetqRCodeInfobyWebService()
         {
-            string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "Interface_Param", "Interface_id");
+            string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "housePayHistory_Param", "housePayHistory_id");
             if (ssString.Length > 0)
             {
                 m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);

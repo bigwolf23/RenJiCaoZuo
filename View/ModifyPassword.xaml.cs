@@ -20,6 +20,13 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class ModifyPassword : Window
     {
+        private mainThread _parentWin;
+        public mainThread ParentWindow
+        {
+            get { return _parentWin; }
+            set { _parentWin = value; }
+        }
+
         public Window m_pUpperWindow;
         public ModifyPassword()
         {

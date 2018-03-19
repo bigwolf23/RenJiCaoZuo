@@ -19,7 +19,13 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class SettingWindow : Window
     {
-        public Window m_pMainWindow;
+        private mainThread _parentWin;
+        public mainThread ParentWindow
+        {
+            get { return _parentWin; }
+            set { _parentWin = value; }
+        }
+
         public SettingWindow()
         {
             InitializeComponent();
@@ -47,6 +53,7 @@ namespace RenJiCaoZuo
         private void ReturnMain_Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow pMainWindow = new MainWindow();
+            pMainWindow.ParentWindow = ParentWindow;
             pMainWindow.Show();
             //m_pMainWindow.Show();
             

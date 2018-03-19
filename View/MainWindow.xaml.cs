@@ -29,7 +29,12 @@ namespace RenJiCaoZuo
     /// </summary>
     public partial class MainWindow : Window
     {
-        public GetWebData m_AllWebData = new GetWebData();
+        private mainThread _parentWin;
+        public mainThread ParentWindow
+        {
+            get { return _parentWin; }
+            set { _parentWin = value; }
+        }
 
         class PayListHistory
         {
@@ -74,8 +79,6 @@ namespace RenJiCaoZuo
         {
             
             //pWebData = Application.Current.getAllWebData();
-            getPageRefreshTime();
-            pWebData = m_AllWebData;
             InitializeComponent();
 
             //setWindowsShutDown();
@@ -83,8 +86,16 @@ namespace RenJiCaoZuo
             this.Left = 0;
             this.Top = 0;
             //this.Topmost = true;
+            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            getPageRefreshTime();
+
+            pWebData = ParentWindow.AllWebData;
             setDisplayByMode();
-            if (pWebData!=null)
+            if (pWebData != null)
             {
                 if (pWebData.m_pTempInfoData.success == true)
                 {
@@ -112,7 +123,7 @@ namespace RenJiCaoZuo
                     displayDonateList();
 
                     DisplayDonateListByTimer();
-                    
+
                 }
 
                 if (pWebData.m_pMonkInfoData.success == true)
@@ -132,7 +143,7 @@ namespace RenJiCaoZuo
                 }
             }
         }
-        
+
         private void setDisplayByMode()
         {
             string strMode = ConfigurationManager.AppSettings["FirstPageName"];
@@ -193,12 +204,13 @@ namespace RenJiCaoZuo
             {
                 getDonateHouseContent();
 
+                dispatcherTimerList.Stop();
+                this.DonateInfo_List.ItemsSource = null;
+                this.DonateInfo_List.Items.Clear();
+
                 pWebData.GetTemplePayHistorybyWebService();
                 if (pWebData.m_pTemplePayHistoryData.success == true)
                 {
-                    this.DonateInfo_List.ItemsSource = null;
-                    this.DonateInfo_List.Items.Clear();
-                    dispatcherTimerList.Stop();
                     //获取捐赠listview的内容
                     getDonateListContent();
                     //显示捐赠listview内容
@@ -240,12 +252,15 @@ namespace RenJiCaoZuo
         private void displayDonateList()
         {
             this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
-            dispatcherTimerList.Tick += delegate
+            if (myPayQueue.Count > 0)
             {
-                myPayQueue.Enqueue(myPayQueue.Dequeue());  // 把队列中派头的放到队尾
-                this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
-            };
-            dispatcherTimerList.Start();
+                dispatcherTimerList.Tick += delegate
+                {
+                    myPayQueue.Enqueue(myPayQueue.Dequeue());  // 把队列中派头的放到队尾
+                    this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
+                };
+                dispatcherTimerList.Start();
+            }
         }
 
 
@@ -322,6 +337,24 @@ namespace RenJiCaoZuo
                 m_pActivityListInfo.Add(pTemp);
                 myActivityInfoQueue.Enqueue(ActivityInfTemp.activity);
             }
+
+//             foreach (ActivityInfoDatabody ActivityInfTemp in pWebData.m_pActivityInfoData.body.data)
+//             {
+//                 ActivityList pTemp = new ActivityList();
+//                 pTemp.ActivityMain =  "1" + ActivityInfTemp.activity ;
+//                 pTemp.ActivityMainDetail = "1" + ActivityInfTemp.detail;
+//                 m_pActivityListInfo.Add(pTemp);
+//                 myActivityInfoQueue.Enqueue(ActivityInfTemp.activity);
+//             }
+// 
+//             foreach (ActivityInfoDatabody ActivityInfTemp in pWebData.m_pActivityInfoData.body.data)
+//             {
+//                 ActivityList pTemp = new ActivityList();
+//                 pTemp.ActivityMain = "2" + ActivityInfTemp.activity;
+//                 pTemp.ActivityMainDetail = "2" + ActivityInfTemp.detail;
+//                 m_pActivityListInfo.Add(pTemp);
+//                 myActivityInfoQueue.Enqueue(ActivityInfTemp.activity);
+//             }
 
             this.ActivityInfo_ListView.ItemsSource = m_pActivityListInfo.ToList();
         }
@@ -405,8 +438,9 @@ namespace RenJiCaoZuo
                 timer.IsEnabled = false;
                 nCount = 0;
                 LoginPassord LoginPasswordWin = new LoginPassord();
+                LoginPasswordWin.ParentWindow = ParentWindow;
                 LoginPasswordWin.Show();
-                LoginPasswordWin.m_pMainWindow = this;
+
                 //this.Hide();
                 this.Close();
             }
@@ -514,7 +548,7 @@ namespace RenJiCaoZuo
                 //strDetail = pWebData.m_pActivityInfoData.body.data.info.ToString();
             }
 
-            Introduction IntroductionWin = new Introduction(strDetail);
+            Introduction IntroductionWin = new Introduction(strDetail,2);
             IntroductionWin.Owner = this;
             IntroductionWin.ShowDialog();
 
@@ -528,7 +562,7 @@ namespace RenJiCaoZuo
                 strDetail = pWebData.m_pTempInfoData.body.data.detail;
             }
 
-            Introduction IntroductionWin = new Introduction(strDetail);
+            Introduction IntroductionWin = new Introduction(strDetail,1);
             IntroductionWin.Owner = this;
             IntroductionWin.ShowDialog();
         }
@@ -539,7 +573,10 @@ namespace RenJiCaoZuo
             var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
             var scroll = svap.Owner as ScrollViewer;
             //scroll. .LineRight();
-            scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 922);
+            if ((m_pActivityListInfo.Count > 1) && (scroll.HorizontalOffset / 926) >= 0)
+            {
+                scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 926);
+            }
         }
 
         private void ActivityInfo_Next_Button_Click(object sender, RoutedEventArgs e)
@@ -548,7 +585,17 @@ namespace RenJiCaoZuo
             var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
             var scroll = svap.Owner as ScrollViewer;
             //scroll. .LineRight();
-            scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 922);
+            if ((m_pActivityListInfo.Count > 1) && (scroll.HorizontalOffset / 926) <= (m_pActivityListInfo.Count - 2))
+            {
+                scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 926);
+            }
+//             if ((m_pActivityListInfo.Count > 1) && (scroll.HorizontalOffset + 926) >= 0)
+//             {
+//                 scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 926);
+//             }
+            
         }
+
+
     }
 }

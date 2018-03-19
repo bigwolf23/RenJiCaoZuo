@@ -88,6 +88,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\LogHelper.cs" />
+    <Compile Include="View\mainThread.xaml.cs">
+      <DependentUpon>mainThread.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WebData\HousePayHistory.cs" />
     <Compile Include="WebData\TemplePayHistory.cs" />
     <Compile Include="WebData\qRCodeInfoInfo.cs" />
@@ -100,6 +103,10 @@
     <Page Include="View\Introduction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\mainThread.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

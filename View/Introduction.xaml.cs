@@ -28,13 +28,82 @@ namespace RenJiCaoZuo
         private int m_TimeCount ;
         public string Activity_content;
 
-        public Introduction(string AllTempInfo)
+        public Introduction(string AllTempInfo,int nMod)
         {
             InitializeComponent();
+            if (nMod == 2)
+            {
+                 this.TitleName.Source = new BitmapImage(new Uri("pack://SiteOfOrigin:,,,/Res/title04.png")); 
+            }
             setButtonAndTimer();
             setAllTempleInfoText(AllTempInfo);            
         }
 
+        private void setTextControl(string sText)
+        {
+            TextBlock sTextBlock1 = new TextBlock();
+            // RichTextBox 
+            sTextBlock1.Text = sText;
+            sTextBlock1.HorizontalAlignment = HorizontalAlignment.Left;
+            sTextBlock1.TextWrapping = TextWrapping.Wrap;
+            sTextBlock1.VerticalAlignment = VerticalAlignment.Top;
+            //sTextBlock1.Margin =  "32,10,0,0";
+            //sTextBlock1.FontWeight = 18;
+            int nFontCollum = 59;
+            sTextBlock1.FontSize = 18;
+            sTextBlock1.LineHeight = 27;
+            sTextBlock1.Width = nFontCollum * sTextBlock1.FontSize;
+
+            int nReturn = getReturnNumber(sText);
+            double nHeight = (((sTextBlock1.Text.Length / nFontCollum) + nReturn *2) * sTextBlock1.LineHeight ) ;
+            sTextBlock1.Height = ((nHeight == 0) ? sTextBlock1.LineHeight : nHeight);
+
+            //sTextBlock1.Width = 300;
+            //sTextBlock1.ScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            //sTextBlock1.FontFamily = new Uri("");
+//             sTextBlock1.Style = 
+//             Style="{DynamicResource FZXKJW}"
+//             sTextBlock1.Style = 
+            //sTextBlock1.TextOptions.TextHintingMode = TextHintingMode.Fixed;
+            
+            //sTextBlock1.Padding = "0,0,0,3";
+            this.addControl.Children.Add(sTextBlock1);
+            
+        }
+        private int getReturnNumberByKey(string sText,string Key)
+        {
+            int nCount = 0;
+            string sTempText = sText;
+            string strtempa = Key;
+            while (true)
+            {
+                int IndexofA = sTempText.IndexOf(strtempa);
+
+                if (IndexofA == -1)
+                {
+                    break;
+                }
+                sTempText = sTempText.Substring(IndexofA + Key.Length, sTempText.Length - IndexofA - Key.Length);
+                nCount++;
+
+            }
+            return nCount;
+        }
+        private int getReturnNumber(string sText)
+        {
+            int nCount = getReturnNumberByKey(sText, "\r\n") + getReturnNumberByKey(sText, "\n\r"); ;
+            return nCount;
+        }
+        private void setImgControl(BitmapImage Pic_img)
+        {
+            Image sImage = new Image();
+            sImage.Width = Pic_img.PixelWidth > 680 ? 540 : Pic_img.PixelWidth; ;
+            sImage.Height = Pic_img.PixelHeight > 480 ? 480 : Pic_img.PixelHeight;
+            sImage.Stretch = Stretch.Fill;
+            sImage.Source = Pic_img;
+            sImage.HorizontalAlignment = HorizontalAlignment.Left;
+            this.addControl.Children.Add(sImage);
+        }
         /// <summary>
         /// 定时器回调函数
         /// </summary>
@@ -48,53 +117,60 @@ namespace RenJiCaoZuo
             }
 
             string Wenzi = AllTempInfo;
+            
 
             Wenzi = Wenzi.TrimStart((char[])"\n\r".ToCharArray());
 
-
-
             string strtempa = "<img src=\"data:image/jpeg;base64,";
             string strtempb = ">";
-            //string strtempb = "\" ";
-            int IndexofA = Wenzi.IndexOf(strtempa);
-            int IndexofB = Wenzi.IndexOf(strtempb);
-            string ImgString = null;
-            if (IndexofA != -1 && IndexofB != -1)
+            int nKeyLength = strtempa.Length;
+            int nFound = 0;
+            while(true)
             {
-                int nLength = strtempa.Length;
-                ImgString = Wenzi.Substring(IndexofA , IndexofB - IndexofA - nLength);
-                Wenzi = Wenzi.Substring(IndexofB + 1, Wenzi.Length - IndexofB - 1);
-            }
+                int IndexofA = Wenzi.IndexOf(strtempa);
+                int IndexofB = Wenzi.IndexOf(strtempb);
+                string ImgString = null;
+                if (IndexofA == -1)
+                {
+                    setTextControl(Wenzi);
+                    break;
+                }
 
+                if (IndexofA != -1 && IndexofB != -1)
+                {
+                    if (IndexofA > 0)
+                    {
+                        string WenziFirst = Wenzi.Substring(0, IndexofA);
+                        setTextControl(WenziFirst);
+                    }
+
+                    ImgString = Wenzi.Substring(IndexofA, IndexofB - IndexofA - nKeyLength);
+                    Wenzi = Wenzi.Substring(IndexofB + 1, Wenzi.Length - IndexofB - 1);
+
+                    nFound = IndexofB;
+                    seprateImg(ImgString);
+                }
+            }
+            
+            
+           
+        }
+
+        private void seprateImg(string ImgString)
+        {
             if (ImgString != null && ImgString.Length > 0)
             {
-                strtempa = "<img src=\"data:image/jpeg;base64,";
-                strtempb = "\" ";
+                string strtempa = "<img src=\"data:image/jpeg;base64,";
+                string strtempb = "\" ";
                 //string strtempb = "\" ";
-                IndexofA = ImgString.IndexOf(strtempa);
-                IndexofB = ImgString.IndexOf(strtempb);
+                int IndexofA = ImgString.IndexOf(strtempa);
+                int IndexofB = ImgString.IndexOf(strtempb);
                 int nLength = strtempa.Length;
                 ImgString = ImgString.Substring(IndexofA + nLength, IndexofB - IndexofA - nLength);
                 BitmapImage Pic_img = byteArrayToImage(Convert.FromBase64String(ImgString));
-                this.TempInfo_Img.Source = Pic_img;
-
-
-                this.TempInfo_Img.Height = Pic_img.PixelHeight > 600 ? 600 : Pic_img.PixelHeight;
-                if (Pic_img.PixelWidth > 787)
-                {
-                    this.TempInfo_Img.Width = 680;
-                }
-                else
-                {
-                    this.TempInfo_Img.Width = Pic_img.PixelWidth;
-                }
+                setImgControl(Pic_img);
             }
-
-            All_TemplInfo_TextBlock.Text = Wenzi;
-            
-
         }
-
 
         /// <summary>
         /// 定时器回调函数

@@ -23,6 +23,13 @@ namespace RenJiCaoZuo
     public partial class ShutDownSetting : Window
     {
         bool bReset;
+        private mainThread _parentWin;
+        public mainThread ParentWindow
+        {
+            get { return _parentWin; }
+            set { _parentWin = value; }
+        }
+
         public Window m_pUpperWindow;
         public ShutDownSetting()
         {
