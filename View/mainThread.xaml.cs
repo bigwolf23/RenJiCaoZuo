@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Text.RegularExpressions;
 using RenJiCaoZuo.Common;
 using RenJiCaoZuo.WebData;
+using Ezhu.AutoUpdater;
 
 namespace RenJiCaoZuo
 {

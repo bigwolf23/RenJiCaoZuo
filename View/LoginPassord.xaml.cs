@@ -27,6 +27,7 @@ namespace RenJiCaoZuo
             set { _parentWin = value; }
         }
 
+
         public LoginPassord()
         {
             InitializeComponent();
