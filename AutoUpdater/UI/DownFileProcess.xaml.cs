@@ -27,7 +27,8 @@ namespace Ezhu.AutoUpdater.UI
                         p.Kill();
                     }
                 }
-
+                YesButton.Content = "现在更新";
+                NoButton.Content = "暂不更新";
                 DownloadUpdateFile();
 
 //                 YesButton.Content = "现在更新";
@@ -52,9 +53,9 @@ namespace Ezhu.AutoUpdater.UI
 //                 {
 //                     this.Close();
 //                 };
-
-                this.txtProcess.Text = this.appName + "发现新的版本(" + this.appVersion + "),现在正在更新中";
-                txtDes.Text = this.desc;
+// 
+//                 this.txtProcess.Text = this.appName + "发现新的版本(" + this.appVersion + "),现在正在更新中";
+//                 txtDes.Text = this.desc;
             };
             this.callExeName = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(callExeName));
             this.updateFileDir = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(updateFileDir));
@@ -75,6 +76,7 @@ namespace Ezhu.AutoUpdater.UI
 
         public void DownloadUpdateFile()
         {
+            MessageBox.Show(@"Download Stop");
             string url = Constants.RemoteUrl + callExeName + "/update.zip";
             var client = new System.Net.WebClient();
             client.DownloadProgressChanged += (sender, e) =>
@@ -99,6 +101,8 @@ namespace Ezhu.AutoUpdater.UI
                     this.Dispatcher.Invoke(f);
 
                     string tempDir = System.IO.Path.Combine(updateFileDir, "temp");
+
+                    MessageBox.Show(tempDir);
                     if (!Directory.Exists(tempDir))
                     {
                         Directory.CreateDirectory(tempDir);
@@ -111,6 +115,8 @@ namespace Ezhu.AutoUpdater.UI
                     {
                         CopyDirectory(System.IO.Path.Combine(tempDir,"App"),appDir);
                     }
+
+                    MessageBox.Show(appDir);
 
                     f = () =>
                     {

@@ -145,6 +145,7 @@ namespace RenJiCaoZuo.WebData
                 foreach (MonkInfoDatabody temp in m_pMonkInfoData.body.data)
                 {
                     temp.url = getFullpathPicLink(temp.url);
+                    temp.detail = NoHTML(temp.detail);
                 }
             }
         }

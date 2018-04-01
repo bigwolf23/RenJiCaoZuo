@@ -34,5 +34,6 @@ namespace RenJiCaoZuo.WebData
         public string info { get; set; }
         public string url { get; set; }
         public string paixu { get; set; }
+        public string detail { get; set; }
     }
 }

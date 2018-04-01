@@ -40,20 +40,20 @@ namespace RenJiCaoZuo
 
             string strShutDownTime = ConfigurationManager.AppSettings["ShutDownTime"];
             ShuDownTime_Edit.Text = strShutDownTime;
-            bReset = true;
+/*            bReset = true;*/
         }
 
         private void ResetTime_Button_Click(object sender, RoutedEventArgs e)
         {
             string strShutDownTime = ShuDownTime_Edit.Text;
-            if (bReset == true)
-            {
-                bReset = false;
-                string strShutDownTimeDefault = ConfigurationManager.AppSettings["DefaultShutDownTime"];
-                ShuDownTime_Edit.Text = strShutDownTimeDefault;
-                strShutDownTime = strShutDownTimeDefault;
-                ResetTime_Button.Content = @"确认";
-            }
+//             if (bReset == true)
+//             {
+//                 bReset = false;
+//                 string strShutDownTimeDefault = ConfigurationManager.AppSettings["DefaultShutDownTime"];
+//                 ShuDownTime_Edit.Text = strShutDownTimeDefault;
+//                 strShutDownTime = strShutDownTimeDefault;
+//                 ResetTime_Button.Content = @"确认";
+//             }
 
             Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             cfa.AppSettings.Settings["ShutDownTime"].Value = strShutDownTime;

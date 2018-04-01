@@ -41,8 +41,8 @@ namespace RenJiCaoZuo
         
         public void callMainPage()
         {
-            MainWindow MainWindowWin = new MainWindow();
-            MainWindowWin.ParentWindow = this;
+            MainWindow MainWindowWin = new MainWindow(this);
+            //MainWindowWin.ParentWindow = this;
             MainWindowWin.Show();
         }
     }

@@ -29,13 +29,13 @@
                 <!--<Setter Property="BorderBrush" 
                                     Value="{StaticResource ResourceKey= ItemSelectedColor}"/>-->
             </Trigger>
-            <Trigger Property="IsSelected" Value="True">
+            <Trigger Property="IsSelected" Value="False">
                 <Setter Property="Background"
                                     Value="Transparent"/>
                 <Setter Property="BorderThickness" 
                                     Value="0"/>
-                <!--<Setter Property="Foreground"
-                                    Value="Black"/>-->
+                <Setter Property="Foreground"
+                                    Value="Black"/>
             </Trigger>
         </Style.Triggers>
 

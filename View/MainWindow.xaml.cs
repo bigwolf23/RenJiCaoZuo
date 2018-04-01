@@ -48,6 +48,7 @@ namespace RenJiCaoZuo
             public string MonkInfoImage { get; set; }
             public string MonkName { get; set; }
             public string MonkInfo { get; set; }
+            public int MonkInfoIndex { get; set; }
         }
 
         //获取寺庙活动的内容
@@ -74,6 +75,7 @@ namespace RenJiCaoZuo
         Queue<PayListHistory> myPayQueue = new Queue<PayListHistory>();
         //显示法师ListView内容
         List<monkinfoDisp> m_MonkList = new List<monkinfoDisp>();
+        private Dictionary<int, string> m_MonkinfoDetail = new Dictionary<int, string>();
         //显示活动横向list内容
         List<ActivityList> m_pActivityListInfo = new List<ActivityList>();
 
@@ -91,24 +93,18 @@ namespace RenJiCaoZuo
             dispatcherTimerRefresh = new System.Windows.Threading.DispatcherTimer() { Interval = TimeSpan.FromSeconds(nRefreshTime) };
 
         }
-        public MainWindow()
+        public MainWindow(Window ParentWindowTemp)
         {
             
             //pWebData = Application.Current.getAllWebData();
             InitializeComponent();
-
+            ParentWindow = (mainThread)ParentWindowTemp;
             //setWindowsShutDown();
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
             //this.Topmost = true;
-            
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            getPageRefreshTime();
-
+            //TemplInfo_TextBlock.Text = @"汉皇重色思倾国，御宇多年求不得。杨家有女初长成，养在深闺人未识。天生丽质难自弃，一朝选在君王侧。回眸一笑百媚生，六宫粉黛无颜色。春寒赐浴华清池，温泉水滑洗凝脂。侍儿扶起娇无力，始是新承恩泽时。云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。侍儿扶起娇无力，始是新承恩泽时。云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。侍儿扶起娇无力，始是新承恩泽时。云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。侍儿扶起娇无力，始是新承恩泽时。云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。侍儿扶起娇无力，始是新承恩泽时。云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。侍儿扶起娇无力，始是新承恩泽时。云鬓花颜金步摇，芙蓉帐暖度春宵。春宵苦短日高起，从此君王不早朝。";
             pWebData = ParentWindow.AllWebData;
             setDisplayByMode();
             if (pWebData != null)
@@ -120,7 +116,7 @@ namespace RenJiCaoZuo
                     //设定寺院名字的图片
                     setTemplInfoNamePic();
                 }
-
+                getPageRefreshTime();
                 if (pWebData.m_pqRCodeInfoData.success == true)
                 {
                     //设定二维码
@@ -138,7 +134,7 @@ namespace RenJiCaoZuo
                     //显示捐赠listview内容
                     displayDonateList();
 
-//                     DisplayDonateListByTimer();
+                    //                     DisplayDonateListByTimer();
 
                 }
 
@@ -158,6 +154,12 @@ namespace RenJiCaoZuo
                     DisplayActiveInfoContentInList();
                 }
             }
+            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private void setDisplayByMode()
@@ -255,17 +257,13 @@ namespace RenJiCaoZuo
         //获取捐赠ListView的内容
         private void getDonateListContent()
         {
-            int i = 0;
             myPayQueue.Clear();
             foreach (TemplePayHistoryDatabody payHistTemp in pWebData.m_pTemplePayHistoryData.body.data)
             {
-                i++;
                 PayListHistory temp = new PayListHistory();
                 temp.amount = payHistTemp.amount;
-                //temp.Name = i.ToString()+payHistTemp.name;
                 temp.Name = payHistTemp.name;
                 temp.payTypeName = payHistTemp.payTypeName;
-                //temp.payTypeName = @"布施捐款";
                 myPayQueue.Enqueue(temp);
             }            
         }
@@ -380,32 +378,42 @@ namespace RenJiCaoZuo
         private void displayMonkList()
         {
             this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
+            int nIndex = 0;
             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
             {
+                nIndex++;
                 monkinfoDisp temp = new monkinfoDisp();
                 temp.MonkInfo = MonkTemp.info;
                 temp.MonkInfoImage = MonkTemp.url;
                 temp.MonkName = MonkTemp.name;
+                temp.MonkInfoIndex = nIndex;
                 m_MonkList.Add(temp);
+
+                m_MonkinfoDetail.Add(nIndex, MonkTemp.detail);
+
             }
 
-            //foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
-            //{
-            //    monkinfoDisp temp = new monkinfoDisp();
-            //    temp.MonkInfo = MonkTemp.info;
-            //    temp.MonkInfoImage = MonkTemp.url;
-            //    temp.MonkName = MonkTemp.name + "1";
-            //    m_MonkList.Add(temp);
-            //}
-
-            //foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
-            //{
-            //    monkinfoDisp temp = new monkinfoDisp();
-            //    temp.MonkInfo = MonkTemp.info;
-            //    temp.MonkInfoImage = MonkTemp.url;
-            //    temp.MonkName = MonkTemp.name + "2";
-            //    m_MonkList.Add(temp);
-            //}
+//             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+//             {
+//                 nIndex++;
+//                 monkinfoDisp temp = new monkinfoDisp();
+//                 temp.MonkInfo = MonkTemp.info;
+//                 temp.MonkInfoImage = MonkTemp.url;
+//                 temp.MonkName = MonkTemp.name + "1";
+//                 temp.MonkInfoIndex = nIndex;
+//                 m_MonkList.Add(temp); m_MonkinfoDetail.Add(nIndex, MonkTemp.detail);
+//             }
+// 
+//             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
+//             {
+//                 nIndex++;
+//                 monkinfoDisp temp = new monkinfoDisp();
+//                 temp.MonkInfo = MonkTemp.info;
+//                 temp.MonkInfoImage = MonkTemp.url;
+//                 temp.MonkName = MonkTemp.name + "2";
+//                 temp.MonkInfoIndex = nIndex;
+//                 m_MonkList.Add(temp); m_MonkinfoDetail.Add(nIndex, MonkTemp.detail);
+//             }
 
 
             Image img = new Image();
@@ -426,17 +434,21 @@ namespace RenJiCaoZuo
             }
 
 
-            this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
+             this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
         }
 
 
         //获取二维码
         private void setQRCodePic()
         {
-            if (pWebData.m_pqRCodeInfoData.body.data != null && pWebData.m_pTempInfoData.body.data.url.Length > 0)
+            if (pWebData.m_pqRCodeInfoData.body.data != null )
             {
-                Uri ImageFilePathUri = new Uri(pWebData.m_pqRCodeInfoData.body.data.url);
-                QRCode_Image.Source = new BitmapImage(ImageFilePathUri); 
+                if (pWebData.m_pqRCodeInfoData.body.data.url.Length > 0)
+                {
+                    Uri ImageFilePathUri = new Uri(pWebData.m_pqRCodeInfoData.body.data.url);
+                    QRCode_Image.Source = new BitmapImage(ImageFilePathUri); 
+                }
+
             }
 
         }
@@ -459,6 +471,7 @@ namespace RenJiCaoZuo
             if (pWebData.m_pTempInfoData.success != false && pWebData.m_pTempInfoData.body.data != null)
             {
                 TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString();
+                //TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString() + pWebData.m_pTempInfoData.body.data.info.ToString();
             }
         }
 
@@ -612,7 +625,6 @@ namespace RenJiCaoZuo
             ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
             var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
             var scroll = svap.Owner as ScrollViewer;
-            //scroll. .LineRight();
             if ((m_pActivityListInfo.Count > 1) && (scroll.HorizontalOffset / 926) >= 0)
             {
                 scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 926);
@@ -624,29 +636,50 @@ namespace RenJiCaoZuo
             ListViewAutomationPeer lvap = new ListViewAutomationPeer(ActivityInfo_ListView);
             var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
             var scroll = svap.Owner as ScrollViewer;
-            //scroll. .LineRight();
             if ((m_pActivityListInfo.Count > 1) && (scroll.HorizontalOffset / 926) <= (m_pActivityListInfo.Count - 2))
             {
                 scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset + 926);
             }
-//             if ((m_pActivityListInfo.Count > 1) && (scroll.HorizontalOffset + 926) >= 0)
-//             {
-//                 scroll.ScrollToHorizontalOffset(scroll.HorizontalOffset - 926);
-//             }
             
         }
 
         private void ActivityInfo_Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            
+        }
+
+        private void ActivityInfo_Label_MouseUp(object sender, MouseButtonEventArgs e)
+        {
             string strDetail = strActivityInfoDetail;
 
-            //ActivityInfo_Label.DataContext;
             if (strDetail.Length > 0)
             {
                 Introduction IntroductionWin = new Introduction(strDetail, 2);
                 IntroductionWin.Owner = this;
                 IntroductionWin.ShowDialog();
             }
+        }
+
+
+        private void MonkInfo_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            monkinfoDisp emp = MonkInfo_ListView.SelectedItem as monkinfoDisp;
+            if (emp != null)
+            {
+                if(m_MonkinfoDetail.ContainsKey(emp.MonkInfoIndex))
+                {
+                    string strDetail = m_MonkinfoDetail[emp.MonkInfoIndex];
+                    if (strDetail.Length > 0)
+                    {
+                        Introduction IntroductionWin = new Introduction(strDetail, 3);
+                        IntroductionWin.Owner = this;
+                        IntroductionWin.ShowDialog();
+                    }
+                }
+                MonkInfo_ListView.UnselectAll();
+            }
+
         }
 
 

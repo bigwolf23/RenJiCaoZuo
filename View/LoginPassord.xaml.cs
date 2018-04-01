@@ -55,7 +55,7 @@ namespace RenJiCaoZuo
 
         private void Return_Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow pMainWindow = new MainWindow();
+            MainWindow pMainWindow = new MainWindow(ParentWindow);
             pMainWindow.ParentWindow = ParentWindow;
             pMainWindow.Show();
             //m_pMainWindow.Show();

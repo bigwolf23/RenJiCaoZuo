@@ -35,6 +35,11 @@ namespace RenJiCaoZuo
             {
                  this.TitleName.Source = new BitmapImage(new Uri("pack://SiteOfOrigin:,,,/Res/title04.png")); 
             }
+
+            if (nMod == 3)
+            {
+                this.TitleName.Source = new BitmapImage(new Uri("pack://SiteOfOrigin:,,,/Res/title02.png"));
+            }
             setButtonAndTimer();
             setAllTempleInfoText(AllTempInfo);            
         }
@@ -97,8 +102,8 @@ namespace RenJiCaoZuo
         private void setImgControl(BitmapImage Pic_img)
         {
             Image sImage = new Image();
-            sImage.Width = Pic_img.PixelWidth > 680 ? 540 : Pic_img.PixelWidth; ;
-            sImage.Height = Pic_img.PixelHeight > 480 ? 480 : Pic_img.PixelHeight;
+            sImage.Width = Pic_img.PixelWidth > addControl.Width ? addControl.Width : Pic_img.PixelWidth; ;
+            //sImage.Height = Pic_img.PixelHeight > 480 ? 480 : Pic_img.PixelHeight;
             sImage.Stretch = Stretch.Fill;
             sImage.Source = Pic_img;
             sImage.HorizontalAlignment = HorizontalAlignment.Left;
