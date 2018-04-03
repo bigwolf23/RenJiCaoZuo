@@ -388,7 +388,7 @@ namespace RenJiCaoZuo
                 temp.MonkName = MonkTemp.name;
                 temp.MonkInfoIndex = nIndex;
                 m_MonkList.Add(temp);
-
+                
                 m_MonkinfoDetail.Add(nIndex, MonkTemp.detail);
 
             }

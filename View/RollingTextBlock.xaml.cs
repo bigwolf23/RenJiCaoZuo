@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,14 @@ namespace RenJiCaoZuo
             InitializeComponent();
             Loaded += RoilingTextBlock_Loaded;
         }
+//         public static readonly DependencyProperty ItemsProperty = 
+//             DependencyProperty.Register("Text", typeof(IEnumerable), typeof(RoilingTextBlock));
+//         public IEnumerable Items
+//         {
+//             get { return (IEnumerable)GetValue(ItemsProperty); }
+//             set { SetValue(ItemsProperty, value); }
+//         }
+
 
         void RoilingTextBlock_Loaded(object sender, RoutedEventArgs e)
         {
@@ -64,6 +73,7 @@ namespace RenJiCaoZuo
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
             {
+                string strtemp = currentTextBlock.Text;
                 if (this.currentTextBlock != null && canRoll)
                 {
                     if (Math.Abs(Top) <= this.currentTextBlock.ActualHeight - offset)

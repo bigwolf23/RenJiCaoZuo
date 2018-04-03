@@ -29,6 +29,7 @@
                 <!--<Setter Property="BorderBrush" 
                                     Value="{StaticResource ResourceKey= ItemSelectedColor}"/>-->
             </Trigger>
+
             <Trigger Property="IsSelected" Value="False">
                 <Setter Property="Background"
                                     Value="Transparent"/>

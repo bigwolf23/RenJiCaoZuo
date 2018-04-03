@@ -16,8 +16,8 @@
         <Image Margin="74,143,946,798" Source="pack://SiteOfOrigin:,,,/Res/title01.png" Stretch="Fill" Grid.ColumnSpan="2"/>
         <Image x:Name="ActivityAndMonk_Img" Margin="74,407,946,536" Source="{Binding Activity_MonkImage}" Stretch="Fill" Grid.ColumnSpan="2"/>
         <Image Margin="74,667,946,276" Source="pack://SiteOfOrigin:,,,/Res/title03.png" Stretch="Fill" Grid.ColumnSpan="2"/>
-        <Image Margin="928,816,108,149" Source="pack://SiteOfOrigin:,,,/Res/title.png" Stretch="Fill" RenderTransformOrigin="0.389,0.467"/>
-        <Image Margin="668,711,385,105" Name="QRCode_Image" Stretch="Fill"/>
+        <Image Margin="928,818,108,147" Source="pack://SiteOfOrigin:,,,/Res/title.png" Stretch="Fill" RenderTransformOrigin="0.389,0.467"/>
+        <Image Margin="662,711,382,94" Name="QRCode_Image" Stretch="Fill"/>
         <local:RoilingTextBlock x:Name="TemplInfo_TextBlock" 
                                 FontSize="18" Height="100" Width="Auto" 
                                 Margin="115,226,115,696" 
@@ -32,12 +32,38 @@
             <ListView.ItemTemplate>
                 <DataTemplate >
                     <WrapPanel Orientation="Horizontal" Margin="0,0,0,0" DataContext="{Binding}" Background="Transparent">
-                        <Image Source="{Binding MonkInfoImage}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="100" StretchDirection="Both" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Stretch="Fill" Margin="0" ></Image>
-                        <StackPanel Orientation="Vertical" Margin="15,0,0,0">
-                            <TextBlock  Text="{Binding MonkName}" Margin="0,2,0,10" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="415" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="18" Background="Transparent" Foreground="#FFA01E1E" ></TextBlock>
-                            <TextBlock x:Name="MyWipedText" Text="{Binding MonkInfo}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="415" Height="300" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="13" Background="Transparent" >
+                        <Image Source="{Binding MonkInfoImage}" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Top" 
+                               Width="100" Height="100" 
+                               StretchDirection="Both" 
+                               ScrollViewer.VerticalScrollBarVisibility="Hidden" 
+                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                               Stretch="Fill" Margin="0" >
+                        </Image>
+                        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Orientation="Vertical" Margin="15,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <TextBlock  Text="{Binding MonkName}" Margin="0,2,0,10" 
+                                        TextTrimming="CharacterEllipsis" 
+                                        TextAlignment="Left" 
+                                        VerticalAlignment="Top" 
+                                        Width="415" TextWrapping="Wrap" 
+                                        Style="{DynamicResource FZXKJW}" 
+                                        FontSize="18" Background="Transparent" 
+                                        Foreground="#FFA01E1E" >
                             </TextBlock>
-                            <!--<local:RoilingTextBlock x:Name="MonkInfo_Info" Text="{Binding MonkInfo}"
+                            <TextBlock x:Name="MyWipedText" 
+                                       Text="{Binding MonkInfo}" 
+                                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                       Margin="0,0,0,0" 
+                                       TextAlignment="Left" 
+                                       VerticalAlignment="Top" 
+                                       Width="415" Height="Auto" 
+                                       TextWrapping="Wrap" 
+                                       Style="{DynamicResource FZXKJW}" 
+                                       FontSize="13" Background="Transparent" >
+                            </TextBlock>
+                            <!--<local:RoilingTextBlock x:Name="MonkInfo_Info" Text="{Binding MonkInfo,RelativeSource={RelativeSource AncestorType={x:Type TextBlock}}}"
                                                     HorizontalAlignment="Left"
                                                     Width="415" 
                                                     Height="50" FontSize="13" >
@@ -45,6 +71,8 @@
                             </local:RoilingTextBlock>-->
                             <TextBlock Text="{Binding MonkInfoIndex}" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextAlignment="Left" VerticalAlignment="Top" Width="415" TextWrapping="Wrap" Style="{DynamicResource FZXKJW}" FontSize="13" Background="Transparent" Visibility="Hidden"></TextBlock>
                         </StackPanel>
+                        
+                            </ScrollViewer>
                     </WrapPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -68,7 +96,7 @@
         </ListView>
 
 
-        <Label Content="微信、支付宝扫一扫" HorizontalAlignment="Center" Height="40" Margin="923,880,115,0" VerticalAlignment="Top" Width="242" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Style="{DynamicResource FZXKJW}"/>
+        <Label Content="微信、支付宝扫一扫" HorizontalAlignment="Center" Height="40" Margin="923,892,115,0" VerticalAlignment="Top" Width="242" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" Style="{DynamicResource FZXKJW}"/>
         <Image x:Name="NewsBackground_Img" Margin="561,0,50,902" Source="pack://SiteOfOrigin:,,,/Res/news.png" Stretch="Fill"/>
         <Button x:Name="UpPage_Button" Content="" HorizontalAlignment="Left" Height="45" Margin="904,423,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.473,0.08" Click="UpPage_Button_Click_1" Visibility="Visible">
             <Button.Background>
@@ -109,7 +137,6 @@
             </EventTrigger>
         </Label.Triggers>-->
         </Label>
-        <Label Content="注意：请在手机支付的【添加备注信息】内留下施主的姓名。" HorizontalAlignment="Left" Height="41" Margin="672,919,0,0" VerticalAlignment="Top" Width="500" Style="{DynamicResource FZXKJW}" VerticalContentAlignment="Center" Foreground="Red" FontSize="18"/>
         <StackPanel Orientation="Vertical" Height="217" Margin="93,743,702,64" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" Style="{DynamicResource FZXKJW}" Grid.ColumnSpan="2" >
             <StackPanel Orientation="Horizontal" Height="30" Margin="12,0,10,0" DataContext="{Binding}" Background="Transparent" VerticalAlignment="Center" >
                 <TextBox x:Name="HouseName" Text="" IsReadOnly="True" Height="25" VerticalContentAlignment="Center" TextAlignment="Left" VerticalAlignment="Center" Width="220" Style="{DynamicResource FZXKJW}" FontSize="20" Background="Transparent" HorizontalAlignment="Center" BorderThickness="0" Foreground="#FFA01E1E" />

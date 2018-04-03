@@ -26,8 +26,10 @@
                                Canvas.Left="{Binding Left,Mode=OneWay}"
                                Canvas.Top="{Binding Top,Mode=OneWay}"
                                FontSize="{Binding FontSize,Mode=OneWay}"
-                               Text="{Binding Text,Mode=OneWay}"
+                               Text="{Binding Text, Mode=OneWay}"
                                Foreground="{Binding Foreground,Mode=OneWay}">
+                               <!--Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type Text}}, Path=Text}"-->
+                               <!--Text="{Binding Text,RelativeSource={RelativeSource AncestorType={x:Type typeOfAncestor}}, Mode=OneWay}"-->
 
                     </TextBlock>
                 </Canvas>
