@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows;
 
-
+using System.Configuration;
 using System.Xml.Linq;
 
 namespace Ezhu.AutoUpdater
@@ -22,11 +22,30 @@ namespace Ezhu.AutoUpdater
             }
         }
 
+//         public static string getRemoteUrlLink()
+//         {
+//             string sUpdateLink;
+//             MemoryStream stream = new MemoryStream("/update.xml");
+// 
+//             XDocument xDoc = XDocument.Load(stream);
+//             UpdateInfo updateInfo = new UpdateInfo();
+//             XElement root = xDoc.Element("UpdateInfo");
+//             sUpdateLink = root.Element("PublishUrl").Value;
+// 
+//             stream.Close();
+//             return sUpdateLink;
+//         }
+
+
         public static void CheckUpdateStatus()
         {
+            string strRemoteLink = System.Configuration.ConfigurationManager.AppSettings["UpdateLink"];
             System.Threading.ThreadPool.QueueUserWorkItem((s) =>
             {
+                
                 string url = Constants.RemoteUrl + Updater.Instance.CallExeName + "/update.xml";
+                
+                //string url = strRemoteLink + Updater.Instance.CallExeName + "/update.xml";
                 var client = new System.Net.WebClient();
                 client.DownloadDataCompleted += (x, y) =>
                 {
@@ -94,7 +113,8 @@ namespace Ezhu.AutoUpdater
                 + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(appDir)) 
                 + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.AppName)) 
                 + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.AppVersion.ToString())) 
-                + " " + (string.IsNullOrEmpty(updateInfo.Desc) ? "" : Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.Desc)));
+                + " " +  Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.Desc));
+            
             System.Diagnostics.Process.Start(info);
         }
 

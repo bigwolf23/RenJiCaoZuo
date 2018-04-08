@@ -2,6 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Configuration;
+using System.Xml.Linq;
+
 
 namespace Ezhu.AutoUpdater.UI
 {
@@ -16,47 +19,51 @@ namespace Ezhu.AutoUpdater.UI
         public DownFileProcess(string callExeName, string updateFileDir, string appDir, string appName, string appVersion, string desc)
         {
             InitializeComponent();
-            this.Loaded += (sl, el) =>
-            {
-                Process[] processes = Process.GetProcessesByName(this.callExeName);
-
-                if (processes.Length > 0)
-                {
-                    foreach (var p in processes)
-                    {
-                        p.Kill();
-                    }
-                }
-                YesButton.Content = "现在更新";
-                NoButton.Content = "暂不更新";
-                DownloadUpdateFile();
-
+//             this.Loaded += (sl, el) =>
+//             {
+//                 Process[] processes = Process.GetProcessesByName(this.callExeName);
+// 
+//                 if (processes.Length > 0)
+//                 {
+//                     foreach (var p in processes)
+//                     {
+//                         p.Kill();
+//                     }
+//                 }
 //                 YesButton.Content = "现在更新";
 //                 NoButton.Content = "暂不更新";
-// 
-//                 this.YesButton.Click += (sender, e) =>
-//                 {
-//                     Process[] processes = Process.GetProcessesByName(this.callExeName);
-// 
-//                     if (processes.Length > 0)
-//                     {
-//                         foreach (var p in processes)
-//                         {
-//                             p.Kill();
-//                         }
-//                     }
-// 
-//                     DownloadUpdateFile();
-//                 };
-// 
-//                 this.NoButton.Click += (sender, e) =>
-//                 {
-//                     this.Close();
-//                 };
-// 
-//                 this.txtProcess.Text = this.appName + "发现新的版本(" + this.appVersion + "),现在正在更新中";
-//                 txtDes.Text = this.desc;
-            };
+//                 DownloadUpdateFile();
+//          };
+            this.Loaded += (sl, el) =>
+            {
+                YesButton.Content = "现在更新";
+                NoButton.Content = "暂不更新";
+
+                this.YesButton.Click += (sender, e) =>
+                {
+                    Process[] processes = Process.GetProcessesByName(this.callExeName);
+
+                    if (processes.Length > 0)
+                    {
+                        foreach (var p in processes)
+                        {
+                            p.Kill();
+                        }
+                    }
+
+                    DownloadUpdateFile();
+                };
+
+                this.NoButton.Click += (sender, e) =>
+                {
+                    this.Close();
+                };
+
+                this.txtProcess.Text = this.appName + "发现新的版本(" + this.appVersion + "),是否现在更新?";
+                txtDes.Text = this.desc;
+            };    
+            
+
             this.callExeName = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(callExeName));
             this.updateFileDir = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(updateFileDir));
             this.appDir = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(appDir));
@@ -74,10 +81,27 @@ namespace Ezhu.AutoUpdater.UI
             }
         }
 
+//         public string getRemoteUrlLink()
+//         {
+//             string sUpdateLink;
+//             MemoryStream stream = new MemoryStream(y.Result);
+// 
+//             XDocument xDoc = XDocument.Load(stream);
+//             UpdateInfo updateInfo = new UpdateInfo();
+//             XElement root = xDoc.Element("UpdateInfo");
+//             sUpdateLink = root.Element("PublishUrl").Value;
+//             
+//             stream.Close();
+//             return sUpdateLink;
+//         }
         public void DownloadUpdateFile()
         {
-            MessageBox.Show(@"Download Stop");
-            string url = Constants.RemoteUrl + callExeName + "/update.zip";
+            //MessageBox.Show(@"Download Stop", @"Download Stop");
+            //string url = Constants.RemoteUrl + callExeName + "/update.zip";
+
+            string strRemoteUrl = ConfigurationManager.AppSettings["UpdateLink"];
+            string url = strRemoteUrl + callExeName + "/update.zip";
+           //string url = getRemoteUrlLink() + callExeName + "/update.zip";
             var client = new System.Net.WebClient();
             client.DownloadProgressChanged += (sender, e) =>
             {
@@ -102,7 +126,7 @@ namespace Ezhu.AutoUpdater.UI
 
                     string tempDir = System.IO.Path.Combine(updateFileDir, "temp");
 
-                    MessageBox.Show(tempDir);
+                    //MessageBox.Show(tempDir);
                     if (!Directory.Exists(tempDir))
                     {
                         Directory.CreateDirectory(tempDir);
@@ -111,12 +135,12 @@ namespace Ezhu.AutoUpdater.UI
 
                     //移动文件
                     //App
-                    if(Directory.Exists(System.IO.Path.Combine(tempDir,"App")))
+                    if(Directory.Exists(System.IO.Path.Combine(tempDir,"Update")))
                     {
-                        CopyDirectory(System.IO.Path.Combine(tempDir,"App"),appDir);
+                        CopyDirectory(System.IO.Path.Combine(tempDir, "Update"), appDir);
                     }
 
-                    MessageBox.Show(appDir);
+                    //MessageBox.Show(System.IO.Path.Combine(tempDir, "Update"));
 
                     f = () =>
                     {
@@ -130,7 +154,7 @@ namespace Ezhu.AutoUpdater.UI
                             {
                                 if (!p.ToLower().Equals(updateFileDir.ToLower()))
                                 {
-                                    System.IO.Directory.Delete(p, true);
+                                    //System.IO.Directory.Delete(p, true);
                                 }
                             }
                         }

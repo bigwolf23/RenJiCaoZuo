@@ -652,7 +652,7 @@ namespace RenJiCaoZuo
         {
             string strDetail = strActivityInfoDetail;
 
-            if (strDetail.Length > 0)
+            if (strDetail != null && strDetail.Length > 0)
             {
                 Introduction IntroductionWin = new Introduction(strDetail, 2);
                 IntroductionWin.Owner = this;
