@@ -13,7 +13,10 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Windows;
-using log4net;
+using System.Threading;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+
 namespace RenJiCaoZuo.WebData
 {
     public class GetWebData
@@ -26,16 +29,30 @@ namespace RenJiCaoZuo.WebData
         public TemplePayHistory m_pTemplePayHistoryData = new TemplePayHistory();
         public HousePayHistory m_pHousePayHistoryData = new HousePayHistory();
 
-
-        public GetWebData()
+        private void threadProc(object sender)
         {
             GetTempleInfobyWebService();
             GetMonkInfobyWebService();
             GetActivityInfobyWebService();
-//             GetGetActivityInfobyWebService();
             GetTemplePayHistorybyWebService();
             GetqRCodeInfobyWebService();
             GetHousePayHistorybyWebService();
+        }
+
+        public GetWebData()
+        {
+
+//             Thread thr = new Thread(threadProc);
+//             thr.IsBackground = true;
+//             thr.Start();
+
+            GetTempleInfobyWebService();
+            GetMonkInfobyWebService();
+            GetActivityInfobyWebService();
+            GetTemplePayHistorybyWebService();
+            GetqRCodeInfobyWebService();
+            GetHousePayHistorybyWebService();
+           
         }
 
         public string NoHTML(string Htmlstring)  //替换HTML标记
@@ -104,7 +121,8 @@ namespace RenJiCaoZuo.WebData
         {
             string strDomino = ConfigurationManager.AppSettings["domino"];
             string strPort = ConfigurationManager.AppSettings["port"];
-            string strInterfacelink = @"http://" + strDomino + @":" + strPort + @"/";
+            string strLinkMode = ConfigurationManager.AppSettings["LinkMod"];
+            string strInterfacelink = strLinkMode + strDomino + @":" + strPort + @"/";
             return strInterfacelink;
         }
 
@@ -237,7 +255,8 @@ namespace RenJiCaoZuo.WebData
             string strDomino = ConfigurationManager.AppSettings["domino"];
             string strPort = ConfigurationManager.AppSettings["port"];
             string strurl = ConfigurationManager.AppSettings["url"];
-            string strInterfacelink = @"http://" + strDomino + @":" + strPort + strurl + @"/";
+            string strLinkMode = ConfigurationManager.AppSettings["LinkMod"];
+            string strInterfacelink = strLinkMode + strDomino + @":" + strPort + strurl + @"/";
             return strInterfacelink;
         }
         //获取接口和参数
@@ -266,6 +285,12 @@ namespace RenJiCaoZuo.WebData
             return HttpGet(strFullInterface, Inferface_Field);
         }
 
+        public bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            // 总是接受    
+            return true;
+
+        }
         public string HttpGet(string url, string Inferface_Field)
         {
             try
@@ -284,18 +309,11 @@ namespace RenJiCaoZuo.WebData
                         return reader.ReadToEnd();
                     }
                 }
-                else
-                {
-                    LogHelper.Warn(typeof(GetWebData), url + "无法连接服务器");
-                }
                 
             }
             catch (WebException ex)
             {
-                //HttpWebResponse res = (HttpWebResponse)ex.Response;
-                //MessageBox.Show(ex.Message);
-                LogHelper.Error(typeof(GetWebData), url+ "无法连接服务器");
-                //Inferface_Field
+//                string strerr = ex.Message;
             }
             return "";
         }
