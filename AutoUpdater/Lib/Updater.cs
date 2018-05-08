@@ -22,30 +22,16 @@ namespace Ezhu.AutoUpdater
             }
         }
 
-//         public static string getRemoteUrlLink()
-//         {
-//             string sUpdateLink;
-//             MemoryStream stream = new MemoryStream("/update.xml");
-// 
-//             XDocument xDoc = XDocument.Load(stream);
-//             UpdateInfo updateInfo = new UpdateInfo();
-//             XElement root = xDoc.Element("UpdateInfo");
-//             sUpdateLink = root.Element("PublishUrl").Value;
-// 
-//             stream.Close();
-//             return sUpdateLink;
-//         }
-
-
         public static void CheckUpdateStatus()
         {
-            string strRemoteLink = System.Configuration.ConfigurationManager.AppSettings["UpdateLink"];
+            Configuration config =
+                    ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
             System.Threading.ThreadPool.QueueUserWorkItem((s) =>
             {
+                string strRemoteUrl = ConfigurationManager.AppSettings["UpdateLink"];
+                string url = strRemoteUrl + Updater.Instance.CallExeName + "/update.xml";
                 
-                string url = Constants.RemoteUrl + Updater.Instance.CallExeName + "/update.xml";
-                
-                //string url = strRemoteLink + Updater.Instance.CallExeName + "/update.xml";
                 var client = new System.Net.WebClient();
                 client.DownloadDataCompleted += (x, y) =>
                 {
@@ -63,7 +49,7 @@ namespace Ezhu.AutoUpdater
                         updateInfo.MD5 = Guid.NewGuid();
 
                         stream.Close();
-                        Updater.Instance.StartUpdate(updateInfo);
+                        Updater.Instance.StartUpdate(updateInfo, strRemoteUrl);
                     }
                     catch
                     { }
@@ -74,7 +60,7 @@ namespace Ezhu.AutoUpdater
 
         }
 
-        public void StartUpdate(UpdateInfo updateInfo)
+        public void StartUpdate(UpdateInfo updateInfo,string updateUrl)
         {
             if (updateInfo.RequiredMinVersion != null && Updater.Instance.CurrentVersion < updateInfo.RequiredMinVersion)
             {
@@ -113,7 +99,8 @@ namespace Ezhu.AutoUpdater
                 + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(appDir)) 
                 + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.AppName)) 
                 + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.AppVersion.ToString())) 
-                + " " +  Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.Desc));
+                + " " +  Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateInfo.Desc))
+                + " " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(updateUrl));
             
             System.Diagnostics.Process.Start(info);
         }

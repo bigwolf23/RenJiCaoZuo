@@ -16,7 +16,7 @@ namespace Ezhu.AutoUpdater.UI
         private string appName;
         private string appVersion;
         private string desc;
-        public DownFileProcess(string callExeName, string updateFileDir, string appDir, string appName, string appVersion, string desc)
+        public DownFileProcess(string callExeName, string updateFileDir, string appDir, string appName, string appVersion, string desc, string updateUrl)
         {
             InitializeComponent();
 //             this.Loaded += (sl, el) =>
@@ -42,7 +42,7 @@ namespace Ezhu.AutoUpdater.UI
                 this.YesButton.Click += (sender, e) =>
                 {
                     Process[] processes = Process.GetProcessesByName(this.callExeName);
-
+                    
                     if (processes.Length > 0)
                     {
                         foreach (var p in processes)
@@ -50,8 +50,9 @@ namespace Ezhu.AutoUpdater.UI
                             p.Kill();
                         }
                     }
-
-                    DownloadUpdateFile();
+                    string strUpdateUrl = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(updateUrl));
+                    //MessageBox.Show(this.callExeName, @"Download Stop");
+                    DownloadUpdateFile(strUpdateUrl);
                 };
 
                 this.NoButton.Click += (sender, e) =>
@@ -71,6 +72,7 @@ namespace Ezhu.AutoUpdater.UI
             this.appVersion = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(appVersion));
 
             string sDesc = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(desc));
+            
             if (sDesc.ToLower().Equals("null"))
             {
                 this.desc = "";
@@ -81,27 +83,11 @@ namespace Ezhu.AutoUpdater.UI
             }
         }
 
-//         public string getRemoteUrlLink()
-//         {
-//             string sUpdateLink;
-//             MemoryStream stream = new MemoryStream(y.Result);
-// 
-//             XDocument xDoc = XDocument.Load(stream);
-//             UpdateInfo updateInfo = new UpdateInfo();
-//             XElement root = xDoc.Element("UpdateInfo");
-//             sUpdateLink = root.Element("PublishUrl").Value;
-//             
-//             stream.Close();
-//             return sUpdateLink;
-//         }
-        public void DownloadUpdateFile()
+        public void DownloadUpdateFile(string updateUrl)
         {
-            //MessageBox.Show(@"Download Stop", @"Download Stop");
-            //string url = Constants.RemoteUrl + callExeName + "/update.zip";
-
-            string strRemoteUrl = ConfigurationManager.AppSettings["UpdateLink"];
-            string url = strRemoteUrl + callExeName + "/update.zip";
-           //string url = getRemoteUrlLink() + callExeName + "/update.zip";
+            //MessageBox.Show(updateUrl, updateUrl);
+            string url = updateUrl + callExeName + "/update.zip";
+            //
             var client = new System.Net.WebClient();
             client.DownloadProgressChanged += (sender, e) =>
             {

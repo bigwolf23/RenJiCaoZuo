@@ -52,10 +52,11 @@ namespace Ezhu.AutoUpdater
                     string appName = args[4];
                     string appVersion = args[5];
                     string desc = args[6];
+                    string updateUrl = args[7];
 
                     //Check If Have New Vision
                     Ezhu.AutoUpdater.App app = new Ezhu.AutoUpdater.App();
-                    UI.DownFileProcess downUI = new UI.DownFileProcess(callExeName, updateFileDir, appDir, appName, appVersion, desc) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                    UI.DownFileProcess downUI = new UI.DownFileProcess(callExeName, updateFileDir, appDir, appName, appVersion, desc, updateUrl) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
                     app.Run(downUI);
                 }
                 catch (Exception ex)
