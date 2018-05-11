@@ -136,9 +136,12 @@ namespace RenJiCaoZuo.WebData
         //寺庙信息
         public void GetTempleInfobyWebService()
         {
+            m_pTempInfoData.body = null;
+
             string ssTempleInfo = getInfoFromInterFace("TempleInfo_Interface", "Interface_Param", "Interface_id");
             if (ssTempleInfo.Length > 0)
             {
+
                 m_pTempInfoData = JsonConvert.DeserializeObject<TempleInfo>(ssTempleInfo);
 
                 if (m_pTempInfoData.body.data != null)
@@ -155,9 +158,12 @@ namespace RenJiCaoZuo.WebData
         //大师信息
         public void GetMonkInfobyWebService()
         {
+            m_pMonkInfoData.body = null;
+
             string ssMonkInfo = getInfoFromInterFace("MonkInfo_Interface", "Interface_Param", "Interface_id");
             if (ssMonkInfo.Length > 0)
             {
+
                 m_pMonkInfoData = JsonConvert.DeserializeObject<MonkInfo>(ssMonkInfo);
 
                 foreach (MonkInfoDatabody temp in m_pMonkInfoData.body.data)
@@ -170,11 +176,13 @@ namespace RenJiCaoZuo.WebData
         //寺庙活动信息
         public void GetActivityInfobyWebService()
         {
+
             if (m_pActivityInfoData.body!=null)
             {
                 m_pActivityInfoData.success = false;
                 m_pActivityInfoData.msg = "";
                 m_pActivityInfoData.body.data.Clear();
+                m_pActivityInfoData.body = null;
             }
 
 
@@ -201,6 +209,8 @@ namespace RenJiCaoZuo.WebData
         //二维码
         public void GetqRCodeInfobyWebService()
         {
+            m_pqRCodeInfoData.body = null;
+
             string ssString = getInfoFromInterFace("qRCodeInfo_Interface", "housePayHistory_Param", "housePayHistory_id");
             if (ssString.Length > 0)
             {
@@ -239,7 +249,9 @@ namespace RenJiCaoZuo.WebData
             {
                 m_pHousePayHistoryData.success = false;
                 m_pHousePayHistoryData.msg = "";
+
                 m_pHousePayHistoryData.body.data = null;
+                m_pHousePayHistoryData.body = null;
             }
 
             string ssString = getInfoFromInterFace("housePayHistory_Interface", "housePayHistory_Param", "housePayHistory_id");
@@ -303,6 +315,7 @@ namespace RenJiCaoZuo.WebData
                     request.Method = "GET";
                     request.Accept = "text/html, application/xhtml+xml, */*";
                     request.ContentType = "application/json";
+                    request.Timeout = 5000;
                     HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
                     {

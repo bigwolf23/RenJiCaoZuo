@@ -103,7 +103,7 @@ namespace RenJiCaoZuo
             WindowStartupLocation = WindowStartupLocation.Manual;
             this.Left = 0;
             this.Top = 0;
-            this.Topmost = true;
+            //this.Topmost = true;
             /*ViewModel viewModel = new ViewModel();*/
             //this.DataContext = ParentWindow.AllWebData;
             pWebData = ParentWindow.AllWebData;
@@ -150,7 +150,11 @@ namespace RenJiCaoZuo
                     //获取寺庙活动的内容
                     getActiveInfoContent();
                     //显示寺庙活动在label上
-                    DisplayActiveInfoContent();
+                    string strMode = ConfigurationManager.AppSettings["FirstPageName"];
+                    if (strMode == "1")
+                    {
+                        DisplayActiveInfoContent();
+                    }
                     //显示寺庙活动在listview中
                     DisplayActiveInfoContentInList();
                 }
@@ -246,7 +250,9 @@ namespace RenJiCaoZuo
         private void getDonateHouseContent()
         {
             pWebData.GetHousePayHistorybyWebService();
-            if (pWebData.m_pHousePayHistoryData.success == true && pWebData.m_pHousePayHistoryData.body.data!=null)
+            if (pWebData.m_pHousePayHistoryData.success == true &&
+                pWebData.m_pHousePayHistoryData.body != null &&
+                pWebData.m_pHousePayHistoryData.body.data!=null)
             {
                 HouseName.Text = pWebData.m_pHousePayHistoryData.body.data.name;
                 HousepayTypeName.Text = pWebData.m_pHousePayHistoryData.body.data.payTypeName;
@@ -259,14 +265,17 @@ namespace RenJiCaoZuo
         private void getDonateListContent()
         {
             myPayQueue.Clear();
-            foreach (TemplePayHistoryDatabody payHistTemp in pWebData.m_pTemplePayHistoryData.body.data)
+            if (pWebData.m_pTemplePayHistoryData.body != null) 
             {
-                PayListHistory temp = new PayListHistory();
-                temp.amount = payHistTemp.amount;
-                temp.Name = payHistTemp.name;
-                temp.payTypeName = payHistTemp.payTypeName;
-                myPayQueue.Enqueue(temp);
-            }            
+                foreach (TemplePayHistoryDatabody payHistTemp in pWebData.m_pTemplePayHistoryData.body.data)
+                {
+                    PayListHistory temp = new PayListHistory();
+                    temp.amount = payHistTemp.amount;
+                    temp.Name = payHistTemp.name;
+                    temp.payTypeName = payHistTemp.payTypeName;
+                    myPayQueue.Enqueue(temp);
+                }
+            }
         }
         
         //显示捐赠ListView内容
@@ -274,43 +283,68 @@ namespace RenJiCaoZuo
         {
             int nCount = 0;
             this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
-            if (myPayQueue.Count > 0)
+            try
             {
-                dispatcherDonateTimerList.Tick += delegate
+                if (myPayQueue.Count > 0)
                 {
-                    nCount++;
-                    string sRefreshTime = ConfigurationManager.AppSettings["PageRefreshTime"];
-                    int nRefreshTime = Convert.ToInt16(sRefreshTime);
-                    if (nCount % nRefreshTime == 0)
+                    dispatcherDonateTimerList.Tick += delegate
                     {
-                        nCount = 0;
-                        myPayQueue.Clear();
-                        this.DonateInfo_List.ItemsSource = null;
-                        this.DonateInfo_List.Items.Clear();
-                        this.DonateInfo_List.Items.Refresh();
+                        nCount++;
+                        string sRefreshTime = ConfigurationManager.AppSettings["PageRefreshTime"];
+                        int nRefreshTime = Convert.ToInt16(sRefreshTime);
+                        if (nCount % nRefreshTime == 0)
+                        {
+                            nCount = 0;
+                            myPayQueue.Clear();
+                            this.DonateInfo_List.ItemsSource = null;
+                            this.DonateInfo_List.Items.Clear();
+                            this.DonateInfo_List.Items.Refresh();
 
-                        pWebData.GetTemplePayHistorybyWebService();
-                        getDonateListContent();
+                            pWebData.GetTemplePayHistorybyWebService();
+                            if (pWebData.m_pTemplePayHistoryData.body == null)
+                            {
+                                //dispatcherDonateTimerList.Stop();
+                                return;
+                            }
+                            else
+                            {
+                                getDonateListContent();
 
-                        this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
+                                this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
 
-                        //获取捐赠TextBox的内容
-                        getDonateHouseContent();
-                    }
-                    else
-                    {
-                        myPayQueue.Enqueue(myPayQueue.Dequeue());  // 把队列中派头的放到队尾
-                        this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
-                    }
+                                //获取捐赠TextBox的内容
+                                getDonateHouseContent();
+                            }
 
-                };
-                dispatcherDonateTimerList.Start();
+                        }
+                        else
+                        {
+                            if (myPayQueue.Count > 0)
+                            {
+                                myPayQueue.Enqueue(myPayQueue.Dequeue());  // 把队列中派头的放到队尾
+                                this.DonateInfo_List.ItemsSource = myPayQueue.ToList();
+                            }
+
+                        }
+
+                    };
+                    dispatcherDonateTimerList.Start();
+                }
+                
+            }catch ( Exception ex){
+                //dispatcherDonateTimerList.Stop();
             }
+            
         }
 
         private void getActiveInfoContent()
         {
             this.ActivityInfo_ListView.ItemsSource = m_pActivityListInfo.ToList();
+            if (pWebData.m_pActivityInfoData.body == null)
+            {
+                return;
+            }
+
             foreach (ActivityInfoDatabody ActivityInfTemp in pWebData.m_pActivityInfoData.body.data)
             {
                 ActivityList pTemp = new ActivityList();
@@ -680,6 +714,12 @@ namespace RenJiCaoZuo
                 }
                 MonkInfo_ListView.UnselectAll();
             }
+
+        }
+
+        private void Image_Unloaded(object sender, RoutedEventArgs e)
+        {
+            int n = 10;
 
         }
 
