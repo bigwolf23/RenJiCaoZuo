@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Configuration; 
 
 namespace RenJiCaoZuo
 {
@@ -63,6 +65,22 @@ namespace RenJiCaoZuo
         private void ReturnDesktop_Button_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void SetVideo_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.Filter = "Video File(*.avi;*.mp4;*.mkv;*.wav;*.wmv)|*.avi;*.mp4;*.mkv;*.wav;*.wmv|All File(*.*)|*.*";
+
+            if (dialog.ShowDialog().GetValueOrDefault())
+            {
+                Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                cfa.AppSettings.Settings["Video_Path"].Value = dialog.FileName;
+                cfa.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+
         }
     }
 }

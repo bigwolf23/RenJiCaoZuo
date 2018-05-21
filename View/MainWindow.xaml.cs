@@ -71,6 +71,7 @@ namespace RenJiCaoZuo
         public GetWebData pWebData;
         public Uri ImageFilePathUri;
         private string Activity_MonkImage;
+        private string Media_play_Path;
         Queue<ActivityList> myActivityInfoQueue = new Queue<ActivityList>();
         Queue<PayListHistory> myPayQueue = new Queue<PayListHistory>();
         //显示法师ListView内容
@@ -107,17 +108,46 @@ namespace RenJiCaoZuo
             /*ViewModel viewModel = new ViewModel();*/
             //this.DataContext = ParentWindow.AllWebData;
             pWebData = ParentWindow.AllWebData;
-            setDisplayByMode();
+            string strMode = ConfigurationManager.AppSettings["FirstPageName"];
+            getPageRefreshTime();
+            setDisplayByMode(strMode);
             if (pWebData != null)
             {
-                if (pWebData.m_pTempInfoData.success == true)
+                if(strMode == "3")
                 {
-                    //显示寺庙介绍
-                    setTempInfoData();
-                    //设定寺院名字的图片
-                    setTemplInfoNamePic();
+                    Media_play_Path = ConfigurationManager.AppSettings["Video_Path"];
+                    MediaPlay.Source = new Uri(Media_play_Path);
                 }
-                getPageRefreshTime();
+                else
+                {
+                    if (pWebData.m_pTempInfoData.success == true)
+                    {
+                        //显示寺庙介绍
+                        setTempInfoData();
+                        //设定寺院名字的图片
+                        setTemplInfoNamePic();
+                    }
+
+                    if (pWebData.m_pMonkInfoData.success == true)
+                    {
+                        //显示法师ListView内容
+                        displayMonkList();
+                    }
+
+                    if (pWebData.m_pActivityInfoData.success == true)
+                    {
+                        //获取寺庙活动的内容
+                        getActiveInfoContent();
+                        //显示寺庙活动在label上
+                        if (strMode == "1")
+                        {
+                            DisplayActiveInfoContent();
+                        }
+                        //显示寺庙活动在listview中
+                        DisplayActiveInfoContentInList();
+                    }
+                }
+                
                 if (pWebData.m_pqRCodeInfoData.success == true)
                 {
                     //设定二维码
@@ -138,26 +168,7 @@ namespace RenJiCaoZuo
                     //                     DisplayDonateListByTimer();
 
                 }
-
-                if (pWebData.m_pMonkInfoData.success == true)
-                {
-                    //显示法师ListView内容
-                    displayMonkList();
-                }
-
-                if (pWebData.m_pActivityInfoData.success == true)
-                {
-                    //获取寺庙活动的内容
-                    getActiveInfoContent();
-                    //显示寺庙活动在label上
-                    string strMode = ConfigurationManager.AppSettings["FirstPageName"];
-                    if (strMode == "1")
-                    {
-                        DisplayActiveInfoContent();
-                    }
-                    //显示寺庙活动在listview中
-                    DisplayActiveInfoContentInList();
-                }
+                
             }
             
         }
@@ -167,9 +178,8 @@ namespace RenJiCaoZuo
             
         }
 
-        private void setDisplayByMode()
+        private void setDisplayByMode(string strMode)
         {
-            string strMode = ConfigurationManager.AppSettings["FirstPageName"];
             setActivityAndMonk_Img(strMode);
             setMonk_PageShow(strMode);
         }
@@ -201,8 +211,9 @@ namespace RenJiCaoZuo
                 ActivityInfo_Next_Button.Visibility = Visibility.Hidden;
                 ActivityInfo_Prev_Button.Visibility = Visibility.Hidden;
                 ActivityInfo_ListView.Visibility = Visibility.Hidden;
+                this.MediaPlay.Visibility = Visibility.Hidden;
             }
-            else
+            else if (strMode == "2")
             {
                 this.UpPage_Button.Visibility = Visibility.Hidden;
                 this.DownPage_Button.Visibility = Visibility.Hidden;
@@ -214,10 +225,44 @@ namespace RenJiCaoZuo
                 ActivityInfo_Next_Button.Visibility = Visibility.Visible;
                 ActivityInfo_Prev_Button.Visibility = Visibility.Visible;
                 ActivityInfo_ListView.Visibility = Visibility.Visible;
+
+                this.MediaPlay.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.UpPage_Button.Visibility = Visibility.Hidden;
+                this.DownPage_Button.Visibility = Visibility.Hidden;
+                this.NewsBackground_Img.Visibility = Visibility.Hidden;
+                this.ActivityInfo_Label.Visibility = Visibility.Hidden;
+                this.MonkInfo_ListView.Visibility = Visibility.Hidden;
+
+                Activity_Detail.Visibility = Visibility.Hidden;
+                ActivityInfo_Next_Button.Visibility = Visibility.Hidden;
+                ActivityInfo_Prev_Button.Visibility = Visibility.Hidden;
+                ActivityInfo_ListView.Visibility = Visibility.Hidden;
+
+                MonkInfo_ListView.Visibility = Visibility.Hidden;
+                TemplInfo_TextBlock.Visibility = Visibility.Hidden;
+                TempInfo_Image.Visibility = Visibility.Hidden;
+                ActivityAndMonk_Img.Visibility = Visibility.Hidden;
+                TempInfo_Detail.Visibility = Visibility.Hidden;
+                TempInfo_Intrduce.Visibility = Visibility.Hidden;
+                Temple_Intrduce_Frame.Visibility = Visibility.Hidden;
+                Activity_Intrduce_Frame.Visibility = Visibility.Hidden;
+
+                this.MediaPlay.Visibility = Visibility.Visible;
             }
             
 
         }
+
+        private void player_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            //设置一下视频进度，确保从头开始播放
+            MediaPlay.Position = TimeSpan.Zero;
+            MediaPlay.Play();
+        }
+
         //
         private void DisplayDonateListByTimer()
         {
@@ -277,6 +322,8 @@ namespace RenJiCaoZuo
                 }
             }
         }
+
+
         
         //显示捐赠ListView内容
         private void displayDonateList()

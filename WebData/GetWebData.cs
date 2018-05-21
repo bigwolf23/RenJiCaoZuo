@@ -146,10 +146,22 @@ namespace RenJiCaoZuo.WebData
 
                 if (m_pTempInfoData.body.data != null)
                 {
-                    m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
-                    m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
+                    if (m_pTempInfoData.body.data.info != null)
+                    {
+                        m_pTempInfoData.body.data.info = NoHTML(m_pTempInfoData.body.data.info);
+                    }
 
-                    m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
+                    if (m_pTempInfoData.body.data.detail != null)
+                    {
+                        m_pTempInfoData.body.data.detail = NoHTML(m_pTempInfoData.body.data.detail);
+                    }
+
+                    if (m_pTempInfoData.body.data.url != null)
+                    {
+                        m_pTempInfoData.body.data.url = getFullpathPicLink(m_pTempInfoData.body.data.url);
+                    }
+
+                    
                 }
 
             }
@@ -168,8 +180,17 @@ namespace RenJiCaoZuo.WebData
 
                 foreach (MonkInfoDatabody temp in m_pMonkInfoData.body.data)
                 {
-                    temp.url = getFullpathPicLink(temp.url);
-                    temp.detail = NoHTML(temp.detail);
+                    if (temp.url != null)
+                    {
+                        temp.url = getFullpathPicLink(temp.url);
+                    }
+
+                    if (temp.detail != null)
+                    {
+                        temp.detail = NoHTML(temp.detail);
+                    }
+                    
+                    
                 }
             }
         }
@@ -192,7 +213,11 @@ namespace RenJiCaoZuo.WebData
                 m_pActivityInfoData = JsonConvert.DeserializeObject<ActivityInfo>(ssString);
                 foreach (ActivityInfoDatabody temp in m_pActivityInfoData.body.data)
                 {
-                    temp.detail = NoHTML(temp.detail);
+                    if (temp.detail != null)
+                    {
+                        temp.detail = NoHTML(temp.detail);
+                    }
+                   
                 }
             }
 
@@ -215,7 +240,7 @@ namespace RenJiCaoZuo.WebData
             if (ssString.Length > 0)
             {
                 m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);
-                if (m_pqRCodeInfoData.body.data != null)
+                if (m_pqRCodeInfoData.body.data != null && m_pqRCodeInfoData.body.data.url != null)
                 {
                     m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
                 }

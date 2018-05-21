@@ -9,12 +9,12 @@
                 <ImageBrush ImageSource="pack://SiteOfOrigin:,,,/Res/btn_bg.jpg" Stretch="Fill"/>
             </Button.Background>
         </Button>
-        <Button x:Name="ReturnMain_Button" Content="返回应用" HorizontalAlignment="Left" Height="80" Margin="400,542,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Click="ReturnMain_Button_Click" Foreground="Black" BorderThickness="0">
+        <Button x:Name="ReturnMain_Button" Content="返回应用" HorizontalAlignment="Left" Height="80" Margin="400,648,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Click="ReturnMain_Button_Click" Foreground="Black" BorderThickness="0">
             <Button.Background>
                 <ImageBrush ImageSource="pack://SiteOfOrigin:,,,/Res/btn_bg.jpg" Stretch="Fill"/>
             </Button.Background>
         </Button>
-        <Button x:Name="ReturnDesktop_Button" Content="返回桌面" HorizontalAlignment="Left" Height="80" Margin="400,642,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Click="ReturnDesktop_Button_Click" Foreground="Black" BorderThickness="0">
+        <Button x:Name="ReturnDesktop_Button" Content="返回桌面" HorizontalAlignment="Left" Height="80" Margin="400,748,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Click="ReturnDesktop_Button_Click" Foreground="Black" BorderThickness="0">
             <Button.Background>
                 <ImageBrush ImageSource="pack://SiteOfOrigin:,,,/Res/btn_bg.jpg" Stretch="Fill"/>
             </Button.Background>
@@ -25,6 +25,11 @@
             </Button.Background>
         </Button>
         <Label Content="设 置 画 面" HorizontalAlignment="Left" Height="96" Margin="400,166,0,0" VerticalAlignment="Top" Width="480" FontSize="48" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0,10" BorderBrush="#FFA01E1E" Foreground="#FFA01E1E"/>
+        <Button x:Name="SetVideo_Button" Content="设定视频" HorizontalAlignment="Left" Height="84" Margin="400,546,0,0" VerticalAlignment="Top" Width="480" FontSize="36" Foreground="Black" BorderThickness="0" Click="SetVideo_Button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Touch;component/btn_bg.jpg" Stretch="Fill"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>
