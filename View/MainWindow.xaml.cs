@@ -752,12 +752,9 @@ namespace RenJiCaoZuo
                 if(m_MonkinfoDetail.ContainsKey(emp.MonkInfoIndex))
                 {
                     string strDetail = m_MonkinfoDetail[emp.MonkInfoIndex];
-                    if (strDetail.Length > 0)
-                    {
-                        Introduction IntroductionWin = new Introduction(strDetail, 3);
-                        IntroductionWin.Owner = this;
-                        IntroductionWin.ShowDialog();
-                    }
+                    Introduction IntroductionWin = new Introduction(strDetail, 3);
+                    IntroductionWin.Owner = this;
+                    IntroductionWin.ShowDialog();
                 }
                 MonkInfo_ListView.UnselectAll();
             }

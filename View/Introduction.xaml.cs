@@ -116,6 +116,11 @@ namespace RenJiCaoZuo
         /// <param name="e"></param>
         private void setAllTempleInfoText(string AllTempInfo)
         {
+            if (AllTempInfo == null)
+            {
+                return;
+            }
+
             if (AllTempInfo.Length < 0)
             {
                 return;
