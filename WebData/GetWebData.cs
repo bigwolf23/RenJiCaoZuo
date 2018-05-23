@@ -144,7 +144,9 @@ namespace RenJiCaoZuo.WebData
 
                 m_pTempInfoData = JsonConvert.DeserializeObject<TempleInfo>(ssTempleInfo);
 
-                if (m_pTempInfoData.body.data != null)
+                if (m_pTempInfoData != null &&
+                    m_pTempInfoData.body != null && 
+                    m_pTempInfoData.body.data != null)
                 {
                     if (m_pTempInfoData.body.data.info != null)
                     {
@@ -177,20 +179,22 @@ namespace RenJiCaoZuo.WebData
             {
 
                 m_pMonkInfoData = JsonConvert.DeserializeObject<MonkInfo>(ssMonkInfo);
-
-                foreach (MonkInfoDatabody temp in m_pMonkInfoData.body.data)
+                if (m_pMonkInfoData != null &&
+                   m_pMonkInfoData.body != null &&
+                   m_pMonkInfoData.body.data != null)
                 {
-                    if (temp.url != null)
+                    foreach (MonkInfoDatabody temp in m_pMonkInfoData.body.data)
                     {
-                        temp.url = getFullpathPicLink(temp.url);
-                    }
+                        if (temp.url != null)
+                        {
+                            temp.url = getFullpathPicLink(temp.url);
+                        }
 
-                    if (temp.detail != null)
-                    {
-                        temp.detail = NoHTML(temp.detail);
+                        if (temp.detail != null)
+                        {
+                            temp.detail = NoHTML(temp.detail);
+                        }
                     }
-                    
-                    
                 }
             }
         }
@@ -198,7 +202,7 @@ namespace RenJiCaoZuo.WebData
         public void GetActivityInfobyWebService()
         {
 
-            if (m_pActivityInfoData.body!=null)
+            if (m_pActivityInfoData != null && m_pActivityInfoData.body != null)
             {
                 m_pActivityInfoData.success = false;
                 m_pActivityInfoData.msg = "";
@@ -211,13 +215,18 @@ namespace RenJiCaoZuo.WebData
             if (ssString.Length > 0)
             {
                 m_pActivityInfoData = JsonConvert.DeserializeObject<ActivityInfo>(ssString);
-                foreach (ActivityInfoDatabody temp in m_pActivityInfoData.body.data)
+                if (m_pActivityInfoData != null &&
+                   m_pActivityInfoData.body != null &&
+                   m_pActivityInfoData.body.data != null)
                 {
-                    if (temp.detail != null)
+                    foreach (ActivityInfoDatabody temp in m_pActivityInfoData.body.data)
                     {
-                        temp.detail = NoHTML(temp.detail);
+                        if (temp.detail != null)
+                        {
+                            temp.detail = NoHTML(temp.detail);
+                        }
+
                     }
-                   
                 }
             }
 
@@ -240,9 +249,14 @@ namespace RenJiCaoZuo.WebData
             if (ssString.Length > 0)
             {
                 m_pqRCodeInfoData = JsonConvert.DeserializeObject<qRCodeInfo>(ssString);
-                if (m_pqRCodeInfoData.body.data != null && m_pqRCodeInfoData.body.data.url != null)
+                if (m_pqRCodeInfoData != null &&
+                   m_pqRCodeInfoData.body != null &&
+                   m_pqRCodeInfoData.body.data != null)
                 {
-                    m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
+                    if (m_pqRCodeInfoData.body.data.url != null)
+                    {
+                        m_pqRCodeInfoData.body.data.url = getFullpathPicLink(m_pqRCodeInfoData.body.data.url);
+                    }
                 }
             }
         }
@@ -250,7 +264,8 @@ namespace RenJiCaoZuo.WebData
         //寺庙布施记录
         public void GetTemplePayHistorybyWebService()
         {
-            if (m_pTemplePayHistoryData.body != null)
+            if (m_pTemplePayHistoryData!= null && 
+                m_pTemplePayHistoryData.body != null)
             {
                 m_pTemplePayHistoryData.success = false;
                 m_pTemplePayHistoryData.msg = "";

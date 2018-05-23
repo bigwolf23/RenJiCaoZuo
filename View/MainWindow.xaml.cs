@@ -295,9 +295,10 @@ namespace RenJiCaoZuo
         private void getDonateHouseContent()
         {
             pWebData.GetHousePayHistorybyWebService();
-            if (pWebData.m_pHousePayHistoryData.success == true &&
+            if (pWebData != null &&
+                pWebData.m_pHousePayHistoryData != null &&
                 pWebData.m_pHousePayHistoryData.body != null &&
-                pWebData.m_pHousePayHistoryData.body.data!=null)
+                pWebData.m_pHousePayHistoryData.body.data != null)
             {
                 HouseName.Text = pWebData.m_pHousePayHistoryData.body.data.name;
                 HousepayTypeName.Text = pWebData.m_pHousePayHistoryData.body.data.payTypeName;
@@ -310,7 +311,9 @@ namespace RenJiCaoZuo
         private void getDonateListContent()
         {
             myPayQueue.Clear();
-            if (pWebData.m_pTemplePayHistoryData.body != null) 
+            if (pWebData != null &&
+                pWebData.m_pTemplePayHistoryData != null &&
+                pWebData.m_pTemplePayHistoryData.body != null )
             {
                 foreach (TemplePayHistoryDatabody payHistTemp in pWebData.m_pTemplePayHistoryData.body.data)
                 {
@@ -387,7 +390,10 @@ namespace RenJiCaoZuo
         private void getActiveInfoContent()
         {
             this.ActivityInfo_ListView.ItemsSource = m_pActivityListInfo.ToList();
-            if (pWebData.m_pActivityInfoData.body == null)
+            if (pWebData == null ||
+                pWebData.m_pActivityInfoData == null || 
+                pWebData.m_pActivityInfoData.body == null || 
+                pWebData.m_pActivityInfoData.body.data == null)
             {
                 return;
             }
@@ -461,6 +467,14 @@ namespace RenJiCaoZuo
         {
             this.MonkInfo_ListView.ItemsSource = m_MonkList.ToList();
             int nIndex = 0;
+            if (pWebData == null ||
+                pWebData.m_pMonkInfoData == null ||
+                pWebData.m_pMonkInfoData.body == null ||
+                pWebData.m_pMonkInfoData.body.data == null)
+            {
+                return;
+            }
+
             foreach (MonkInfoDatabody MonkTemp in pWebData.m_pMonkInfoData.body.data)
             {
                 nIndex++;
@@ -523,7 +537,11 @@ namespace RenJiCaoZuo
         //获取二维码
         private void setQRCodePic()
         {
-            if (pWebData.m_pqRCodeInfoData.body.data != null )
+            if (pWebData != null && 
+                pWebData.m_pqRCodeInfoData != null && 
+                pWebData.m_pqRCodeInfoData.body != null && 
+                pWebData.m_pqRCodeInfoData.body.data != null && 
+                pWebData.m_pqRCodeInfoData.body.data.url != null)
             {
                 if (pWebData.m_pqRCodeInfoData.body.data.url.Length > 0)
                 {
@@ -538,7 +556,10 @@ namespace RenJiCaoZuo
         //获取寺庙名字的图片
         private void setTemplInfoNamePic()
         {
-            if (pWebData.m_pTempInfoData.body.data != null && pWebData.m_pTempInfoData.body.data.url.Length > 0)
+            if (pWebData != null && 
+                pWebData.m_pTempInfoData.body.data != null &&
+                pWebData.m_pTempInfoData.body.data.url != null &&
+                pWebData.m_pTempInfoData.body.data.url.Length > 0)
             {
                 Uri ImageFilePathUri = new Uri(pWebData.m_pTempInfoData.body.data.url);
                 TempInfo_Image.Source = new BitmapImage(ImageFilePathUri); 
@@ -550,7 +571,10 @@ namespace RenJiCaoZuo
         //获取寺庙的基本信息
         private void setTempInfoData()
         {
-            if (pWebData.m_pTempInfoData.success != false && pWebData.m_pTempInfoData.body.data != null)
+            if (pWebData != null && 
+                pWebData.m_pTempInfoData.body != null &&
+                pWebData.m_pTempInfoData.body.data != null &&
+                pWebData.m_pTempInfoData.body.data.info != null)
             {
                 TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString();
                 //TemplInfo_TextBlock.Text = pWebData.m_pTempInfoData.body.data.info.ToString() + pWebData.m_pTempInfoData.body.data.info.ToString();
@@ -692,7 +716,11 @@ namespace RenJiCaoZuo
         private void TemplInfo_Detail_Click(object sender, RoutedEventArgs e)
         {
             string strDetail = @"";
-            if (pWebData.m_pTempInfoData != null && pWebData.m_pTempInfoData.success == true)
+            if (pWebData != null &&
+                pWebData.m_pTempInfoData != null &&
+                pWebData.m_pTempInfoData.body != null &&
+                pWebData.m_pTempInfoData.body.data != null &&
+                pWebData.m_pTempInfoData.body.data.detail != null)
             {
                 strDetail = pWebData.m_pTempInfoData.body.data.detail;
             }
